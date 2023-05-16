@@ -8,6 +8,18 @@
 
 <h1>Meat&Wine</h1>
     <h2>registrazione</h2>
+    <form action="api/v1/utenti" method="post" name="regform" id="regform">
+        <label>nickname</label><input name="nickname" id="regNickname"/>
+        <br/>
+        <label>email</label><input name="email" id="regEmail"/>
+        <br/>
+        <label>password</label><input name="password" id="regPassword"/>
+        <button type="button" onclick="register()">Procedi</button>
+    </form>
+    <span id="registeredUser"></span>
+    <a href="index.html">Home</a>
+
+    <script src="script.js"></script> 
 </body>
 
 </html>
