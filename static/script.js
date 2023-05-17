@@ -37,20 +37,48 @@ function login()
 
 };
 
+function containsNumbers(str) {
+    return /[0-9]/.test(str);
+  }
+function containsUppercase(str) {
+    return /[A-Z]/.test(str);
+  }
+function containsLowercase(str) {
+    return /[a-z]/.test(str);
+  }
 function register()
 {
     //get the form object
     var nickname = document.getElementById("regNickname").value;
     var email = document.getElementById("regEmail").value;
     var password = document.getElementById("regPassword").value;
-    var avatar = document.getElementById("avatar").value;
-    var preferenze = document.getElementById("pref").value;
-    var piattaforme = document.getElementById("piatt").value;
+    var cpassword = document.getElementById("regC_Password").value;
+    var avatar = document.querySelector('input[type = radio]:checked').value;
     var zona = document.getElementById("zona").value;
-    var email = document.getElementById("regEmail").value;
-    var password = document.getElementById("regPassword").value;
+    var privato = document.getElementById("switch").value; 
+    var preferenze=[];
+    var markedCheckbox = document.getElementsByName('pref');  
+    for (var checkbox of markedCheckbox) {  
+      if (checkbox.checked) 
+      preferenze.push(checkbox.value);
+    }  
+    var piattaforme=[];
+    var markedCheckbox = document.getElementsByName('piatt');  
+    for (var checkbox of markedCheckbox) {  
+      if (checkbox.checked) 
+      preferenze.push(checkbox.value);
+    }  
     // console.log(email);
-
+    if(password == "") //error
+    if(nickname=="")//error
+    if(email=="")//error
+    if(password!=cpassword)//error
+    if(password.length<8)//error min 8
+    if(!containsUppercase(password))//error no maiuscole
+    if(!containsLowercase(password))//error no minuscole
+    if(!containsNumber(password))//error no number
+    if(preferenze==NULL)//error
+    
     fetch('../api/v1/registrations', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

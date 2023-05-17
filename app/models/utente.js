@@ -6,16 +6,16 @@ module.exports = mongoose.model('Utente', new Schema({
     nickname: String,
     email: String,
     password: String,
-    /* cellulare: Integer
+    cellulare: Integer,
     verificato: Boolean,
     bloccato: Boolean,
     elimitato: Boolean,
     bio: String,
     preferenze: [String],
-    id_img: int,
+    id_img: Integer,
     piattaforme: [String],
     feedback: Tipo_feedback,
-    tornei_vinti: int,
+    tornei_vinti: Integer,
     feedback_org: Tipo_feedback,
     amici: [{type: Schema.Types.ObjectId, ref:'Utente'}],      
     utenti_bloccati: [{type: Schema.Types.ObjectId, ref:'Utente'}],
@@ -26,5 +26,5 @@ module.exports = mongoose.model('Utente', new Schema({
     prossime_partite: [{type: Schema.Types.ObjectId, ref:'Torneo'}],
     communities_iscritto: [{type: Schema.Types.ObjectId, ref:'Community'}],
     sondaggi: [{type: Schema.Types.ObjectId, ref:'Sondaggio'}],
- */
+
 }));

@@ -4,14 +4,14 @@
         <title>Registazione</title>
         <meta charset="UTF-8">
         <style>
-        body {background-color: F2F2F2;}
+        body {background-color: #b8b9ba;}
         .center {
         margin: auto;
         width: 50%;
         }
         .testata {
             padding: 1px;
-        background-color: 42CAFD;
+        background-color: #96eef2;
         border: 2px solid #000000;
         font-face: Comic sans MS; 
         color:blue;
@@ -54,15 +54,16 @@
 </head>
 <body>
     <div class="testata">
-    <img src="images/LOGO" style="position: absolute; left:50px;"/>
-        <font face="Comic sans MS" color="blue">
-        <center style="font-size:3rem; white-space: nowrap;">Meat&Wine</center>
-        <p align=right style="white-space: nowrap;">
-        Sei gia registrato?
-        <button type="submit" layout="center" class="btn btn-primary form-control" style="background-color:#96eef2">	Login</button>
-        </p>
-        </font>
-    </div>
+        <img src="images/LOGO.png" style="position: absolute; left:150px;" width="100" height="120" />
+            <font face="Comic sans MS" color=blue>
+            <center style="font-size:3rem; white-space: nowrap;">Meat&Wine</center>
+            <p align=right style="white-space: nowrap;">
+            Sei gia registrato?
+            <a href="index.html">
+            <button style="background-color:#96eef2">	Login</button></a>
+            </p>
+            </font>
+        </div>
     <div>
         <div class="container">
             <h1 align=center>Registazione</h1>     
@@ -77,16 +78,16 @@
             <span style="position: absolute; left:800px;">
             Scegli il tuo avatar: 
                 <p>
-                <input type="radio" name="avatar" id="avatar" value="101"/> <img src="images/avatar1"/>
-                <input type="radio" name="avatar"  id="avatar" value="102"/> <img src="images/avatar2"/>
-                <input type="radio" name="avatar"  id="avatar" value="103"/> <img src="images/avatar3"/>
-                <input type="radio" name="avatar"  id="avatar" value="104"/> <img src="images/avatar4"/>
-                </p>
-                <p>
-                <input type="radio" name="avatar"  id="avatar" value="105"/> <img src="images/avatar5"/>
-                <input type="radio" name="avatar"  id="avatar" value="106"/> <img src="images/avatar6"/>
-                <input type="radio" name="avatar"  id="avatar" value="107"/> <img src="images/avatar7"/>
-            <input type="radio" name="avatar"  id="avatar" value="108"/> <img src="images/avatar8"/>
+                    <input type="radio" name="avatar" id="avatar" value="101" checked/> <img src="images/avatar1.png" width="50" height="50" />
+                    <input type="radio" name="avatar"  id="avatar" value="102"/> <img src="images/avatar2.png" width="50" height="50" />
+                    <input type="radio" name="avatar"  id="avatar" value="103"/> <img src="images/avatar3.png" width="50" height="50" />
+                    <input type="radio" name="avatar"  id="avatar" value="104"/> <img src="images/avatar4.png" width="50" height="50" />
+                    </p>
+                    <p>
+                    <input type="radio" name="avatar"  id="avatar" value="105"/> <img src="images/avatar5.png" width="50" height="50" />
+                    <input type="radio" name="avatar"  id="avatar" value="106"/> <img src="images/avatar6.png" width="50" height="50" />
+                    <input type="radio" name="avatar"  id="avatar" value="107"/> <img src="images/avatar7.png" width="50" height="50" />
+                    <input type="radio" name="avatar"  id="avatar" value="108"/> <img src="images/avatar8.png" width="50" height="50" />
             </p>
             </span>
         </div>
@@ -96,7 +97,7 @@
             <input type="text" placeholder="password" name="password" id="regPassword" >
             <span style="position: absolute; left: 300px;">
             <label>conferma password:</label>
-            <input type="password" placeholder="password" name="c_password">
+            <input type="password" placeholder="password" name="c_password" id="regC_Password">
             </span>
             </div>
 <br>
@@ -170,8 +171,8 @@
     </form>
 <br><br><br>
         <div align=center>	
-            <a href="index.html"><button type="submit">Annulla</button></a>
-            <button type="submit" onclick="register()">Conferma</button>
+            <a href="index.html"><button>Annulla</button></a>
+            <button onclick="register()">Conferma</button>
         </div> 
     <script src="script.js"></script> 
             
