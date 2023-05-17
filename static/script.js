@@ -68,17 +68,28 @@ function register()
       if (checkbox.checked) 
       preferenze.push(checkbox.value);
     }  
+    var errors=null;
     // console.log(email);
-    if(password == "") //error
-    if(nickname=="")//error
-    if(email=="")//error
-    if(password!=cpassword)//error
-    if(password.length<8)//error min 8
-    if(!containsUppercase(password))//error no maiuscole
-    if(!containsLowercase(password))//error no minuscole
-    if(!containsNumber(password))//error no number
-    if(preferenze==NULL)//error
+    if(nickname=="") error+="nickname mancante; ";
+    if(email=="") error+="email mancante; ";
+    if(password == "") error+="la password è mancante; ";
+        else{
+        if(password!=cpassword) error+="password e conferma password devono essere uguali; ";
+        if(password.length<8) error+="la password deve essere di almeno 8 caratteri; ";
+        if(!containsUppercase(password)) error+="la password deve contenere almeno un carattere maiuscolo; ";
+        if(!containsLowercase(password)) error+="la password deve contenere almeno un carattere minuscolo; ";
+        if(!containsNumber(password)) error+="la password deve contenere almeno un numero; ";
+    }
+    if(preferenze==NULL) error+="devi selezionare almeno una preferenza; ";
     
+
+    if(errors!=null){
+        errors="errori presenti: "+errors;
+        errors=String(errors);
+        document.getElementById(errors)
+        return;
+    }
+
     fetch('../api/v1/registrations', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
