@@ -14,7 +14,7 @@ module.exports = mongoose.model('Utente', new Schema({
     preferenze: [String],
     id_img: Number,
     piattaforme: [String],
-    //feedback: Tipo_feedback, work in progress
+    //feedback: Tipo_feedback, //work in progress
     tornei_vinti: Number,
     feedback_org: Tipo_feedback,
     amici: [{type: Schema.Types.ObjectId, ref:'Utente'}],      
