@@ -6,7 +6,7 @@ module.exports = mongoose.model('Utente', new Schema({
     nickname: String,
     email: String,
     password: String,
-    cellulare: Integer,
+    /* cellulare: Integer,
     verificato: Boolean,
     bloccato: Boolean,
     elimitato: Boolean,
@@ -25,6 +25,6 @@ module.exports = mongoose.model('Utente', new Schema({
     tornei_organizzati: [{type: Schema.Types.ObjectId, ref:'Torneo'}],
     prossime_partite: [{type: Schema.Types.ObjectId, ref:'Torneo'}],
     communities_iscritto: [{type: Schema.Types.ObjectId, ref:'Community'}],
-    sondaggi: [{type: Schema.Types.ObjectId, ref:'Sondaggio'}],
+    sondaggi: [{type: Schema.Types.ObjectId, ref:'Sondaggio'}], */
 
 }));
