@@ -57,11 +57,11 @@ function register()
         registeredUser.id = data.id;
         registeredUser.self = data.self;
         // loggedUser.id = loggedUser.self.substring(loggedUser.self.lastIndexOf('/') + 1);
-        document.getElementById("registeredUser").textContent = data.message;
+        alert(data.message);
         return;
     })
     .catch( function (error) {
-            document.getElementById("registeredUser").textContent = error.message;
+            alert(error.message);
             console.error(error);
             return;
         } ); // If there is any error you will catch them here
