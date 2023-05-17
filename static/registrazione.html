@@ -2,12 +2,179 @@
 <html>
 
 <head>
+    <title>Registazione</title>
+	<style>
+	body {background-color: F2F2F2;}
+	.center {
+	margin: auto;
+	width: 50%;
+	}
+	.testata {
+    	padding: 1px;
+	background-color: 42CAFD;
+	border: 2px solid #000000;
+	font-face: Comic sans MS; 
+	color:blue;
+	}
+	h1   {color: blue;}
+/*switch css*/
+	/* toggle in label designing */
+        .toggle {
+            position : relative ;
+            display : inline-block;
+            width : 40px;
+            height : 22px;
+            background-color: red;
+            border-radius: 30px;
+            border: 2px solid black;
+        }
+               
+        /* After slide changes */
+        .toggle:after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: gray;
+            top: 578px;
+            left: 124px;
+            transition:  all 0.5s;
+        }      
+        /* Checkbox checked effect */
+        .checkbox:checked + .toggle::after {
+            left : 146px;
+        }
+               
+        /* Checkbox vanished */
+        .checkbox {
+            display : none;
+        }
+	</style>
 </head>
-
 <body>
-
-<h1>Meat&Wine</h1>
-    <h2>registrazione</h2>
+    <div class="testata">
+    <img src="/images/logo" style="position: absolute; left:50px;"/>
+        <font face="Comic sans MS" color=blue>
+        <center style="font-size:3rem; white-space: nowrap;">Meat&Wine</center>
+        <p align=right style="white-space: nowrap;">
+        Sei gia registrato?
+        <button type="submit" layout="center" class="btn btn-primary form-control" style="background-color:#96eef2">	Login</button>
+        </p>
+        </font>
+    </div>
+    <div>
+        <div class="container">
+            <h1 align=center>Registazione</h1>     
+            <form action="api/v1/utenti" method="post" name="regform" id="regform">
+            <div>
+                <label>nickname:</label>
+                <input type="text" placeholder="nickname" name="nickname" id="regNickname" maxlength="20">
+            <span style="position: absolute; left: 300px;">
+                <label>email:</label>
+                <input type="text" placeholder="email" name="email" id="regEmail">
+            </span>
+            <span style="position: absolute; left:800px;">
+            Scegli il tuo avatar: 
+                <p>
+                <input type="radio" name="avatar" id="avatar" value="101"/> <img src="/images/avatar1"/>
+                <input type="radio" name="avatar"  id="avatar" value="102"/> <img src="/images/avatar2"/>
+                <input type="radio" name="avatar"  id="avatar" value="103"/> <img src="/images/avatar3"/>
+                <input type="radio" name="avatar"  id="avatar" value="104"/> <img src="/images/avatar4"/>
+                </p>
+                <p>
+                <input type="radio" name="avatar"  id="avatar" value="105"/> <img src="/images/avatar5"/>
+                <input type="radio" name="avatar"  id="avatar" value="106"/> <img src="/images/avatar6"/>
+                <input type="radio" name="avatar"  id="avatar" value="107"/> <img src="/images/avatar7"/>
+            <input type="radio" name="avatar"  id="avatar" value="108"/> <img src="/images/avatar8"/>
+            </p>
+            </span>
+        </div>
+<br>
+        <div class="">
+            <span>password:</span>
+            <input type="text" placeholder="password" name="password" id="regPassword" >
+            <span style="position: absolute; left: 300px;">
+            <label>conferma password:</label>
+            <input type="password" placeholder="password" name="c_password">
+            </span>
+            </div>
+<br>
+        <div>
+        <span>Bio:</span>
+            <input type="text" placeholder="Scrivi qui una tua breve descrizione; esempio: ''Ciao a tutti, sono un ragazzo a cui piacciono i videogame sparatutto''" name="bio" id="bio" maxlength="200" style="width: 500px; height: 100px;">
+        </div>
+<br>
+        <div>
+            <span>Preferenze</span>
+<br>
+            <span> Sport:&nbsp; </span>
+            <span style="position: absolute; left: 115px;">
+            <input type="checkbox" name="pref" id="pref" value="100"/> sport di squadra
+            <input type="checkbox" name="pref" id="pref" value="101"/> calcio
+            <input type="checkbox" name="pref" id="pref" value="102"/> calcetto
+            <input type="checkbox" name="pref" id="pref" value="103"/> basket
+            <input type="checkbox" name="pref" id="pref" value="104"/> freccette
+            <input type="checkbox" name="pref" id="pref" value="105"/> hockey
+            <input type="checkbox" name="pref" id="pref" value="106"/> tennis
+            <input type="checkbox" name="pref" id="pref" value="107"/> ping pong
+            <input type="checkbox" name="pref" id="pref" value="108"/> paddel
+            <input type="checkbox" name="pref" id="pref" value="109"/> pallavolo
+            <input type="checkbox" name="pref" id="pref" value="110"/> beach volley
+            </span>
+<br>
+            <span> Videogiochi:&nbsp; </span>
+            <span style="position: absolute; left: 115px;">
+            <input type="checkbox" name="pref" id="pref" value="201"/> Fifa
+            <input type="checkbox" name="pref" id="pref" value="202"/> League of Legends
+            <input type="checkbox" name="pref" id="pref" value="203"/> Valorant
+            <input type="checkbox" name="pref" id="pref" value="204"/> CS:GO
+            <input type="checkbox" name="pref" id="pref" value="205"/> Rainbow Six Siege
+            <input type="checkbox" name="pref" id="pref" value="206"/> Fortnite
+            <input type="checkbox" name="pref" id="pref" value="207"/> Super Smash Bros
+            <input type="checkbox" name="pref" id="pref" value="208"/> Rocket League
+            </span>
+<br>		
+            <span>Giochi da tavolo:&nbsp; </span>
+            <span style="position: absolute; left: 115px;">
+            <input type="checkbox" name="pref" id="pref" value="301"/> Scacchi
+            <input type="checkbox" name="pref" id="pref" value="302"/> Catan
+            <input type="checkbox" name="pref" id="pref" value="303"/> Ticket To Ride
+            <input type="checkbox" name="pref" id="pref" value="304"/> Dominion
+            <input type="checkbox" name="pref" id="pref" value="305"/> giochi di carte
+            <input type="checkbox" name="pref" id="pref" value="306"/> Yu-Gi-Oh!
+            <input type="checkbox" name="pref" id="pref" value="307"/> Magic
+            </span>
+        </div>
+        <div>
+                <form>
+                <span>Piattaforme (opz): 
+                <input type="checkbox" name="ps5" id="piatt" value="100"/> Playstation 5
+                <input type="checkbox" name="ps4" id="piatt" value="101"/> Playstation 4
+                <input type="checkbox" name="xbox1" id="piatt" value="102"/> Xbox ONE
+                <input type="checkbox" name="switch" id="piatt" value="103"/> Switch
+                <input type="checkbox" name="PC" id="piatt" value="104"/> PC
+                </span>
+                </form>
+            </div>
+            <div>
+                    <span>Zona:</span>
+                    <input type="text" class="form-control" placeholder="posizione (opz)" name="zona">
+            </div>
+        <div>account: pubblico
+            <input type="checkbox" id="switch" class="checkbox" name="switch"/>
+            <label for="switch" class="toggle">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            privato    
+        </div>
+    </form>
+<br><br><br>
+        <div align=center>	
+            <a href="index.html"><button type="submit">Annulla</button></a>
+            <button type="submit" onclick="register()">Conferma</button>
+        </div> 
+    <script src="script.js"></script> 
+            
 </body>
 
 </html>
