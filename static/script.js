@@ -43,6 +43,12 @@ function register()
     var nickname = document.getElementById("regNickname").value;
     var email = document.getElementById("regEmail").value;
     var password = document.getElementById("regPassword").value;
+    var avatar = document.getElementById("avatar").value;
+    var preferenze = document.getElementById("pref").value;
+    var piattaforme = document.getElementById("piatt").value;
+    var zona = document.getElementById("zona").value;
+    var email = document.getElementById("regEmail").value;
+    var password = document.getElementById("regPassword").value;
     // console.log(email);
 
     fetch('../api/v1/registrations', {
