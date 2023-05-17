@@ -14,12 +14,9 @@
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
-<<<<<<< HEAD
     "googleapis": "^39.2.0",
-=======
     "json-web-token": "^3.2.0",
     "jsonwebtoken": "^9.0.0",
->>>>>>> f5535501880b35e5a0c7b3790bc1e1f88f7a9e23
     "mongoose": "^7.1.0"
   }
 }
