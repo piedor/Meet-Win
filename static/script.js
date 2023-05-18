@@ -68,22 +68,22 @@ function register()
       if (checkbox.checked) 
       preferenze.push(checkbox.value);
     }  
-    var errors=null;
+    var errors="";
     // console.log(email);
-    if(nickname=="") error+="nickname mancante; ";
-    if(email=="") error+="email mancante; ";
-    if(password == "") error+="la password è mancante; ";
+    if(nickname=="") errors+="nickname mancante; ";
+    if(email=="") errors+="email mancante; ";
+    if(password == "") errors+="la password è mancante; ";
         else{
-        if(password!=cpassword) error+="password e conferma password devono essere uguali; ";
-        if(password.length<8) error+="la password deve essere di almeno 8 caratteri; ";
-        if(!containsUppercase(password)) error+="la password deve contenere almeno un carattere maiuscolo; ";
-        if(!containsLowercase(password)) error+="la password deve contenere almeno un carattere minuscolo; ";
-        if(!containsNumber(password)) error+="la password deve contenere almeno un numero; ";
+        if(password!=cpassword) errors+="password e conferma password devono essere uguali; ";
+        if(password.length<8) errors+="la password deve essere di almeno 8 caratteri; ";
+        if(!containsUppercase(password)) errors+="la password deve contenere almeno un carattere maiuscolo; ";
+        if(!containsLowercase(password)) errors+="la password deve contenere almeno un carattere minuscolo; ";
+        if(!containsNumbers(password)) errors+="la password deve contenere almeno un numero; ";
     }
-    if(preferenze==NULL) error+="devi selezionare almeno una preferenza; ";
+    if(preferenze.length == 0) errors+="devi selezionare almeno una preferenza; ";
     
 
-    if(errors!=null){
+    if(errors!=""){
         errors="errori presenti: "+errors;
         errors=String(errors);
         document.getElementById("errors").innerHTML = errors;
