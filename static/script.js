@@ -86,7 +86,7 @@ function register()
     if(errors!=null){
         errors="errori presenti: "+errors;
         errors=String(errors);
-        document.getElementById(errors)
+        document.getElementById("errors").innerHTML = errors;
         return;
     }
 
