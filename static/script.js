@@ -68,6 +68,8 @@ function register()
       if (checkbox.checked) 
       preferenze.push(checkbox.value);
     }  
+    
+    document.getElementById("errors").innerHTML = "";
     var errors="";
     // console.log(email);
     if(nickname=="") errors+="nickname mancante; ";
@@ -110,5 +112,5 @@ function register()
             console.error(error);
             return;
         } ); // If there is any error you will catch them here
-
+        
 };
