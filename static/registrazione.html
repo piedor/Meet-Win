@@ -73,7 +73,7 @@
             <input type="text" placeholder="nickname" name="nickname" id="regNickname" maxlength="20">
             <span style="position: absolute; left: 300px;">
             <label>email:</label>
-            <input type="text" placeholder="email" name="email" id="regEmail">
+            <input type="text" placeholder="email" name="email" id="regEmail" onkeyup="manage(this)">
             </span>
             <span style="position: absolute; left:800px;">
             Scegli il tuo avatar: 
@@ -167,16 +167,16 @@
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             privato    
         </div>
-<p align=center><input type="reset" value="cancella tutto" > </p>
+<p align=center><input type="reset" value="cancella tutto" onclick="clearAll()"> </p>
     </form>
     <div id="errors" name="errors" style="color: rgb(179, 34, 34)"></div>
 <br><br>
         <div align=center>	
-            <a href="index.html"><button>Annulla</button></a>
-            <button onclick="register()">Conferma</button>
+            <button onclick="location.href='index.html'">Annulla</button>
+            <button id="cmail" onclick="generaCodiceConfermaMail()" disabled>Conferma Mail</button>
+            <button id="confermaR"onclick="register()" disabled>Conferma</button>
         </div> 
     <script src="script.js"></script> 
             
 </body>
-
 </html>

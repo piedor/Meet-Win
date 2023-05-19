@@ -39,13 +39,40 @@ function login()
 
 function containsNumbers(str) {
     return /[0-9]/.test(str);
-  }
+  };
 function containsUppercase(str) {
     return /[A-Z]/.test(str);
-  }
+  };
 function containsLowercase(str) {
     return /[a-z]/.test(str);
+  };
+
+function manage(txt) {
+    var bt = document.getElementById('cmail');
+    if (txt!='') {
+        bt.disabled = false;
+    }
+    else {
+        bt.disabled = true;
+    }
   }
+//function to generate and send the code to confirm the mail address
+function generaCodiceConfermaMail()
+{
+  var vcode=Math.floor(Math.random() * (99999999 - 10000000 + 1)) + 10000000;
+
+  var code=prompt("Ti abbiamo inviato un codice di conferma nell'indirizzo mail indicato, inserisci quel codice qui sotto e premi ok per confermare la mail. ATTENZIONE: una volta confermata la mail non si potrà più modificare."+vcode, "ciao");
+  if(code==vcode){
+    alert("mail confermata"); 
+    document.getElementById("confermaR").disabled = false;
+    document.getElementById("regEmail").disabled = true;
+  }
+};
+function clearAll(){
+  document.getElementById("regEmail").disabled = false;
+  document.getElementById("confermaR").disabled = true;
+  document.getElementById("cmail").disabled = true;
+}
 function register()
 {
     //get the form object
@@ -114,3 +141,4 @@ function register()
         } ); // If there is any error you will catch them here
         
 };
+
