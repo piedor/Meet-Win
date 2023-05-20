@@ -11,11 +11,16 @@ const REFRESH_TOKEN= '1//04hRQ8fsY_tmICgYIARAAGAQSNwF-L9IrjK6JrbfBYhpDV5giVu-0Ly
 const oAuth2Client = new google.auth.OAuth2(CLIENT_ID,CLIENT_SECRET, REDIRECT_URI)
 oAuth2Client.setCredentials({refresh_token: REFRESH_TOKEN})
 
-router.post('', async function sendMail(req, res){
-    var reciever=req.reciever;
-    var subject=req.subject;
-    var txt=req.txt;
-    console.log("ciao baucco");
+router.post('', async function sendMail(req){
+    console.log(req.body);
+    console.log("qui");
+    var reciever=String(req.body.mail.reciever);
+    console.log(reciever);
+    var subject=req.body.subject;
+    console.log(subject);
+    var txt=req.body.text;
+    console.log(txt);
+    console.log("sono qui");
     try{
         const accessToken= await oAuth2Client.getAccessToken()
         const transport= nodemailer.createTransport({
@@ -28,7 +33,9 @@ router.post('', async function sendMail(req, res){
                 refreshToken: REFRESH_TOKEN,
                 accessToken:accessToken,
             }
+            
         })
+        console.log("ciao banana");
         const mailOptions={
             from:'meatandwinetrentino@gmail.com',
             to: reciever,
@@ -42,3 +49,5 @@ router.post('', async function sendMail(req, res){
         return error;
     }
 });
+
+module.exports = router;

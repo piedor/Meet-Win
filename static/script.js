@@ -1,3 +1,5 @@
+const { json } = require("body-parser");
+
 /**
  * This variable stores the logged in user
  */
@@ -67,6 +69,7 @@ function manageMail(mail) {
     }
     else {
         btMail.disabled = true;
+        //rendere bordo input mail rosso
     }
   }
 //function to generate and send the code to confirm the mail address
@@ -76,7 +79,7 @@ function generaCodiceConfermaMail()
   //sendMails(mail, oggetto, vcode);
   var code=prompt("Ti abbiamo inviato un codice di conferma nell'indirizzo mail indicato, inserisci quel codice qui sotto e premi ok per confermare la mail. ATTENZIONE: una volta confermata la mail non si potrà più modificare."+vcode, "");
   if(code==vcode){
-    sendMails('tommasoguidolin01@gmail.com','prova','testo di provaaa');
+    sendMails("tommasoguidolin01@gmail.com","prova","testo di provaaa");
     alert("mail confermata"); 
     document.getElementById("confermaR").disabled = false;
     document.getElementById("regEmail").disabled = true;
@@ -156,10 +159,14 @@ function register()
         
 };
 
-function sendMails(reciever, subject, text)
+
+function sendMails(toMail, oggetto, txt)
 {
+  alert(toMail);
+
     fetch('../api/v1/sendMails', {
         method: 'POST',
-        body: JSON.stringify( { reciever: reciever, subject: subject, text: text} ),
+        header: {'Content-type':'application/json'},
+        body: JSON.stringify({ "reciever": toMail, "subject": oggetto, "text": txt}),
     })
 }
