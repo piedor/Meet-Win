@@ -70,8 +70,8 @@
 <form action="api/v1/utenti" method="post" name="regform" id="regform">
         <div>
             <label>nickname:</label>
-            <input type="text" placeholder="nickname" name="nickname" id="regNickname" maxlength="20">
-            <span style="position: absolute; left: 300px;">
+            <span title="Inserisci il tuo nickname"><input type="text" placeholder="nickname" name="nickname" id="regNickname" maxlength="20"></span>
+            <span title="Inserisci la tua email" style="position: absolute; left: 300px;">
             <label>email:</label>
             <input type="text" placeholder="email" name="email" id="regEmail" onkeyup="manageMail(this)">
             </span>
@@ -93,8 +93,10 @@
         </div>
 <br>
         <div>
-            <span>password:</span>
-            <input type="password" placeholder="password" name="password" id="regPassword" >
+            <label>password:</label>
+            <span title="Inserisci la tua password; la password deve essere di almeno 8 caratteri, 
+contenere almeno un carattere maiuscolo, uno minuscolo e un numero.">
+            <input type="password" placeholder="password" name="password" id="regPassword" ></span>
             <span style="position: absolute; left: 300px;">
             <label>conferma password:</label>
             <input type="password" placeholder="password" name="c_password" id="regC_Password">
@@ -102,12 +104,14 @@
             </div>
 <br>
         <div>
-        <span>Bio:</span>
-            <input type="text" placeholder="Scrivi qui una tua breve descrizione; esempio: ''Ciao a tutti, sono un ragazzo a cui piacciono i videogame sparatutto''" name="bio" id="bio" maxlength="200" style="width: 500px; height: 100px;">
+        <label>Bio:</label>
+            <span title=" esempio: Ciao a tutti, sono un ragazzo a cui piacciono i videogame sparatutto.">
+            <input type="text" placeholder="Scrivi qui una tua breve descrizione;" name="bio" id="bio" maxlength="200" style="width: 500px; height: 100px;"></span>
         </div>
 <br>
         <div>
-            <span>Preferenze</span>
+            <span title="Inserisci i tuoi giochi e sport preferiti (min 1), serviranno a noi per personalizzare 
+la tua esperienza e agli altri utenti per chiederti di unirti a loro nelle sfide.">Preferenze</span>
 <br>
             <span> Sport:&nbsp; </span>
             <span style="position: absolute; left: 115px;">
@@ -148,7 +152,7 @@
             </span>
         </div>
         <div>
-                <span>Piattaforme (opz): 
+                <span title="Inserisci le piattaforme di cui sei a disposizione (opz), serviranno a noi per personalizzare la tua esperienza e agli altri utenti per chiederti di unirti a loro nelle sfide.">Piattaforme (opz): 
                 <input type="checkbox" name="ps5" id="piatt" value="100"/> Playstation 5
                 <input type="checkbox" name="ps4" id="piatt" value="101"/> Playstation 4
                 <input type="checkbox" name="xbox1" id="piatt" value="102"/> Xbox ONE
@@ -158,8 +162,8 @@
 
             </div>
             <div>
-                    <span>Zona:</span>
-                    <input type="text" class="form-control" placeholder="posizione (opz)" name="zona" id="zona">
+                    <label>Zona:</label>
+                    <span title="Inserisci un paese di riferimento vicino a te (opz); non è necessario mettere il paese di appartenenza, questa informazione è completamente privata e al solo scopo di migliorare la tua esperienza di suggeriti, grazie alla zona infatti potremmo consigliarti tornei che si svolgono vicino a te."><input type="text" class="form-control" placeholder="posizione (opz)" name="zona" id="zona"></span>
             </div>
         <div>account: pubblico
             <input type="checkbox" id="switch" class="checkbox" name="switch"/>
