@@ -64,11 +64,13 @@ function isValidEmail(mail)
 function manageMail(mail) {
     var btMail = document.getElementById('cmail');
     // Controllo campo mail che non sia vuoto e valido
-    if (mail != '' && isValidEmail(mail)) {
+    if (isValidEmail(mail)) {
         btMail.disabled = false;
+        document.getElementById("regEmail").setAttribute("style","background: rgb(76, 249, 73);");
     }
     else {
         btMail.disabled = true;
+        document.getElementById("regEmail").setAttribute("style","background: rgb(253, 116, 116);");
         //rendere bordo input mail rosso
     }
   }
