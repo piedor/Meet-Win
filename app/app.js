@@ -40,7 +40,7 @@ app.use('/api/v1/registrations', registration);
 app.use('/api/v1/utenti/me', tokenChecker);
 
 //function to send mails
-app.use('/api/v1/sendMails', mailInterface);
+//app.use('/api/v1/sendMails', mailInterface);
 
 /* Default 404 handler */
 app.use((req, res) => {

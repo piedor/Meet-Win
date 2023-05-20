@@ -60,8 +60,8 @@ function manage(txt) {
 function generaCodiceConfermaMail()
 {
   var vcode=Math.floor(Math.random() * (99999999 - 10000000 + 1)) + 10000000;
-
-  var code=prompt("Ti abbiamo inviato un codice di conferma nell'indirizzo mail indicato, inserisci quel codice qui sotto e premi ok per confermare la mail. ATTENZIONE: una volta confermata la mail non si potrà più modificare."+vcode, "ciao");
+  //sendMails(mail, oggetto, vcode);
+  var code=prompt("Ti abbiamo inviato un codice di conferma nell'indirizzo mail indicato, inserisci quel codice qui sotto e premi ok per confermare la mail. ATTENZIONE: una volta confermata la mail non si potrà più modificare."+vcode, "");
   if(code==vcode){
     sendMails('tommasoguidolin01@gmail.com','prova','testo di provaaa');
     alert("mail confermata"); 
