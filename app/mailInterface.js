@@ -1,5 +1,6 @@
-const nodemailer = require ('nodemailer')
-const {google} = require ('googleapis')
+const nodemailer = require ('nodemailer');
+const {google} = require ('googleapis');
+const express = require('express');
 const router = express.Router();
 
 const CLIENT_ID='253714505280-d9rc86qu6capleh40qjks77q12iv67o0.apps.googleusercontent.com'
@@ -14,6 +15,7 @@ router.post('', async function sendMail(req, res){
     var reciever=req.reciever;
     var subject=req.subject;
     var txt=req.txt;
+    console.log("ciao baucco");
     try{
         const accessToken= await oAuth2Client.getAccessToken()
         const transport= nodemailer.createTransport({
@@ -40,8 +42,3 @@ router.post('', async function sendMail(req, res){
         return error;
     }
 });
-
-
-sendMail('tommasoguidolin01@gmail.com','oggetto','testo della mail')
-    .then(result=>console.log('email sent...', result))
-    .catch(error=>console.log(error.message));

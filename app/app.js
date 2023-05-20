@@ -6,7 +6,7 @@ const authentication = require('./authentication.js');
 const registration = require('./registration.js');
 const tokenChecker = require('./tokenChecker.js');
 const utenti = require('./utenti.js');
-//const sendMails = require ('./mailInterface.js');
+const mailInterface = require ('./mailInterface.js');
 
 /**
  * Configure Express.js parsing middleware
@@ -40,7 +40,7 @@ app.use('/api/v1/registrations', registration);
 app.use('/api/v1/utenti/me', tokenChecker);
 
 //function to send mails
-app.use('/api/v1/sendMails', mailInterface.js);
+app.use('/api/v1/sendMails', mailInterface);
 
 /* Default 404 handler */
 app.use((req, res) => {
