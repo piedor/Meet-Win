@@ -43,7 +43,7 @@ router.post('', async function(req, res) {
 	}
 	var token = jwt.sign(payload, process.env.SUPER_SECRET, options);
 	// Inserisci il token nei cookie
-	res.cookie("token", token, { maxAge: 3600000})
+	res.cookie("token", token, { maxAge: 86400})
 
 	res.json({
 		success: true,

@@ -43,7 +43,7 @@ app.use('/api/v1/registrations', registration);
 // a valid token must be provided in the request
 app.use('/api/v1/utenti/me', tokenChecker);
 
-app.use('/api/v1/utenti/me', utenti);
+app.use('/api/v1/utenti', utenti);
 
 //function to send mails
 //app.use('/api/v1/sendMails', mailInterface);
