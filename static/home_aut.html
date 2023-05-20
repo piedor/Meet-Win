@@ -1,20 +1,96 @@
 <!DOCTYPE html>
 <html>
-
     <head>
-    </head>
+        <title>home</title>
+       <meta charset="UTF-8">
+      <style>
+      body {background-color: #b8b9ba;}
+      .center {
+      margin: auto;
+      width: 50%;
+      }
+      .testata {
+      padding: 2px;
+      background-color: #96eef2;
+      border: 2px solid #000000;
+      font-style: Comic sans MS;
+      color:blue;
+      }
+	.box1{
+	margin-left: 200px;
+	width: 500px;
+	height: 125px;
+	padding-top: 5px;
+	padding-left: 10px;
+	padding-right: 10px;
+	border: 2px solid black;
+	font-size: 18px;
+	}
+	.box2{
+	margin-left: 700px;
+	width: 500px;
+	height: 125px;
+	padding-top: 5px;
+	padding-left: 10px;
+	padding-right: 10px;
+	border: 2px solid black;
+	font-size: 18px;
+	}
+	.box3{
+	margin-left: 400px;
+	width: 500px;
+	height: 125px;
+	padding-top: 5px;
+	padding-left: 10px;
+	padding-right: 10px;
+	border: 2px solid black;
+	font-size: 18px;
+	}
+        </style>
+</head>
+<body>
+    <div class="testata">
+      <img src="images/LOGO.png" style="position: absolute; left:150px;" width="100" height="120" />
+      <font face="Comic sans MS" color=blue>
+      <center style="font-size:3rem; white-space: nowrap;">Meat&Wine</center>
+      <p align=right>
+            <form action="api/v1/utenti" method="post" name="loginform" id="loginform" align=right>
+        	<label>email o nickname</label>
+		<input name="nickname" placeholder="red.rocco@unitn.it" id="loginNickname"/>
+        	<label>password</label>
+		<input type="password" name="password" placeholder="Password2" id="loginPassword"/>
+        	<button type="button" background-color:#96eef2" onclick="login()">	Login</button>
+		</form>
+      </p>
+      </font>
+	</div>
+	<p style="color: blue; font-size: 40px; position: absolute; left: 45%; margin-top:5px;">HomePage Autenticato</p>   
+	<p align=right style="padding-right:40px;	font-size: 20px;"> 
+	<button onclick="location.href='registrazione.html'">Registrati</button>
+  	</p>
+      <div class="box1"> 
+	<img src="images/torneo.jpg" style="float:left" width="120" height="120"/>
+     	<b>&nbspCerca il torneo più adatto a te oppure Organizza &nbspun torneo sul tuo gioco preferito</b><br>
+	&nbspEsplora i tornei creati dagli altri utenti e scegli &nbspquello più adatto. Non c'è? Allora crealo e &nbsppersonalizzalo come preferisci! 
+	</div>
+<br>  
+	<div class="box2"> 
+	<img src="images/comm.jpg" style="float:left" width="150" height="120" />
+      <b>&nbspForma squadre con i tuoi amici oppure &nbspalleati con i membri dei tuoi gruppi</b><br>
+	&nbspCerca i tuoi amici nella piattaforma e invitali a &nbsppartecipare ai tornei con te. Se sei un lupo &nbspsolitario puoi sempre unirti ad una community &nbspper cercare altri utenti con cui vincere i tornei.
+	</div>
+<br>
+      <div class="box3"> 
+	<img src="images/trofeo.jpg" style="float:left" width="100" height="120" />
+      <b>&nbspGioca, Divertiti e VINCI!!!</b><br>
+	&nbspGioca a partite dei tuoi giochi preferiti, gli amici di oggi potrebbero diventare i nemici di domani, preparati a dare il massimo per uscirne vincitore.
+	</div><br>
+<div align=center>
+	<button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px" onclick="location.href='cercaTorneo.html'"> Cerca Tornei</button>
+	<button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px" onclick="location.href='cercaUtenti.html'"> Cerca Utenti</button>
+	<button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px" >DIVERTITI</button>
+</div>
+   <script src="script.js"></script> 
+</body>
 
-    <body hidden>
-
-        <h1>Meat&Wine</h1>
-        <h2>home autenticato</h2>
-
-        <h3>Ben ritrovato <span id="nickname"></span>!</h3>
-
-        <button type="button" onclick="logout()">Logout</button>
-    </body>
-    <script src="script.js"></script> 
-    <script>
-        loadInfoUser();
-    </script>
 </html>
