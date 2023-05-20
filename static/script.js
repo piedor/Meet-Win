@@ -149,5 +149,5 @@ function sendMails(reciever, subject, text)
     fetch('../api/v1/sendMails', {
         method: 'POST',
         body: JSON.stringify( { reciever: reciever, subject: subject, text: text} ),
-    })
+    }).then(function(data){alert(data)})
 }
