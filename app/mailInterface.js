@@ -14,10 +14,9 @@ oAuth2Client.setCredentials({refresh_token: REFRESH_TOKEN})
 router.post('', async function sendMail(req){
     console.log(req.body);
     console.log("qui");
-    var reciever=String(req.body.mail.reciever);
+    var reciever=req.body.reciever;
     console.log(reciever);
-    var subject=req.body.subject;
-    console.log(subject);
+    var tema=req.body.subject;
     var txt=req.body.text;
     console.log(txt);
     console.log("sono qui");
@@ -33,14 +32,39 @@ router.post('', async function sendMail(req){
                 refreshToken: REFRESH_TOKEN,
                 accessToken:accessToken,
             }
-            
+
         })
         console.log("ciao banana");
+        var subject;
+        var testo;
+        switch(tema) {
+  
+            case "codicec":
+              console.log("invio codice di conferma");
+              subject="codice di conferma registrazione";
+              testo="Il codice per confermare la tua mail è il seguente: "+txt;
+            break;
+            
+            case "registrazionec":
+                console.log("invio codice di conferma");
+                subject="codice di conferma registrazione";
+                testo="Congratulazioni "+ txt+" hai completato la registrazione. Benvenuto nella community di Meat&Wine, siamo sicuri riuscirai a divertirti con noi!!";
+            break;
+
+            case "ban":
+                subject="Il tuo account è stato sospeso";
+                testo="Siamo spiacenti, a seguito di una revisione delle segnalazioni ricevute dai nostri amministratori sui tuoi comportamenti, abbiamo deciso di bloccare il tuo account sulla nostra piattaforma. La limitazione durerà: "+txt;
+            break; //si ferma qui
+          
+            default:
+              //istruzioni
+          }
+
         const mailOptions={
             from:'meatandwinetrentino@gmail.com',
             to: reciever,
             subject: subject,
-            text: txt,
+            text: testo,
         }
 
         const result=await transport.sendMail(mailOptions)

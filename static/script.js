@@ -75,18 +75,28 @@ function manageMail(mail) {
     }
   }
 //function to generate and send the code to confirm the mail address
+var vcode={};
 function generaCodiceConfermaMail()
 {
   var vcode=Math.floor(Math.random() * (99999999 - 10000000 + 1)) + 10000000;
-  //sendMails(mail, oggetto, vcode);
-  var code=prompt("Ti abbiamo inviato un codice di conferma nell'indirizzo mail indicato, inserisci quel codice qui sotto e premi ok per confermare la mail. ATTENZIONE: una volta confermata la mail non si potrà più modificare."+vcode, "");
-  if(code==vcode){
-    sendMails("tommasoguidolin01@gmail.com","prova","testo di provaaa");
+  sendMails("tommasoguidolin01@gmail.com","codicec");
+  alert("Ti abbiamo inviato un codice di conferma nell'indirizzo mail indicato, inserisci quel codice qui sotto e premi ok per confermare la mail. ATTENZIONE: una volta confermata la mail non si potrà più modificare."+vcode, "");
+  document.getElementById("regEmail").disabled = true;
+  document.getElementById("confcode").removeAttribute("hidden");
+  document.getElementById("confebtn").removeAttribute("hidden");
+  
+};
+
+function confermaCodiceConfermaMail()
+{
+  if(true){
     alert("mail confermata"); 
     document.getElementById("confermaR").disabled = false;
-    document.getElementById("regEmail").disabled = true;
+    document.getElementById("confcode").setAttribute("disabled","true");
   }
 };
+
+
 function clearAll(){
   document.getElementById("regEmail").disabled = false;
   document.getElementById("confermaR").disabled = true;
@@ -164,11 +174,9 @@ function register()
 
 function sendMails(toMail, oggetto, txt)
 {
-  alert(toMail);
-
-    fetch('../api/v1/sendMails', {
+  fetch('../api/v1/sendMails', {
         method: 'POST',
-        header: {'Content-type':'application/json'},
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ "reciever": toMail, "subject": oggetto, "text": txt}),
     })
 }
