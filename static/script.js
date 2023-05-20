@@ -35,7 +35,7 @@ function login()
         //document.getElementById("loggedUser").textContent = loggedUser.email;
         alert(data.message);
         if (data.success){
-          location.href = "home_aut.html?userId=" + loggedUser.id + "&token=" + loggedUser.token;
+          location.href = "home_aut.html";
         }
         return;
     })
@@ -169,4 +169,33 @@ function sendMails(toMail, oggetto, txt)
         header: {'Content-type':'application/json'},
         body: JSON.stringify({ "reciever": toMail, "subject": oggetto, "text": txt}),
     })
+}
+
+function loadInfoUser(){
+  // Viene usata in home_aut per mostrare le info dell'utente
+  fetch('/api/v1/utenti/me')
+  .then((resp) => resp.json()) // Transform the data into json
+  .then(function(data) { // Here you get the data to modify as you please
+      if(data.success == false){
+          alert("Errore non sei autenticato!");
+          location.href = "/";
+      }
+      else{
+          var nickname = data.nickname;
+          document.getElementById("nickname").textContent = nickname;
+          document.body.removeAttribute("hidden");
+      }
+  })
+  .catch( error => console.error(error) );
+}
+
+function logout(){
+  // Funzione per eseguire il logout dell'utente (in pratica rimuove il token dai cookie)
+  fetch('/api/v1/utenti/logout')
+  .then((resp) => resp.json()) // Transform the data into json
+  .then(function(data) { // Here you get the data to modify as you please
+    alert(data.message);
+    location.href = "/";
+  })
+  .catch( error => console.error(error) );
 }

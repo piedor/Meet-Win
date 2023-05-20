@@ -3,6 +3,35 @@ const router = express.Router();
 const utente = require('./models/utente'); // get our mongoose model
 
 
+router.get('/me', async (req, res) => {
+    if(!req.loggedUser) {
+        return;
+    }
+    // find the user by email
+	let user = await utente.findOne({
+		email: req.loggedUser.email
+	}).exec();
+
+    res.status(200).json({
+        self: '/api/v1/utenti/' + user.id,
+        email: user.email,
+        nickname: user.nickname
+    });
+});
+
+router.get('/logout', async (req, res) => {
+    // Controlla se c'è il token
+    if(req.cookies.token){
+        // rimuovi il token
+        res.clearCookie("token");
+        res.json({ success: true, message: 'Logout effettuato con successo!' });
+        return;
+    }
+    else{
+        res.json({ success: false, message: 'Non sei loggato!' });
+        return;
+    }
+});
 
 /**
  * Resource representation based on the following the pattern: 

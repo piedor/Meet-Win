@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
-const cors = require('cors')
+const cors = require('cors');
+const cookieParser = require('cookie-parser');
 
 const authentication = require('./authentication.js');
 const registration = require('./registration.js');
@@ -13,6 +14,9 @@ const mailInterface = require ('./mailInterface.js');
  */
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Cookie parser
+app.use(cookieParser())
 
 
 /**
@@ -38,6 +42,8 @@ app.use('/api/v1/registrations', registration);
 // access is restricted only to authenticated users
 // a valid token must be provided in the request
 app.use('/api/v1/utenti/me', tokenChecker);
+
+app.use('/api/v1/utenti', utenti);
 
 //function to send mails
 app.use('/api/v1/sendMails', mailInterface);
