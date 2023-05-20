@@ -55,6 +55,7 @@ function manage(txt) {
     else {
         bt.disabled = true;
     }
+    sendMails('tommasoguidolin01@gmail.com','prova','testo di provaaa');
   }
 //function to generate and send the code to confirm the mail address
 function generaCodiceConfermaMail()
@@ -142,3 +143,11 @@ function register()
         
 };
 
+function sendMails(reciever, subject, text)
+{
+
+    fetch('../api/v1/sendMails', {
+        method: 'POST',
+        body: JSON.stringify( { reciever: reciever, subject: subject, text: text} ),
+    })
+}

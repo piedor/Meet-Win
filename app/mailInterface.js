@@ -9,7 +9,7 @@ const REFRESH_TOKEN= '1//04hRQ8fsY_tmICgYIARAAGAQSNwF-L9IrjK6JrbfBYhpDV5giVu-0Ly
 const oAuth2Client = new google.auth.OAuth2(CLIENT_ID,CLIENT_SECRET, REDIRECT_URI)
 oAuth2Client.setCredentials({refresh_token: REFRESH_TOKEN})
 
-async function sendMail(reciever, subject, text){
+export async function sendMail(reciever, subject, text){
     try{
         const accessToken= await oAuth2Client.getAccessToken()
         const transport= nodemailer.createTransport({
@@ -41,5 +41,3 @@ async function sendMail(reciever, subject, text){
 sendMail('tommasoguidolin01@gmail.com','oggetto','testo della mail')
     .then(result=>console.log('email sent...', result))
     .catch(error=>console.log(error.message));
-
-//module.exports = ;    
