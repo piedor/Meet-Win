@@ -1,13 +1,26 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-</head>
+    <head>
+        <script>
+            fetch('/api/v1/utenti/me')
+            .then((resp) => resp.json()) // Transform the data into json
+            .then(function(data) { // Here you get the data to modify as you please
+                if(data.success == false){
+                    document.write("Errore non sei autenticato!");
+                }
+                else{
+                    document.body.removeAttribute("hidden");
+                }
+            })
+            .catch( error => console.error(error) );
+        </script>
+    </head>
 
-<body>
+    <body hidden>
 
-<h1>Meat&Wine</h1>
-    <h2>home autenticato</h2>
-</body>
+        <h1>Meat&Wine</h1>
+        <h2>home autenticato</h2>
+    </body>
 
 </html>

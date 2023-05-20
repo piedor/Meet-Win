@@ -42,6 +42,8 @@ router.post('', async function(req, res) {
 		expiresIn: 86400 // expires in 24 hours
 	}
 	var token = jwt.sign(payload, process.env.SUPER_SECRET, options);
+	// Inserisci il token nei cookie
+	res.cookie("token", token, { maxAge: 3600000})
 
 	res.json({
 		success: true,

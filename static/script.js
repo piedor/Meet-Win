@@ -33,7 +33,7 @@ function login()
         //document.getElementById("loggedUser").textContent = loggedUser.email;
         alert(data.message);
         if (data.success){
-          location.href = "home_aut.html?userId=" + loggedUser.id + "&token=" + loggedUser.token;
+          location.href = "home_aut.html";
         }
         return;
     })
