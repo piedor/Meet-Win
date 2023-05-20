@@ -30,10 +30,15 @@ function login()
         loggedUser.id = data.id;
         loggedUser.self = data.self;
         // loggedUser.id = loggedUser.self.substring(loggedUser.self.lastIndexOf('/') + 1);
-        document.getElementById("loggedUser").textContent = loggedUser.email;
+        //document.getElementById("loggedUser").textContent = loggedUser.email;
+        alert(data.message);
+        location.href = "home_aut.html?userId=" + loggedUser.id + "&token=" + loggedUser.token;
         return;
     })
-    .catch( error => console.error(error) ); // If there is any error you will catch them here
+    .catch( function (error) {
+        alert(error.message);
+        return;
+      } ); // If there is any error you will catch them here
 
 };
 
@@ -46,14 +51,20 @@ function containsUppercase(str) {
 function containsLowercase(str) {
     return /[a-z]/.test(str);
   };
+function isValidEmail(mail) 
+{
+  var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+  return(mail.value.match(mailformat));
+}
 
-function manage(txt) {
-    var bt = document.getElementById('cmail');
-    if (txt!='') {
-        bt.disabled = false;
+function manageMail(mail) {
+    var btMail = document.getElementById('cmail');
+    // Controllo campo mail che non sia vuoto e valido
+    if (mail != '' && isValidEmail(mail)) {
+        btMail.disabled = false;
     }
     else {
-        bt.disabled = true;
+        btMail.disabled = true;
     }
   }
 //function to generate and send the code to confirm the mail address

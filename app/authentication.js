@@ -16,13 +16,13 @@ router.post('', async function(req, res) {
 	
 	// user not found
 	if (!user) {
-		res.json({ success: false, message: 'Authentication failed. User not found.' });
+		res.json({ success: false, message: 'Nessun utente trovato!' });
 		return;
 	}
 	
 	// check if password matches
 	if (user.password != req.body.password) {
-		res.json({ success: false, message: 'Authentication failed. Wrong password.' });
+		res.json({ success: false, message: 'Password errata!' });
 	}
 	
 	// if user is found and password is right create a token
@@ -38,9 +38,10 @@ router.post('', async function(req, res) {
 
 	res.json({
 		success: true,
-		message: 'Enjoy your token!',
+		message: 'Login avvenuto con successo!',
 		token: token,
 		email: user.email,
+		id: user.id,
 		nickname: user.nickname,
 		self: "api/v1/" + user.nickname
 	});
