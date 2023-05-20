@@ -1,5 +1,6 @@
 const nodemailer = require ('nodemailer')
 const {google} = require ('googleapis')
+const router = express.Router();
 
 const CLIENT_ID='253714505280-d9rc86qu6capleh40qjks77q12iv67o0.apps.googleusercontent.com'
 const CLIENT_SECRET='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'
@@ -9,7 +10,10 @@ const REFRESH_TOKEN= '1//04hRQ8fsY_tmICgYIARAAGAQSNwF-L9IrjK6JrbfBYhpDV5giVu-0Ly
 const oAuth2Client = new google.auth.OAuth2(CLIENT_ID,CLIENT_SECRET, REDIRECT_URI)
 oAuth2Client.setCredentials({refresh_token: REFRESH_TOKEN})
 
-async function sendMail(reciever, subject, text){
+router.post('', async function sendMail(req, res){
+    var reciever=req.reciever;
+    var subject=req.subject;
+    var txt=req.txt;
     try{
         const accessToken= await oAuth2Client.getAccessToken()
         const transport= nodemailer.createTransport({
@@ -27,7 +31,7 @@ async function sendMail(reciever, subject, text){
             from:'meatandwinetrentino@gmail.com',
             to: reciever,
             subject: subject,
-            text: text,
+            text: txt,
         }
 
         const result=await transport.sendMail(mailOptions)
@@ -35,7 +39,7 @@ async function sendMail(reciever, subject, text){
     }catch(error){
         return error;
     }
-}
+});
 
 
 sendMail('tommasoguidolin01@gmail.com','oggetto','testo della mail')
