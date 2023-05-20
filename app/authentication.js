@@ -9,10 +9,17 @@ const jwt = require('jsonwebtoken'); // used to create, sign, and verify tokens
 // ---------------------------------------------------------
 router.post('', async function(req, res) {
 	
-	// find the user
+	// find the user by email
 	let user = await utente.findOne({
-		email: req.body.email
+		email: req.body.nickname
 	}).exec();
+
+	if (!user) {
+		// find the user by nickname
+		user = await utente.findOne({
+			nickname: req.body.nickname
+		}).exec();
+	}
 	
 	// user not found
 	if (!user) {

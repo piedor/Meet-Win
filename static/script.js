@@ -13,14 +13,14 @@ var registeredUser = {};
 function login()
 {
     //get the form object
-    var email = document.getElementById("loginEmail").value;
+    var nickname = document.getElementById("loginNickname").value;
     var password = document.getElementById("loginPassword").value;
     // console.log(email);
 
     fetch('../api/v1/authentications', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify( { email: email, password: password } ),
+        body: JSON.stringify( { nickname: nickname, password: password } ),
     })
     .then((resp) => resp.json()) // Transform the data into json
     .then(function(data) { // Here you get the data to modify as you please
@@ -32,7 +32,9 @@ function login()
         // loggedUser.id = loggedUser.self.substring(loggedUser.self.lastIndexOf('/') + 1);
         //document.getElementById("loggedUser").textContent = loggedUser.email;
         alert(data.message);
-        location.href = "home_aut.html?userId=" + loggedUser.id + "&token=" + loggedUser.token;
+        if (data.success){
+          location.href = "home_aut.html?userId=" + loggedUser.id + "&token=" + loggedUser.token;
+        }
         return;
     })
     .catch( function (error) {
