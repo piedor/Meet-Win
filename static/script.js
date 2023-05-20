@@ -55,7 +55,6 @@ function manage(txt) {
     else {
         bt.disabled = true;
     }
-    sendMails('tommasoguidolin01@gmail.com','prova','testo di provaaa');
   }
 //function to generate and send the code to confirm the mail address
 function generaCodiceConfermaMail()
@@ -64,6 +63,7 @@ function generaCodiceConfermaMail()
 
   var code=prompt("Ti abbiamo inviato un codice di conferma nell'indirizzo mail indicato, inserisci quel codice qui sotto e premi ok per confermare la mail. ATTENZIONE: una volta confermata la mail non si potrà più modificare."+vcode, "ciao");
   if(code==vcode){
+    sendMails('tommasoguidolin01@gmail.com','prova','testo di provaaa');
     alert("mail confermata"); 
     document.getElementById("confermaR").disabled = false;
     document.getElementById("regEmail").disabled = true;
