@@ -48,25 +48,19 @@
 	}
         </style>
 </head>
-<body>
+<body hidden>
     <div class="testata">
       <img src="images/LOGO.png" style="position: absolute; left:150px;" width="100" height="120" />
       <font face="Comic sans MS" color=blue>
       <center style="font-size:3rem; white-space: nowrap;">Meat&Wine</center>
       <p align=right>
-            <form action="api/v1/utenti" method="post" name="loginform" id="loginform" align=right>
-        	<label>email o nickname</label>
-		<input name="nickname" placeholder="red.rocco@unitn.it" id="loginNickname"/>
-        	<label>password</label>
-		<input type="password" name="password" placeholder="Password2" id="loginPassword"/>
-        	<button type="button" background-color:#96eef2" onclick="login()">	Login</button>
-		</form>
+        <h3>Ben ritrovato <span id="nickname"></span>!</h3>
+        <button type="button" onclick="logout()">Logout</button>
       </p>
       </font>
 	</div>
 	<p style="color: blue; font-size: 40px; position: absolute; left: 45%; margin-top:5px;">HomePage Autenticato</p>   
 	<p align=right style="padding-right:40px;	font-size: 20px;"> 
-	<button onclick="location.href='registrazione.html'">Registrati</button>
   	</p>
       <div class="box1"> 
 	<img src="images/torneo.jpg" style="float:left" width="120" height="120"/>
@@ -91,6 +85,9 @@
 	<button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px" >DIVERTITI</button>
 </div>
    <script src="script.js"></script> 
+    <script>
+        loadInfoUser();
+    </script>
 </body>
 
 </html>
