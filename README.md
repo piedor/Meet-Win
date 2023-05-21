@@ -13,7 +13,7 @@ Al termine di ogni partita e torneo ogni utente potrà valutare attraverso un �
 La repository è organizzata secondo questo albero:
 ``` bash
 .
-├── **app**
+├── ${bold}app
 │   ├── app.js
 │   ├── authentication.js
 │   ├── communities.js
