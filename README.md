@@ -6,7 +6,7 @@
 - [Apiary](#apiary)
 - [Membri](#membri)
 ## Descrizione
-Questo progetto è stato creato per mettere in campo tutte le nozioni acquisite durante il corso di ingegneria del software attraverso una metodologia Agile.<br/>
+Questo progetto è stato creato per mettere in campo tutte le nozioni acquisite durante il corso di **ingegneria del software** attraverso una metodologia Agile.<br/>
 Il progetto ha come obiettivo lo sviluppo di una WebApp che dia la possibilità agli utenti di organizzare e partecipare a tornei riguardanti diversi sport, e-sports e giochi da tavolo. L’applicazione poi permetterà agli utenti di ricercarne altri, di formare communities e di avere una lista amici per agevolare la formazione di squadre, suggerendo per primi i risultati più rilevanti in base alle preferenze inserite e alla classifica dei feedback.
 Al termine di ogni partita e torneo ogni utente potrà valutare attraverso un “form di feedback” i singoli giocatori e la qualità dei tornei a cui ha partecipato, così da creare un classifica delle utenze in base alla media dei voti.
 ## Struttura del progetto
