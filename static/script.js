@@ -162,6 +162,9 @@ function register()
         registeredUser.self = data.self;
         // loggedUser.id = loggedUser.self.substring(loggedUser.self.lastIndexOf('/') + 1);
         alert(data.message);
+        if(data.success){
+          
+        }
         return;
     })
     .catch( function (error) {
