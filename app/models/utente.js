@@ -9,11 +9,13 @@ module.exports = mongoose.model('Utente', new Schema({
     cellulare: Number,
     verificato: Boolean,
     bloccato: Boolean,
-    elimitato: Boolean,
+    limitato: Boolean,
     bio: String,
     preferenze: [String],
     id_img: Number,
     piattaforme: [String],
+    zona: String
+    
     //work in progress
     //feedback: Tipo_feedback, 
     // tornei_vinti: Number,
