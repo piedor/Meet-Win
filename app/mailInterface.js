@@ -12,13 +12,9 @@ const oAuth2Client = new google.auth.OAuth2(CLIENT_ID,CLIENT_SECRET, REDIRECT_UR
 oAuth2Client.setCredentials({refresh_token: REFRESH_TOKEN})
 
 router.post('', async function sendMail(req){
-    console.log(req.body);
-    console.log("qui");
     var reciever=req.body.reciever;
-    console.log(reciever);
     var tema=req.body.subject;
     var txt=req.body.text;
-    console.log(txt);
     console.log("sono qui");
     try{
         const accessToken= await oAuth2Client.getAccessToken()
@@ -46,18 +42,18 @@ router.post('', async function sendMail(req){
             break;
             
             case "registrazionec":
-                console.log("invio codice di conferma");
-                subject="codice di conferma registrazione";
+                console.log("invio termine registrazione");
+                subject="registrazione terminata";
                 testo="Congratulazioni "+ txt+" hai completato la registrazione. Benvenuto nella community di Meat&Wine, siamo sicuri riuscirai a divertirti con noi!!";
             break;
 
             case "ban":
                 subject="Il tuo account è stato sospeso";
                 testo="Siamo spiacenti, a seguito di una revisione delle segnalazioni ricevute dai nostri amministratori sui tuoi comportamenti, abbiamo deciso di bloccare il tuo account sulla nostra piattaforma. La limitazione durerà: "+txt;
-            break; //si ferma qui
+            break;
           
             default:
-              //istruzioni
+              //
           }
 
         const mailOptions={

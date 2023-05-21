@@ -79,8 +79,9 @@ var vcode={};
 function generaCodiceConfermaMail()
 {
   var vcode=Math.floor(Math.random() * (99999999 - 10000000 + 1)) + 10000000;
-  sendMails("tommasoguidolin01@gmail.com","codicec");
-  alert("Ti abbiamo inviato un codice di conferma nell'indirizzo mail indicato, inserisci quel codice qui sotto e premi ok per confermare la mail. ATTENZIONE: una volta confermata la mail non si potrà più modificare."+vcode, "");
+  var mail=document.getElementById("regEmail").value;
+  sendMails(mail,"codicec", vcode);
+  alert("Ti abbiamo inviato un codice di conferma nell'indirizzo mail indicato, inserisci quel codice qui sotto e premi ok per confermare la mail. ATTENZIONE: una volta confermata la mail non si potrà più modificare.");
   document.getElementById("regEmail").disabled = true;
   document.getElementById("confcode").removeAttribute("hidden");
   document.getElementById("confebtn").removeAttribute("hidden");
@@ -101,6 +102,8 @@ function clearAll(){
   document.getElementById("regEmail").disabled = false;
   document.getElementById("confermaR").disabled = true;
   document.getElementById("cmail").disabled = true;
+  document.getElementById("cmail").removeAttribute("style");
+  document.getElementById("confcode").disabled=false;
 }
 function register()
 {
