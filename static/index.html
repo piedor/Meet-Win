@@ -52,21 +52,21 @@
     <div class="testata">
       <img src="images/LOGO.png" style="position: absolute; left:150px;" width="100" height="120" />
       <font face="Comic sans MS" color=blue>
-	<span style="font-size:4rem; float: left; margin-left: 40%;">Meat&Wine</span>
-      <p align=right>
+		<p style="font-size:4rem; position: absolute; float: left; margin-top: 2px; margin-left: 40%; ">Meat&Wine</p>
+      <p>
             <form action="api/v1/utenti" method="post" name="loginform" id="loginform" align=right>
         	<label>email o nickname</label>
-		<input name="nickname" placeholder="red.rocco@unitn.it" id="loginNickname"/>
+			<input name="nickname" placeholder="red.rocco@unitn.it" id="loginNickname"/><br>
         	<label>password</label>
-		<input type="password" name="password" placeholder="Password2" id="loginPassword"/>
-        	<button type="button" background-color:#96eef2" onclick="login()">	Login</button>
+			<input type="password" name="password" placeholder="Password2" id="loginPassword"/><br>
+        	<button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px" type="button" background-color:#96eef2" onclick="login()">	Login</button>
 		</form>
       </p>
       </font>
 	</div>
 	<p style="color: blue; font-size: 40px; position: absolute; left: 45%; margin-top:5px;">HomePage</p>   
-	<p align=right style="padding-right:40px;	font-size: 20px;"> 
-	<button onclick="location.href='registrazione.html'">Registrati</button>
+	<p align=right> 
+	<button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px" onclick="location.href='registrazione.html'">Registrati</button>
   	</p>
       <div class="box1"> 
 	<img src="images/torneo.jpg" style="float:left" width="120" height="120"/>
