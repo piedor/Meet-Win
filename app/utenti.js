@@ -45,7 +45,10 @@ router.get('/:nickname', async (req, res) => {
     if(user){
         res.json({ 
             success: true, 
-            nickname: user.nickname
+            nickname: user.nickname,
+            bio: user.bio,
+            preferenze: user.preferenze,
+            piattaforme: user.piattaforme
         });
     }
     else{
