@@ -54,7 +54,7 @@ Successivamente abbiamo suddiviso in 2 macro cartelle le repository: app, per ge
 ## Apiary 
 [meetwin.docs.apiary.io](https://meetwin.docs.apiary.io)
 ## Link applicazione 
-[meet-win.onrender.com/](https://meet-win.onrender.com/)
+[meet-win.onrender.com](https://meet-win.onrender.com/)
 ## Membri
 - [Nicholas Menin](https://github.com/NicholasMenin)
 - [Tommaso Guidolin](https://github.com/tmaog)
