@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-// set up a mongoose model
+// Crea modello mongoose
 module.exports = mongoose.model('Utente', new Schema({ 
     nickname: String,
     email: String,

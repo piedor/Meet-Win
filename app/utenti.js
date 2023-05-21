@@ -1,14 +1,15 @@
 const express = require('express');
 const router = express.Router();
-const utente = require('./models/utente'); // get our mongoose model
+// Modello di mongoose (stabilisce quali dati l'oggetto contiene)
+const utente = require('./models/utente');
 
-
+// Se app.js capta una GET verso /api/v1/utenti/me allora ritorna i dati del profilo
 router.get('/me', async (req, res) => {
     // Ritorna il mio profilo -> devo essere autenticato
     if(!req.loggedUser) {
         return;
     }
-    // find the user by email
+    // Trova l'utente via email
 	let user = await utente.findOne({
 		email: req.loggedUser.email
 	}).exec();
@@ -19,6 +20,7 @@ router.get('/me', async (req, res) => {
     });
 });
 
+// Se app.js capta una GET verso /api/v1/utenti/logout allora procedi con il logout
 router.get('/logout', async (req, res) => {
     // Controlla se c'è il token
     if(req.cookies.token){
@@ -33,6 +35,7 @@ router.get('/logout', async (req, res) => {
     }
 });
 
+// Se app.js capta una GET verso /api/v1/utenti/:nickname allora ritorna i dati del profilo
 router.get('/:nickname', async (req, res) => {
     // Ritorna profilo utente da ricerca utenti
     // Ricerca utente via nickname

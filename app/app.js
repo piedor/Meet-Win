@@ -1,6 +1,9 @@
+// Web app
 const express = require('express');
 const app = express();
+// CORS
 const cors = require('cors');
+// Gestore cookie browser
 const cookieParser = require('cookie-parser');
 
 const authentication = require('./authentication.js');
@@ -9,24 +12,20 @@ const tokenChecker = require('./tokenChecker.js');
 const utenti = require('./utenti.js');
 const mailInterface = require ('./mailInterface.js');
 
-/**
- * Configure Express.js parsing middleware
- */
+// Configurazione Express.js per middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Cookie parser
+// Cookie parser semplifica la vita con i cookie
 app.use(cookieParser())
 
-
-/**
- * CORS requests
- */
+// Richieste CORS
 app.use(cors())
 
-// Fornisci file html
+// Fornisci files html
 app.use('/', express.static('static')); 
 
+// Serve come debug (stampa il tipo di richieste ricevute)
 app.use((req,res,next) => {
     console.log(req.method + ' ' + req.url)
     next()
@@ -38,17 +37,19 @@ app.use((req,res,next) => {
 app.use('/api/v1/authentications', authentication);
 app.use('/api/v1/registrations', registration);
 
-// Protect booklendings endpoint
-// access is restricted only to authenticated users
-// a valid token must be provided in the request
+// Usando tokenChecker si protegge la risorsa
+// L'accesso è consentito solo agli utenti autenticati
+// Il token può essere sia passato che salvato nei cookie
+// Informazioni sul mio profilo (Accesso ristretto)
 app.use('/api/v1/utenti/me', tokenChecker);
 
+// Vedi utenti.js
 app.use('/api/v1/utenti', utenti);
 
-//function to send mails
+// Vedi mailInterface.js
 app.use('/api/v1/sendMails', mailInterface);
 
-/* Default 404 handler */
+// Se viene richiesta una risorsa non gestita allora ritorna 404 NOT FOUND
 app.use((req, res) => {
     res.status(404);
     res.json({ error: 'Not found' });

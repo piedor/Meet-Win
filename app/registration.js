@@ -1,11 +1,10 @@
 const express = require('express');
 const router = express.Router();
+// Modello di mongoose (stabilisce quali dati l'oggetto contiene)
 const utente = require('./models/utente'); 
 
 
-// ---------------------------------------------------------
-// route to authenticate and get a new token
-// ---------------------------------------------------------
+// Se app.js capta un POST verso /api/v1/registrations allora procedi alla registrazione dell'utente
 router.post('', async function(req, res) {
     // Vedi se email o nickname sono già utilizzati
     let userByEmail = await utente.findOne({
@@ -28,6 +27,7 @@ router.post('', async function(req, res) {
 		return;
 	}
    
+    // Crea nuovo utente
     const nuovoUtente = new utente({
         nickname: req.body.nickname,
         email: req.body.email,

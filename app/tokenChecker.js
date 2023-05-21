@@ -1,11 +1,12 @@
-const jwt = require('jsonwebtoken'); // used to create, sign, and verify tokens
+// jwt usato per creare, firmare e verificare i token
+const jwt = require('jsonwebtoken');
 
 const tokenChecker = function(req, res, next) {
 	
-	// check header or url parameters or post parameters for token or cookies
+	// Cerca il token nell'header, nei parametri url, nei parametri post o nei cookie
 	var token = req.body.token || req.query.token || req.headers['x-access-token'] || req.cookies.token;
 
-	// if there is no token
+	// Se non trova il token
 	if (!token) {
 		return res.status(401).send({ 
 			success: false,
@@ -13,7 +14,7 @@ const tokenChecker = function(req, res, next) {
 		});
 	}
 
-	// decode token, verifies secret and checks exp
+	// Decodifica token e verificade
 	jwt.verify(token, process.env.SUPER_SECRET, function(err, decoded) {			
 		if (err) {
 			return res.status(403).send({
@@ -21,7 +22,7 @@ const tokenChecker = function(req, res, next) {
 				message: 'Failed to authenticate token.'
 			});		
 		} else {
-			// if everything is good, save to request for use in other routes
+			// Memorizza lo stato autenticato per altre route
 			req.loggedUser = decoded;
 			next();
 		}
