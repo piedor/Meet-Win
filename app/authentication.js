@@ -51,8 +51,7 @@ router.post('', async function(req, res) {
 		token: token,
 		email: user.email,
 		id: user.id,
-		nickname: user.nickname,
-		self: "api/v1/" + user.nickname
+		nickname: user.nickname
 	});
 
 });

@@ -14,7 +14,6 @@ router.get('/me', async (req, res) => {
 	}).exec();
 
     res.status(200).json({
-        self: '/api/v1/utenti/' + user.id,
         email: user.email,
         nickname: user.nickname
     });
@@ -58,37 +57,5 @@ router.get('/:nickname', async (req, res) => {
         });
     }
 });
-
-router.delete('/:id', async (req, res) => {
-    let utente = await utente.findById(req.params.id).exec();
-    if (!utente) {
-        res.status(404).send()
-        console.log('utente not found')
-        return;
-    }
-    await utente.deleteOne()
-    console.log('utente removed')
-    res.status(204).send()
-});
-
-router.post('', async (req, res) => {
-
-	let utente = new utente({
-        nickname: req.body.nickname
-    });
-    
-	utente = await utente.save();
-    
-    let listaUtenti = utenti.nickname; 
-
-    console.log('Book saved successfully');
-
-    /**
-     * Link to the newly created resource is returned in the Location header
-     * https://www.restapitutorial.com/lessons/httpmethods.html
-     */
-    res.location("/api/v1/books/" + listaUtenti).status(201).send();
-});
-
 
 module.exports = router;

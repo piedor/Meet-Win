@@ -55,8 +55,7 @@ router.post('', async function(req, res) {
 		success: true,
 		message: 'Utente registrato correttamente!',
 		email: req.body.email,
-		nickname: req.body.nickname,
-		self: "api/v1/" + req.body.nickname
+		nickname: req.body.nickname
 	});
 });
 
