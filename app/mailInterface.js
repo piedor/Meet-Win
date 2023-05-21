@@ -21,7 +21,7 @@ router.post('', async function sendMail(req){
             service: 'gmail',
             auth: {
                 type: 'OAuth2',
-                user: '"Meet&Win" meatandwinetrentino@gmail.com',
+                user: 'meatandwinetrentino@gmail.com',
                 clientId: process.env.CLIENT_ID,
                 clientSecret: process.env.CLIENT_SECRET,
                 refreshToken: process.env.REFRESH_TOKEN,
@@ -55,7 +55,7 @@ router.post('', async function sendMail(req){
           }
 
         const mailOptions={
-            from:'meatandwinetrentino@gmail.com',
+            from:'"Meet&Win" meatandwinetrentino@gmail.com',
             to: reciever,
             subject: subject,
             text: testo,
