@@ -1,5 +1,3 @@
-const { json } = require("body-parser");
-
 /**
  * This variable stores the logged in user
  */
