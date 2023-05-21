@@ -13,12 +13,12 @@ Al termine di ogni partita e torneo ogni utente potrà valutare attraverso un �
 La repository è organizzata secondo questo albero:
 ``` bash
 .
-├── ${bold}app
+├── app
 │   ├── app.js
 │   ├── authentication.js
 │   ├── communities.js
 │   ├── mailInterface.js
-│   ├── **models**
+│   ├── models
 │   ├── modifyProfile.js
 │   ├── registration.js
 │   ├── tokenChecker.js
@@ -26,20 +26,20 @@ La repository è organizzata secondo questo albero:
 │   ├── utenti.js
 │   └── visualizzaInfoUtente.js
 ├── .env
-├── **.git**
+├── .git
 ├── .gitignore
 ├── index.js
-├── **node_modules**
+├── node_modules
 ├── .node-version
 ├── package.json
 ├── package-lock.json
 ├── README.md
-└── **static**
+└── static
 	├── cercaTorneo.html
 	├── cercaUtenti.html
 	├── creaTorneo.html
 	├── home_aut.html
-	├── **images**
+	├── images
 	├── index.html
 	├── modificaProfilo.html
 	├── registrazione.html
