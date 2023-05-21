@@ -15,7 +15,6 @@ router.post('', async function sendMail(req){
     var reciever=req.body.reciever;
     var tema=req.body.subject;
     var txt=req.body.text;
-    console.log("sono qui");
     try{
         const accessToken= await oAuth2Client.getAccessToken()
         const transport= nodemailer.createTransport({
