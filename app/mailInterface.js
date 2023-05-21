@@ -43,7 +43,7 @@ router.post('', async function sendMail(req){
             case "registrazionec":
                 console.log("invio termine registrazione");
                 subject="registrazione terminata";
-                testo="Congratulazioni "+ txt+" hai completato la registrazione. Benvenuto nella community di Meat&Wine, siamo sicuri riuscirai a divertirti con noi!!";
+                testo="Congratulazioni "+ txt+" hai completato la registrazione. Benvenuto nella community di Meet&Win, siamo sicuri riuscirai a divertirti con noi!!";
             break;
 
             case "ban":
