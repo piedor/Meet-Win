@@ -116,6 +116,7 @@ function register()
     var cpassword = document.getElementById("regC_Password").value;
     var avatar = document.querySelector('input[type = radio]:checked').value;
     var zona = document.getElementById("zona").value;
+    var bio = document.getElementById("bio").value;
     var privato = document.getElementById("switch").value; 
     var preferenze=[];
     var markedCheckbox = document.getElementsByName('pref');  
@@ -152,11 +153,17 @@ function register()
         document.getElementById("errors").innerHTML = errors;
         return;
     }
-
     fetch('../api/v1/registrations', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify( { nickname: nickname, email: email, password: password } ),
+        body: JSON.stringify( { 
+          nickname: nickname, 
+          email: email, 
+          password: password,
+          bio: bio,
+          preferenze: preferenze,
+          piattaforme: piattaforme
+        } ),
     })
     .then((resp) => resp.json()) // Transform the data into json
     .then(function(data) { // Here you get the data to modify as you please

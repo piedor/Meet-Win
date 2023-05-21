@@ -27,11 +27,18 @@ router.post('', async function(req, res) {
 		res.json({ success: false, message: 'Nickname già utilizzato!' });
 		return;
 	}
-
+   
     const nuovoUtente = new utente({
         nickname: req.body.nickname,
         email: req.body.email,
-        password: req.body.password
+        password: req.body.password,
+        cellulare: 0,
+        verificato: false,
+        bloccato: false,
+        limitato: false,
+        bio: req.body.bio,
+        preferenze: req.body.preferenze,
+        piattaforme: req.body.piattaforme
     });
     
     nuovoUtente.save()
