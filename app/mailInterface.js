@@ -21,7 +21,7 @@ router.post('', async function sendMail(req){
             service: 'gmail',
             auth: {
                 type: 'OAuth2',
-                user: 'meatandwinetrentino@gmail.com',
+                user: '"Meet&Win" meatandwinetrentino@gmail.com',
                 clientId: process.env.CLIENT_ID,
                 clientSecret: process.env.CLIENT_SECRET,
                 refreshToken: process.env.REFRESH_TOKEN,
@@ -29,7 +29,6 @@ router.post('', async function sendMail(req){
             }
 
         })
-        console.log("ciao banana");
         var subject;
         var testo;
         switch(tema) {
