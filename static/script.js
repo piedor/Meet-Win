@@ -163,7 +163,7 @@ function register()
         // loggedUser.id = loggedUser.self.substring(loggedUser.self.lastIndexOf('/') + 1);
         alert(data.message);
         if(data.success){
-          
+          sendMails(email,"registrazionec", nickname);
         }
         return;
     })
