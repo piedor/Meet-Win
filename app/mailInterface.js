@@ -2,14 +2,14 @@ const nodemailer = require ('nodemailer');
 const {google} = require ('googleapis');
 const express = require('express');
 const router = express.Router();
+// Carica le variabili d'ambiente dal file .env
+const dotenv = require('dotenv');
+dotenv.config();
 
-const CLIENT_ID='253714505280-d9rc86qu6capleh40qjks77q12iv67o0.apps.googleusercontent.com'
-const CLIENT_SECRET='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'
 const REDIRECT_URI= 'https://developers.google.com/oauthplayground'
-const REFRESH_TOKEN= '1//04hRQ8fsY_tmICgYIARAAGAQSNwF-L9IrjK6JrbfBYhpDV5giVu-0LyrMXavuzHHtFeBOMF3PAo4rg_Iw8cQyyMlFROfM7qkpjP4'
 
-const oAuth2Client = new google.auth.OAuth2(CLIENT_ID,CLIENT_SECRET, REDIRECT_URI)
-oAuth2Client.setCredentials({refresh_token: REFRESH_TOKEN})
+const oAuth2Client = new google.auth.OAuth2(process.env.CLIENT_ID,process.env.CLIENT_SECRET, REDIRECT_URI)
+oAuth2Client.setCredentials({refresh_token: process.env.REFRESH_TOKEN})
 
 router.post('', async function sendMail(req){
     var reciever=req.body.reciever;
@@ -22,9 +22,9 @@ router.post('', async function sendMail(req){
             auth: {
                 type: 'OAuth2',
                 user: 'meatandwinetrentino@gmail.com',
-                clientId: CLIENT_ID,
-                clientSecret: CLIENT_SECRET,
-                refreshToken: REFRESH_TOKEN,
+                clientId: process.env.CLIENT_ID,
+                clientSecret: process.env.CLIENT_SECRET,
+                refreshToken: process.env.REFRESH_TOKEN,
                 accessToken:accessToken,
             }
 
