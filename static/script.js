@@ -73,28 +73,32 @@ function manageMail(mail) {
     }
   }
 //function to generate and send the code to confirm the mail address
-var vcode={};
+{
+var vcode;
 function generaCodiceConfermaMail()
 {
-  var vcode=Math.floor(Math.random() * (99999999 - 10000000 + 1)) + 10000000;
+  vcode=Math.floor(Math.random() * (99999999 - 10000000 + 1)) + 10000000;
   var mail=document.getElementById("regEmail").value;
   sendMails(mail,"codicec", vcode);
   alert("Ti abbiamo inviato un codice di conferma nell'indirizzo mail indicato, inserisci quel codice qui sotto e premi ok per confermare la mail. ATTENZIONE: una volta confermata la mail non si potrà più modificare.");
   document.getElementById("regEmail").disabled = true;
   document.getElementById("confcode").removeAttribute("hidden");
   document.getElementById("confebtn").removeAttribute("hidden");
-  
+  document.getElementById("confebtn").removeAttribute("disabled");
 };
 
 function confermaCodiceConfermaMail()
 {
-  if(true){
+  var code=document.getElementById("confcode").value;
+  if(code==vcode){
     alert("mail confermata"); 
     document.getElementById("confermaR").disabled = false;
+    document.getElementById("cmail").disabled = true;
     document.getElementById("confcode").setAttribute("disabled","true");
+    document.getElementById("confebtn").setAttribute("disabled","true");
   }
 };
-
+}
 
 function clearAll(){
   document.getElementById("regEmail").disabled = false;
