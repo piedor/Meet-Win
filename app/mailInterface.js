@@ -21,7 +21,7 @@ router.post('', async function sendMail(req){
             service: 'gmail',
             auth: {
                 type: 'OAuth2',
-                user: 'meetandwintrentino@gmail.com',
+                user: 'meatandwinetrentino@gmail.com',
                 clientId: process.env.CLIENT_ID,
                 clientSecret: process.env.CLIENT_SECRET,
                 refreshToken: process.env.REFRESH_TOKEN,
