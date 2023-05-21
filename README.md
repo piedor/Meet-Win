@@ -1,7 +1,7 @@
 # Meet&Win
-<center>
+<p align="center">
 <img src="/static/images/LOGO.png" width="50%" />
-</center><br/>
+</p><br/>
 ## Sommario
 - [Descrizione](#descrizione)
 - [Struttura del progetto](#struttura-del-progetto)
