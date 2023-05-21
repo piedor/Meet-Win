@@ -1,5 +1,5 @@
 # Meet&Win
-![Logo|100%](/static/images/LOGO.png)
+![Logo](/static/images/LOGO.png | width=100)
 ## Sommario
 - [Descrizione](#descrizione)
 - [Struttura del progetto](#struttura-del-progetto)
