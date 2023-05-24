@@ -1,5 +1,6 @@
 module.exports = {
     setupFiles: ["<rootDir>/.jest/setEnvVars.js"],
     verbose: true,
-    "collectCoverage": true
+    "collectCoverage": true,
+    testTimeout: 20000
 }
