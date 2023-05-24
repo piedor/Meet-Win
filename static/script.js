@@ -234,3 +234,23 @@ function logout(){
   })
   .catch( error => console.error(error) );
 }
+
+var password{}
+
+//funzione per controllare la correttezza della password durante l'azione di modifica password
+function controllaPassword(pass){
+  var userPass="ciao";
+  if(password==null) //richiedi password al database
+  //userPass=getvalue from database()
+  if (pass.value==userPass){
+    document.getElementById("vecPass").setAttribute("style","background: rgb(76, 249, 73);");
+    document.getElementById("newPass").removeAttribute("disabled");
+    document.getElementById("c_newPass").removeAttribute("disabled");
+  }else{
+    document.getElementById("vecPass").setAttribute("style","background: rgb(253, 116, 116);");}
+}
+
+//funzione per salvare le modifiche fatte ad un account
+function saveChanges(){
+  //?? forse conviene mettere un boolean su registrazione per dire se viene attivato da modificaProfilo allora salva i cambiamenti sennò crea un nuovo profilo??
+}
