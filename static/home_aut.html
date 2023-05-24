@@ -50,17 +50,22 @@
 </head>
 <body>
     <div class="testata">
-      <img src="images/LOGO.png" style="position: absolute; left:150px;" width="100" height="120" />
-      <font face="Comic sans MS" color=blue>
-      <span style="font-size:4rem; float: left; margin-left: 40%;">Meet&Win</span>
-      <p style="margin-left: 20px;">
-        <h3>Ben ritrovato <span id="nickname"></span>!</h3>
-        <button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px" type="button" onclick="logout()">Logout</button>
-      </p>
-      </font>
-	</div>
+        <img src="images/LOGO.png" style="position: absolute; left:150px;" width="100" height="120" />
+        <span style="font-family: “Comic Sans MS”, “Comic Sans”, cursive; color:blue;">
+          <p style="font-size:4rem; position: absolute; float: left; margin-top: 2px; margin-left: 40%; ">Meet&Win</p>
+        <p>
+              <form action="api/v1/utenti" method="post" name="loginform" id="loginform" style="text-align:right;">
+              <label>email o nickname</label>
+              <input name="nickname" placeholder="red.rocco@unitn.it" id="loginNickname"/><br>
+              <label>password</label>
+              <input type="password" name="password" placeholder="Password2" id="loginPassword"/><br>
+              <button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px" type="button" onclick="login()">	Login</button>
+          </form>
+        </p>
+    </p>
+      </div>
 	<p style="color: blue; font-size: 40px; position: absolute; left: 38%; margin-top:5px;">HomePage Autenticato</p>   
-	<p align=right style="padding-right:40px;	font-size: 20px;"> 
+	<p style="padding-right:40px; text-align: right;	font-size: 20px;"> 
 	<button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px" onClick="window.alert('coming soon')">Il mio profilo</button>
   	</p>
       <div class="box1"> 
