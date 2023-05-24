@@ -55,18 +55,18 @@
 <body>
     <div class="testata">
         <img src="images/LOGO.png" style="position: absolute; left:150px;" width="100" height="120" />
-        <font face="Comic sans MS" color=blue>
+        <span style="font-family: “Comic Sans MS”, “Comic Sans”, cursive; color:blue;">
           <p style="font-size:4rem; position: absolute; float: left; margin-top: 2px; margin-left: 40%; ">Meet&Win</p>
         <p>
-              <form action="api/v1/utenti" method="post" name="loginform" id="loginform" align=right>
+              <form action="api/v1/utenti" method="post" name="loginform" id="loginform" style="text-align:right;">
               <label>email o nickname</label>
               <input name="nickname" placeholder="red.rocco@unitn.it" id="loginNickname"/><br>
               <label>password</label>
               <input type="password" name="password" placeholder="Password2" id="loginPassword"/><br>
-              <button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px" type="button" background-color:#96eef2" onclick="login()">	Login</button>
+              <button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px" type="button" onclick="login()">	Login</button>
           </form>
         </p>
-        </font>
+    </p>
       </div>
     <div>
         <p style="color: blue; font-size: 40px; position: absolute; left: 45%; margin-top:5px;">Registrazione</p>   
@@ -110,9 +110,8 @@ contenere almeno un carattere maiuscolo, uno minuscolo e un numero.">
             </div>
 <br>
         <div>
-        <label>Bio:</label>
             <span title=" esempio: Ciao a tutti, sono un ragazzo a cui piacciono i videogame sparatutto.">
-            <input type="text" placeholder="Scrivi qui una tua breve descrizione;" name="bio" id="bio" maxlength="200" style="width: 500px; height: 100px;"></span>
+            Bio: <textarea placeholder="Scrivi qui una tua breve descrizione;" name="bio" id="bio" maxlength="200" style="width: 500px; height: 100px; resize: none; vertical-align: top;"></textarea></span>
         </div>
 <br>
         <div>
@@ -168,8 +167,8 @@ la tua esperienza e agli altri utenti per chiederti di unirti a loro nelle sfide
 
             </div>
             <div>
-                    <label>Zona:</label>
-                    <span title="Inserisci un paese di riferimento vicino a te (opz); non è necessario mettere il paese di appartenenza, questa informazione è completamente privata e al solo scopo di migliorare la tua esperienza di suggeriti, grazie alla zona infatti potremmo consigliarti tornei che si svolgono vicino a te."><input type="text" class="form-control" placeholder="posizione (opz)" name="zona" id="zona"></span>
+                <label>Zona:</label>
+                <span title="Inserisci un paese di riferimento vicino a te (opz); non è necessario mettere il paese di appartenenza, questa informazione è completamente privata e al solo scopo di migliorare la tua esperienza di suggeriti, grazie alla zona infatti potremmo consigliarti tornei che si svolgono vicino a te."><input type="text" class="form-control" placeholder="posizione (opz)" name="zona" id="zona"></span>
             </div>
         <div>account: pubblico
             <input type="checkbox" id="switch" class="checkbox" name="switch"/>
