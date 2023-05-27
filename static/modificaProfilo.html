@@ -18,13 +18,11 @@
         }
         h1   {color: blue;}
     /*switch css*/
-    /* toggle in label designing */
-    
-    .switch {
+        /* toggle in label designing */
+        .switch {
         position: relative;
-        margin-top: 4px;
         display: inline-block;
-        width: 38px;
+        width: 36px;
         height: 18px;
         }
 
@@ -49,8 +47,8 @@
         .slider:before {
         position: absolute;
         content: "";
-        height: 14px;
-        width: 14px;
+        height: 15px;
+        width: 15px;
         left: 4px;
         bottom: 2px;
         background-color: white;
@@ -67,9 +65,9 @@
         }
 
         input:checked + .slider:before {
-        -webkit-transform: translateX(16px);
-        -ms-transform: translateX(16px);
-        transform: translateX(16px);
+        -webkit-transform: translateX(15px);
+        -ms-transform: translateX(15px);
+        transform: translateX(15px);
         }
 
         /* Rounded sliders */
@@ -80,8 +78,7 @@
         .slider.round:before {
         border-radius: 50%;
         }
-
-    </style>
+        </style>
 </head>
 <body>
     <div class="testata">
@@ -202,21 +199,22 @@ la tua esperienza e agli altri utenti per chiederti di unirti a loro nelle sfide
             <div>
                     <label>Zona:</label>
                     <span title="Inserisci un paese di riferimento vicino a te (opz); non è necessario mettere il paese di appartenenza, questa informazione è completamente privata e al solo scopo di migliorare la tua esperienza di suggeriti, grazie alla zona infatti potremmo consigliarti tornei che si svolgono vicino a te."><input type="text" class="form-control" placeholder="posizione (opz)" name="zona" id="zona"></span>
-        </div>
-        <div title="definisci lo status del tuo account, mettendo privato non permetterai la visualizzazione della tuo storico e della tua lista amici, inoltre non permetterai che altri utenti con cui non sei amico ti inviino messaggi">account: pubblico
+            </div>
+        <div style="margin-top: 5px;">account: pubblico
             <label class="switch">
-            <input type="checkbox" id="private" value="privato"><!--manca come gestire il value da sempre privato come output-->
-            <span class="slider round"></span>
-            </label>
+                <input type="checkbox" id="switch" class="checkbox" name="switch" value="privato">
+                <span class="slider round"></span>
+              </label>
             privato    
         </div>
-        <p style="text-align: center;"><input type="reset" value="cancella tutto" onclick="clearAll()"> </p>
+<p style="text-align: center;"><input type="reset" value="cancella tutto" onclick="clearAll()"> </p>
     </form>
     <div id="errors" name="errors" style="color: rgb(179, 34, 34)"></div>
 <br><br>
         <div style="text-align: center;">	
-            <button style="background-color:#30b5fc;" onclick="location.href='home_aut.html'">Annulla</button>
-            <button style="background-color:#30b5fc;" id="confermaR"onclick="saveChanges()" disabled>Conferma modifiche</button>
+            <button style="background-color:#30b5fc;" onclick="location.href='index.html'">Annulla</button>
+            <button style="background-color:#30b5fc;" id="cmail" onclick="generaCodiceConfermaMail()" disabled>Conferma Mail</button>
+            <button style="background-color:#30b5fc;" id="confermaR"onclick="register()" disabled>Conferma</button>
         </div> 
     <script src="script.js"></script> 
             
