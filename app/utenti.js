@@ -138,7 +138,8 @@ router.get('/:nickname', async (req, res) => {
             nickname: user.nickname,
             bio: user.bio,
             preferenze: user.preferenze,
-            piattaforme: user.piattaforme
+            piattaforme: user.piattaforme,
+            avatar: user.id_img
         });
     }
     else{

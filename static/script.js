@@ -57,7 +57,6 @@ const MAPPA_IMG_TORNEI = {
   107: "img7",
   108: "img8"
 };
-
 // Memorizza l'utente loggato
 var loggedUser = {};
 // Memorizza l'utente registrato
@@ -291,7 +290,6 @@ function logout(){
 }
 
 var password;
-
 //funzione per controllare la correttezza della password durante l'azione di modifica password
 function controllaPassword(pass){
   var userPass="ciao";
@@ -349,7 +347,6 @@ function getProfile(){
   .then((resp) => resp.json()) // Trasforma i dati in JSON
   .then(function(data) { // Risposta
     if(!data.success){
-      // Utente non trovato!
       alert(data.message);
       location.href = "cercaUtenti.html";
       return;
