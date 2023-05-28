@@ -67,7 +67,7 @@
 	<p style="color: blue; font-size: 40px; position: absolute; left: 35%; margin-top:5px;">Visualizza Scheda Utente</p>   
 	<br><br>
 	<div class="box1"> 
-	icona avatar, coming soon
+        <img src="" alt="" id="avatar" width="125px" height="125px" />
     </div>
     <div style="margin-left:15%"> 
 	<p style="font-size: 18px;">Nickname: <span id="nickname"></span></p>
@@ -77,9 +77,9 @@
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <span hidden>Rating organizzatore: <span id="rating"></span>&nbsp;&nbsp;<img src="images/star.png" width="20" height="20" /></span>
     </p>
-    <p>Bio: <span class="box2" id="bio">Testo di prova</span></p>
-    <p>Preferenze: <span class="box2" id="preferenze">Testo di prova</span></p>
-    <p>Piattaforme: <span class="box2" id="piatt">Testo di prova</span></p>
+    <p>Bio: <span class="box2" id="bio"></span></p>
+    <p>Preferenze: <span class="box2" id="preferenze"></span></p>
+    <p>Piattaforme: <span class="box2" id="piatt"></span></p>
     <p class="box3">
         <span>Community Iscritto:</span><br>
         <button style="background-color:#30b5fc; width:350px; height: 40px; font-size:16px"> Community1</button>
@@ -101,6 +101,7 @@
 <button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px" onClick="window.alert('coming soon')">Richiesta Amicizia</button>
 </div>
     <script src="script.js"></script> 
+    <script>getProfile();</script>
 </body>
 
 </html>

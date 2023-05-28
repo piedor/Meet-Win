@@ -38,7 +38,8 @@ router.post('', async function(req, res) {
         limitato: false,
         bio: req.body.bio,
         preferenze: req.body.preferenze,
-        piattaforme: req.body.piattaforme
+        piattaforme: req.body.piattaforme,
+        id_img: req.body.avatar
     });
     
     nuovoUtente.save()
