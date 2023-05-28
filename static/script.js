@@ -1,3 +1,51 @@
+const MAPPA_PREFERENZE = {
+  100: "sport di squadra",
+  101: "calcio",
+  102: "calcetto",
+  103: "basket",
+  104: "freccette",
+  105: "hockey",
+  106: "tennis",
+  107: "ping pong",
+  108: "paddel",
+  109: "pallavolo",
+  110: "beach volley",
+  201: "Fifa",
+  202: "League of Legends",
+  203: "Valorant",
+  204: "CS:GO",
+  205: "Rainbow Six Siege",
+  206: "Fortnite",
+  207: "Super Smash Bros",
+  208: "Rocket League",
+  301: "Scacchi",
+  302: "Catan",
+  303: "Ticket To Ride",
+  304: "Dominion",
+  305: "giochi di carte",
+  306: "Yu-Gi-Oh!",
+  307: "Magic"
+};
+
+const MAPPA_PIATTAFORME = {
+  100: "Playstation 5",
+  101: "Playstation 4",
+  102: "Xbox ONE",
+  103: "Switch",
+  104: "PC"
+};
+
+const MAPPA_AVATAR = {
+  101: "avatar1",
+  102: "avatar2",
+  103: "avatar3",
+  104: "avatar4",
+  105: "avatar5",
+  106: "avatar6",
+  107: "avatar7",
+  108: "avatar8"
+};
+
 // Memorizza l'utente loggato
 var loggedUser = {};
 // Memorizza l'utente registrato
@@ -129,7 +177,7 @@ function register()
   var markedCheckbox = document.getElementsByName('piatt');  
   for (var checkbox of markedCheckbox) {  
     if (checkbox.checked) 
-    preferenze.push(checkbox.value);
+    piattaforme.push(checkbox.value);
   }  
   
   document.getElementById("errors").innerHTML = "";
@@ -164,7 +212,8 @@ function register()
         password: password,
         bio: bio,
         preferenze: preferenze,
-        piattaforme: piattaforme
+        piattaforme: piattaforme,
+        avatar: avatar
       } ),
   })
   .then((resp) => resp.json()) // Trasforma i dati in JSON
@@ -201,7 +250,7 @@ function sendMails(toMail, oggetto, txt)
 
 function loadInfoUser(){
   // Viene usata in home_aut per mostrare le info dell'utente
-  fetch('/api/v1/utenti/me')
+  fetch('../api/v1/utenti/me')
   .then((resp) => resp.json()) // Trasforma i dati in JSON
   .then(function(data) { // Risposta
       if(data.success == false){
@@ -221,7 +270,7 @@ function loadInfoUser(){
 
 function logout(){
   // Funzione per eseguire il logout dell'utente (in pratica rimuove il token dai cookie)
-  fetch('/api/v1/utenti/logout')
+  fetch('../api/v1/utenti/logout')
   .then((resp) => resp.json()) // Trasforma i dati in JSON
   .then(function(data) { // Risposta
     // Ritorna su home non autenticato
@@ -231,8 +280,11 @@ function logout(){
   .catch( error => console.error(error) );
 }
 
+<<<<<<< HEAD
 var password;
 
+=======
+>>>>>>> 7997cd372162dbf046e7f656eef953219e312013
 //funzione per controllare la correttezza della password durante l'azione di modifica password
 function controllaPassword(pass){
   var userPass="ciao";
@@ -249,4 +301,70 @@ function controllaPassword(pass){
 //funzione per salvare le modifiche fatte ad un account
 function saveChanges(){
   //?? forse conviene mettere un boolean su registrazione per dire se viene attivato da modificaProfilo allora salva i cambiamenti sennò crea un nuovo profilo??
+}
+
+// Funzione usata da cercaUtenti
+function listUtenti(){
+  // Elenca tutti gli utenti iscritti
+  fetch('../api/v1/utenti/list')
+  .then((resp) => resp.json()) // Trasforma i dati in JSON
+  .then(function(data) { // Risposta
+    if(!data.success){
+      // Nessun utente iscritto alla piattaforma!
+      alert(data.message);
+      return;
+    }
+    else{
+      data.users.map(function(nickname) { 
+        let box = document.getElementById("boxUtenti");
+        let button = document.createElement('button');
+        button.type = 'button';
+        button.setAttribute("onclick", "location.href='visualizzaSchedaUtente.html?nickname=" + nickname + "'");
+        button.textContent = nickname;
+        box.appendChild(button);
+      });
+    }
+  })
+  .catch( error => console.error(error) );
+}
+
+// Funzione usata da visualizzaSchedaUtente
+function getProfile(){
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  var nickname = urlParams.get("nickname");
+  if(nickname == null){
+    alert("Nickname non specificato!");
+    location.href = "cercaUtenti.html";
+    return;
+  }
+  fetch('../api/v1/utenti/'+nickname)
+  .then((resp) => resp.json()) // Trasforma i dati in JSON
+  .then(function(data) { // Risposta
+    if(!data.success){
+      // Utente non trovato!
+      alert(data.message);
+      location.href = "cercaUtenti.html";
+      return;
+    }
+    else{
+      // Carica nickname e bio
+      document.getElementById("nickname").innerHTML = data.nickname;
+      document.getElementById("bio").innerHTML = data.bio;  
+      // Inserisci ogni preferenza in span
+      data.preferenze.map(function(preferenze) { 
+        let span = document.getElementById('preferenze');
+        span.innerHTML += " " + MAPPA_PREFERENZE[preferenze]; 
+      });
+      // Inserisci ogni piattaforma in span
+      data.piattaforme.map(function(piattaforme) {
+        let span = document.getElementById('piatt');
+        span.innerHTML += " " + MAPPA_PIATTAFORME[piattaforme]; 
+      });
+      // Carica foto avatar
+      document.getElementById("avatar").setAttribute("alt", MAPPA_AVATAR[data.avatar]);
+      document.getElementById("avatar").setAttribute("src", "images/" + MAPPA_AVATAR[data.avatar] + ".png");
+    }
+  })
+  .catch( error => console.error(error) );
 }
