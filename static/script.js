@@ -280,11 +280,8 @@ function logout(){
   .catch( error => console.error(error) );
 }
 
-<<<<<<< HEAD
 var password;
 
-=======
->>>>>>> 7997cd372162dbf046e7f656eef953219e312013
 //funzione per controllare la correttezza della password durante l'azione di modifica password
 function controllaPassword(pass){
   var userPass="ciao";
