@@ -54,28 +54,24 @@ function containsLowercase(str) {
 
 function isValidEmail(mail) 
 {
+  alert(mail.value);
   // Ritorna se mail è una mail valida
   var mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
   return(mail.value.match(mailFormat));
 }
 
-function manageMail(mail) {
-  // Chiamata quando il campo mail in registrazione cambia
-  // Se mail valida allora bordo verde altrimenti bordo rosso
-  var btMail = document.getElementById('cmail');
-  // Controllo campo mail che non sia vuoto e valido
-  if (isValidEmail(mail)) {
-      btMail.disabled = false;
-      // Rendere bordo input mail verde
-      document.getElementById("regEmail").setAttribute("style","background: rgb(76, 249, 73);");
+document.getElementById("regEmail").onkeyup = function() {
+  if (isValidEmail(document.getElementById("regEmail").value)) {
+       document.getElementById("cmail").setAttribute("disabled", false);
+        // Rendere bordo input mail verde
+        document.getElementById("regEmail").setAttribute("style","background: rgb(76, 249, 73);");
+    }
+    else {
+       document.getElementById("cmail").setAttribute("disabled", true);
+        // Rendere bordo input mail rosso
+        document.getElementById("name").setAttribute("style","background: rgb(253, 116, 116);");
+    }        
   }
-  else {
-      btMail.disabled = true;
-      // Rendere bordo input mail rosso
-      document.getElementById("regEmail").setAttribute("style","background: rgb(253, 116, 116);");
-  }
-}
-
 // Funzione per generare e inviare il codice per confermare la mail
 {
   var vcode;
@@ -235,7 +231,7 @@ function logout(){
   .catch( error => console.error(error) );
 }
 
-var password{}
+var password;
 
 //funzione per controllare la correttezza della password durante l'azione di modifica password
 function controllaPassword(pass){
