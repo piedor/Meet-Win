@@ -100,6 +100,29 @@ router.get('/logout', async (req, res) => {
     }
 });
 
+// Se app.js capta una GET verso /api/v1/utenti/list allora ritorna i nickname di tutti gli utenti registrati alla piattaforma
+router.get('/list', async (req, res) => {
+    // Ritorna nickname di tutti gli utenti
+	let users = await utente.find({}).exec();
+    var nickUsers = [];
+
+    if(users){
+        users.forEach(function(user) {
+            nickUsers.push(user.nickname);
+        });
+        res.json({ 
+            success: true,
+            users: nickUsers
+        });
+    }
+    else{
+        res.json({ 
+            success: false, 
+            message: "Nessun utente registrato alla piattaforma!"
+        });
+    }
+});
+
 // Se app.js capta una GET verso /api/v1/utenti/:nickname allora ritorna i dati del profilo
 router.get('/:nickname', async (req, res) => {
     // Ritorna profilo utente da ricerca utenti
