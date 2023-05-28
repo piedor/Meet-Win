@@ -302,6 +302,31 @@ function saveChanges(){
   //?? forse conviene mettere un boolean su registrazione per dire se viene attivato da modificaProfilo allora salva i cambiamenti sennò crea un nuovo profilo??
 }
 
+// Funzione usata da cercaUtenti
+function listUtenti(){
+  // Elenca tutti gli utenti iscritti
+  fetch('../api/v1/utenti/list')
+  .then((resp) => resp.json()) // Trasforma i dati in JSON
+  .then(function(data) { // Risposta
+    if(!data.success){
+      // Nessun utente iscritto alla piattaforma!
+      alert(data.message);
+      return;
+    }
+    else{
+      data.users.map(function(nickname) { 
+        let box = document.getElementById("boxUtenti");
+        let button = document.createElement('button');
+        button.type = 'button';
+        button.setAttribute("onclick", "location.href='visualizzaSchedaUtente.html?nickname=" + nickname + "'");
+        button.textContent = nickname;
+        box.appendChild(button);
+      });
+    }
+  })
+  .catch( error => console.error(error) );
+}
+
 // Funzione usata da visualizzaSchedaUtente
 function getProfile(){
   const queryString = window.location.search;
@@ -316,21 +341,26 @@ function getProfile(){
   .then((resp) => resp.json()) // Trasforma i dati in JSON
   .then(function(data) { // Risposta
     if(!data.success){
+      // Utente non trovato!
       alert(data.message);
       location.href = "cercaUtenti.html";
       return;
     }
     else{
+      // Carica nickname e bio
       document.getElementById("nickname").innerHTML = data.nickname;
       document.getElementById("bio").innerHTML = data.bio;  
-      data.preferenze.map(function(preferenze) { // Map through the results and for each run the code below
+      // Inserisci ogni preferenza in span
+      data.preferenze.map(function(preferenze) { 
         let span = document.getElementById('preferenze');
         span.innerHTML += " " + MAPPA_PREFERENZE[preferenze]; 
       });
-      data.piattaforme.map(function(piattaforme) { // Map through the results and for each run the code below
+      // Inserisci ogni piattaforma in span
+      data.piattaforme.map(function(piattaforme) {
         let span = document.getElementById('piatt');
         span.innerHTML += " " + MAPPA_PIATTAFORME[piattaforme]; 
       });
+      // Carica foto avatar
       document.getElementById("avatar").setAttribute("alt", MAPPA_AVATAR[data.avatar]);
       document.getElementById("avatar").setAttribute("src", "images/" + MAPPA_AVATAR[data.avatar] + ".png");
     }
