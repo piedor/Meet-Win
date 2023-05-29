@@ -11,6 +11,7 @@ const registration = require('./registration.js');
 const tokenChecker = require('./tokenChecker.js');
 const utenti = require('./utenti.js');
 const mailInterface = require ('./mailInterface.js');
+const creationTorneo = require('./creationTorneo.js');
 
 // Configurazione Express.js per middleware
 app.use(express.json());
@@ -47,7 +48,10 @@ app.use('/api/v1/utenti/me', tokenChecker);
 app.use('/api/v1/utenti', utenti);
 
 // Vedi mailInterface.js
-app.use('/api/v1/sendMails', mailInterface);
+app.use('/api/v1/sendMails', mailInterface);    //bisogna chiamarlo mails
+
+//vedi creationTorneo.js
+app.use('/api/v1/creationTorneo', creationTorneo);
 
 // Se viene richiesta una risorsa non gestita allora ritorna 404 NOT FOUND
 app.use((req, res) => {
