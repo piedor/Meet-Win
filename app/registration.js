@@ -1,4 +1,5 @@
 const express = require('express');
+const bcrypt = require('bcryptjs');
 const router = express.Router();
 // Modello di mongoose (stabilisce quali dati l'oggetto contiene)
 const utente = require('./models/utente'); 
@@ -28,10 +29,12 @@ router.post('', async function(req, res) {
 	}
    
     // Crea nuovo utente
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(req.body.password, salt);
     const nuovoUtente = new utente({
         nickname: req.body.nickname,
         email: req.body.email,
-        password: req.body.password,
+        password: hashedPassword,
         cellulare: 0,
         verificato: false,
         bloccato: false,

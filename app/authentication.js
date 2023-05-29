@@ -1,5 +1,7 @@
 const express = require('express');    
 const router = express.Router();
+const bcrypt = require('bcryptjs');
+const saltRounds = 10;
 // Modello di mongoose (stabilisce quali dati l'oggetto contiene)
 const utente = require('./models/utente');
 // jwt usato per creare, firmare e verificare i token
@@ -28,8 +30,9 @@ router.post('', async function(req, res) {
 	}
 	
 	// Se la password non coincide con quella in db esci
-	// Prossimamente implementazione hash
-	if (user.password != req.body.password) {
+	// Compara hash con password inserita
+	const result = await bcrypt.compare(req.body.password, user.password);
+	if (!result) {
 		res.json({ success: false, message: 'Password errata!' });
 		return;
 	}
