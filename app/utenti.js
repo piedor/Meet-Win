@@ -20,6 +20,7 @@ router.get('/me', async (req, res) => {
     });
 });
 
+//va spostata fuori
 // Se app.js capta una GET verso /api/v1/utenti/logout allora procedi con il logout
 router.get('/logout', async (req, res) => {
     // Controlla se c'è il token
