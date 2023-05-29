@@ -252,7 +252,7 @@ function register()
 function sendMails(toMail, oggetto, txt)
 {
   // Questa funzione richiama l'API sendMails per inviare una mail
-  fetch('../api/v1/sendMails', {
+  fetch('../api/v1/Mail', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ "reciever": toMail, "subject": oggetto, "text": txt}),

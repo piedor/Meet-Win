@@ -48,7 +48,7 @@ app.use('/api/v1/utenti/me', tokenChecker);
 app.use('/api/v1/utenti', utenti);
 
 // Vedi mailInterface.js
-app.use('/api/v1/sendMails', mailInterface);    //bisogna chiamarlo mails
+app.use('/api/v1/Mail', mailInterface);    //bisogna chiamarlo mails
 
 //vedi creationTorneo.js
 app.use('/api/v1/creationTorneo', creationTorneo);
