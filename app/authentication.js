@@ -1,4 +1,4 @@
-const express = require('express');  
+const express = require('express');    
 const router = express.Router();
 // Modello di mongoose (stabilisce quali dati l'oggetto contiene)
 const utente = require('./models/utente');
