@@ -240,8 +240,7 @@ function register()
         sendMails(email,"registrazionec", nickname);
       }
       return;
-  })
-  .catch( function (error) {
+  })  .catch( function (error) {
           alert(error.message);
           console.error(error);
           return;
