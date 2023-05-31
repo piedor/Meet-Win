@@ -31,6 +31,7 @@ router.post('', async function(req, res) {
 	
 	// Se la password non coincide con quella in db esci
 	// Compara hash con password inserita
+	if (!req.body.password) req.body.password = "";
 	const result = await bcrypt.compare(req.body.password, user.password);
 	if (!result) {
 		res.json({ success: false, message: 'Password errata!' });
