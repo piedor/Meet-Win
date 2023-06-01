@@ -375,3 +375,38 @@ function getProfile(){
   })
   .catch( error => console.error(error) );
 }
+
+// Funzione usata da modificaProfilo
+function getPersonalProfile(){
+  fetch('../api/v1/utenti/me')
+  .then((resp) => resp.json()) // Trasforma i dati in JSON
+  .then(function(data) { // Risposta
+      // Carica nickname e bio e email
+      document.getElementById("nickname").innerHTML = data.nickname;
+      document.getElementById("bio").innerHTML = data.bio;  
+      document.getElementById("email").innerHTML = data.email;  
+      if (data.zona){
+        document.getElementById("zona").innerHTML = data.zona;  
+      }
+      // Checka le checkbox
+      var checkboxes = document.getElementsByName('pref'); 
+      for (var checkbox of checkboxes) {  
+        if(data.preferenze.includes(checkbox.value)){
+          checkbox.checked = "true";
+        }
+      }  
+      var checkboxes = document.getElementsByName('piatt'); 
+      for (var checkbox of checkboxes) {  
+        if(data.piattaforme.includes(checkbox.value)){
+          checkbox.checked = "true";
+        }
+      }  
+      // Checkbox avatar
+      var avatars = document.getElementsByName('avatar');
+      for (var avatar of avatars) {  
+        if(avatar.value == data.avatar){
+          avatar.checked = "true";
+        }
+      }  
+  })
+}
