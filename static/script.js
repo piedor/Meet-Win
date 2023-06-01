@@ -28,11 +28,12 @@ const MAPPA_PREFERENZE = {
 };
 
 const MAPPA_PIATTAFORME = {
-  100: "Playstation 5",
+  100: "Cross Platform",
   101: "Playstation 4",
-  102: "Xbox ONE",
-  103: "Switch",
-  104: "PC"
+  102: "Playstation 5",
+  103: "Xbox ONE",
+  104: "Switch",
+  105: "PC"
 };
 
 const MAPPA_AVATAR = {
@@ -44,6 +45,17 @@ const MAPPA_AVATAR = {
   106: "avatar6",
   107: "avatar7",
   108: "avatar8"
+};
+
+const MAPPA_IMG_TORNEI = {
+  101: "img1",
+  102: "img2",
+  103: "img3",
+  104: "img4",
+  105: "img5",
+  106: "img6",
+  107: "img7",
+  108: "img8"
 };
 
 // Memorizza l'utente loggato
@@ -104,28 +116,23 @@ function isValidEmail(mail)
 {
   // Ritorna se mail è una mail valida
   var mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-  return(mail.value.match(mailFormat));
+  return(mail.match(mailFormat));
 }
 
-function manageMail(mail) {
-  // Chiamata quando il campo mail in registrazione cambia
-  // Se mail valida allora bordo verde altrimenti bordo rosso
-  var btMail = document.getElementById('cmail');
-  // Controllo campo mail che non sia vuoto e valido
-  if (isValidEmail(mail)) {
-      btMail.disabled = false;
-      // Rendere bordo input mail verde
-      document.getElementById("regEmail").setAttribute("style","background: rgb(76, 249, 73);");
+document.getElementById("regEmail").onkeyup = function() {
+  if (isValidEmail(document.getElementById("regEmail").value)) {
+       document.getElementById("cmail").removeAttribute("disabled");
+        // Rendere bordo input mail verde
+        document.getElementById("regEmail").setAttribute("style","background: rgb(76, 249, 73);");
+    }
+    else {
+       document.getElementById("cmail").setAttribute("disabled", true);
+        // Rendere bordo input mail rosso
+        document.getElementById("regEmail").setAttribute("style","background: rgb(253, 116, 116);");
+    }        
   }
-  else {
-      btMail.disabled = true;
-      // Rendere bordo input mail rosso
-      document.getElementById("regEmail").setAttribute("style","background: rgb(253, 116, 116);");
-  }
-}
-
 // Funzione per generare e inviare il codice per confermare la mail
-{
+{ 
   var vcode;
   function generaCodiceConfermaMail()
   {
@@ -207,7 +214,7 @@ function register()
   }
 
   // Richiama l'API registration
-  fetch('../api/v1/registrations', {
+  fetch('../api/v1/utenti', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify( { 
@@ -233,8 +240,7 @@ function register()
         sendMails(email,"registrazionec", nickname);
       }
       return;
-  })
-  .catch( function (error) {
+  })  .catch( function (error) {
           alert(error.message);
           console.error(error);
           return;
@@ -245,7 +251,7 @@ function register()
 function sendMails(toMail, oggetto, txt)
 {
   // Questa funzione richiama l'API sendMails per inviare una mail
-  fetch('../api/v1/sendMails', {
+  fetch('../api/v1/mails', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ "reciever": toMail, "subject": oggetto, "text": txt}),
@@ -283,6 +289,8 @@ function logout(){
   })
   .catch( error => console.error(error) );
 }
+
+var password;
 
 //funzione per controllare la correttezza della password durante l'azione di modifica password
 function controllaPassword(pass){

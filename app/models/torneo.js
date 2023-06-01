@@ -27,5 +27,5 @@ module.exports = mongoose.model('Torneo', new Schema({
     storicoPartite: [Number],
     squadreIscritte: [Number], //id delle squadre iscritte
     vincitrice: Number, //id squdra vincitrice
-
+    password: String 
 }));

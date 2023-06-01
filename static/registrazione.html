@@ -105,7 +105,7 @@
             <span title="Inserisci il tuo nickname"><input type="text" placeholder="nickname" name="nickname" id="regNickname" maxlength="20"></span>
             <span title="Inserisci la tua email" style="margin-left: 20px;">
             <label>email:</label>
-            <input type="text" placeholder="email" name="email" id="regEmail" onkeyup="manageMail(this)">
+            <input type="text" placeholder="email" name="email" id="regEmail" >
             <input type="text" placeholder="codice di conferma" id="confcode" hidden>
             <input type="button" placeholder="OK" text="ok" name="ok" id="confebtn" onclick="confermaCodiceConfermaMail()" hidden>
             </span>
@@ -185,13 +185,13 @@ la tua esperienza e agli altri utenti per chiederti di unirti a loro nelle sfide
             </span>
         </div>
         <div>
-                <span title="Inserisci le piattaforme di cui sei a disposizione (opz), serviranno a noi per personalizzare la tua esperienza e agli altri utenti per chiederti di unirti a loro nelle sfide.">Piattaforme (opz): 
-                <input type="checkbox" name="piatt" id="piatt" value="100"/> Playstation 5
-                <input type="checkbox" name="piatt" id="piatt" value="101"/> Playstation 4
-                <input type="checkbox" name="piatt" id="piatt" value="102"/> Xbox ONE
-                <input type="checkbox" name="piatt" id="piatt" value="103"/> Switch
-                <input type="checkbox" name="piatt" id="piatt" value="104"/> PC
-                </span>
+            <span title="Inserisci le piattaforme di cui sei a disposizione (opz), serviranno a noi per personalizzare la tua esperienza e agli altri utenti per chiederti di unirti a loro nelle sfide.">Piattaforme (opz): 
+            <input type="checkbox" name="ps4" id="piatt" value="101"/> Playstation 4
+            <input type="checkbox" name="ps5" id="piatt" value="102"/> Playstation 5
+            <input type="checkbox" name="xbox1" id="piatt" value="103"/> Xbox ONE
+            <input type="checkbox" name="switch" id="piatt" value="104"/> Switch
+            <input type="checkbox" name="PC" id="piatt" value="105"/> PC
+            </span>
 
         </div>
         <div>
@@ -214,7 +214,7 @@ la tua esperienza e agli altri utenti per chiederti di unirti a loro nelle sfide
             <button style="background-color:#30b5fc;" id="cmail" onclick="generaCodiceConfermaMail()" disabled>Conferma Mail</button>
             <button style="background-color:#30b5fc;" id="confermaR"onclick="register()" disabled>Conferma</button>
         </div> 
-    <script src="script.js"></script> 
-            
+        
+    <script src="script.js">    </script> 
 </body>
 </html>
