@@ -16,7 +16,13 @@ router.get('/me', async (req, res) => {
 
     res.status(200).json({
         email: user.email,
-        nickname: user.nickname
+        nickname: user.nickname,
+        password: user.password, // è l'hash
+        bio: user.bio,
+        preferenze: user.preferenze,
+        piattaforme: user.piattaforme,
+        zona: user.zona,
+        avatar: user.id_img
     });
 });
 
