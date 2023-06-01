@@ -121,7 +121,7 @@ function isValidEmail(mail)
 
 document.getElementById("regEmail").onkeyup = function() {
   if (isValidEmail(document.getElementById("regEmail").value)) {
-       document.getElementById("cmail").setAttribute("disabled", false);
+       document.getElementById("cmail").removeAttribute("disabled");
         // Rendere bordo input mail verde
         document.getElementById("regEmail").setAttribute("style","background: rgb(76, 249, 73);");
     }
@@ -132,7 +132,7 @@ document.getElementById("regEmail").onkeyup = function() {
     }        
   }
 // Funzione per generare e inviare il codice per confermare la mail
-{
+{ 
   var vcode;
   function generaCodiceConfermaMail()
   {
@@ -251,7 +251,7 @@ function register()
 function sendMails(toMail, oggetto, txt)
 {
   // Questa funzione richiama l'API sendMails per inviare una mail
-  fetch('../api/v1/Mail', {
+  fetch('../api/v1/mails', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ "reciever": toMail, "subject": oggetto, "text": txt}),

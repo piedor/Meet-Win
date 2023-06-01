@@ -12,13 +12,13 @@ const oAuth2Client = new google.auth.OAuth2(process.env.CLIENT_ID,process.env.CL
 oAuth2Client.setCredentials({refresh_token: process.env.REFRESH_TOKEN})
 
 // Se app.js capta un POST verso /api/v1/sendMails allora procedi all'invio dell'email
-router.post('', async function sendMail(req){
+router.post('', async function (req){
     // Campi richiesti: email destinatario, tipologia di email, testo
     var reciever = req.body.reciever;
     var tema = req.body.subject;
     var txt = req.body.text;
     try{
-        const accessToken = await oAuth2Client.getAccessToken()
+        const accessToken = await oAuth2Client.getAccessToken();
         const transport = nodemailer.createTransport({
             service: 'gmail',
             auth: {
@@ -29,11 +29,10 @@ router.post('', async function sendMail(req){
                 refreshToken: process.env.REFRESH_TOKEN,
                 accessToken:accessToken,
             }
-
-        })
+        });
         var subject;
-        var testo;
-        switch(tema) {
+            var testo;
+            switch(tema) {
   
             case "codicec":
               console.log("invio codice di conferma");
