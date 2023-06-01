@@ -214,7 +214,7 @@ function register()
   }
 
   // Richiama l'API registration
-  fetch('../api/v1/registrations', {
+  fetch('../api/v1/utenti', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify( { 
