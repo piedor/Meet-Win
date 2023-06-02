@@ -49,7 +49,7 @@ app.use('/api/v1/utenti', utenti);
 // Vedi mailInterface.js
 app.use('/api/v1/mails', mailInterface);    //bisogna chiamarlo mails
 
-//vedi creationTorneo.js
+//vedi tornei.js
 //app.use('/api/v1/tornei', tornei);
 
 // Se viene richiesta una risorsa non gestita allora ritorna 404 NOT FOUND
