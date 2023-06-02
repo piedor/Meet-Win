@@ -36,7 +36,6 @@ app.use((req,res,next) => {
  * Authentication routing and middleware
  */
 app.use('/api/v1/authentications', authentication);
-app.use('/api/v1/registrations', registration);    //è da inserire in utenti, è il metodo post di utenti; invece modificaProfile è il put
 
 // Usando tokenChecker si protegge la risorsa
 // L'accesso è consentito solo agli utenti autenticati
