@@ -7,7 +7,6 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 
 const authentication = require('./authentication.js');
-const registration = require('./registration.js');
 const tokenChecker = require('./tokenChecker.js');
 const utenti = require('./utenti.js');
 const mailInterface = require ('./mailInterface.js');
