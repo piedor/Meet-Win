@@ -3,7 +3,7 @@ const router = express.Router();
 // Modello di mongoose (stabilisce quali dati l'oggetto contiene)
 const torneo = require('./models/torneo'); 
 
-// Se app.js capta un POST verso /api/v1/registrations allora procedi alla registrazione dell'utente
+// Se app.js capta un POST verso /api/v1/tornei allora procedi alla creazione del torneo
 router.post('', async function(req, res) {   
     // Crea nuovo torneo
     const nuovoTorneo = new torneo({
@@ -53,9 +53,8 @@ router.post('', async function(req, res) {
 
 // Se app.js capta una GET verso /api/v1/tornei/:idTorneo allora ritorna i dati del torneo
 router.get('/:idTorneo', async (req, res) => {
-    // Ritorna profilo utente da ricerca utenti
-    // Ricerca utente via nickname
-    // Attenzione a non mandare dati sensibili (es. mail, password)
+    // Ritorna le info del torneo
+    // Ricerca utente via idTorneo
 	let torn = await torneo.findOne({
 		idTorneo: req.params.idTorneo
 	}).exec();

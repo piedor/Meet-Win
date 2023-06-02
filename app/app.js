@@ -11,6 +11,7 @@ const registration = require('./registration.js');
 const tokenChecker = require('./tokenChecker.js');
 const utenti = require('./utenti.js');
 const mailInterface = require ('./mailInterface.js');
+const tornei = require('./tornei.js');
 
 // Configurazione Express.js per middleware
 app.use(express.json());
@@ -35,7 +36,7 @@ app.use((req,res,next) => {
  * Authentication routing and middleware
  */
 app.use('/api/v1/authentications', authentication);
-app.use('/api/v1/registrations', registration);
+app.use('/api/v1/registrations', registration);    //è da inserire in utenti, è il metodo post di utenti; invece modificaProfile è il put
 
 // Usando tokenChecker si protegge la risorsa
 // L'accesso è consentito solo agli utenti autenticati
@@ -47,7 +48,10 @@ app.use('/api/v1/utenti/me', tokenChecker);
 app.use('/api/v1/utenti', utenti);
 
 // Vedi mailInterface.js
-app.use('/api/v1/sendMails', mailInterface);
+app.use('/api/v1/mails', mailInterface);    //bisogna chiamarlo mails
+
+//vedi creationTorneo.js
+//app.use('/api/v1/tornei', tornei);
 
 // Se viene richiesta una risorsa non gestita allora ritorna 404 NOT FOUND
 app.use((req, res) => {
