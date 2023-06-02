@@ -40,7 +40,8 @@ router.post('', async function(req, res) {
         limitato: false,
         bio: req.body.bio,
         preferenze: req.body.preferenze,
-        piattaforme: req.body.piattaforme
+        piattaforme: req.body.piattaforme,
+        id_img: req.body.avatar
     });
     
     nuovoUtente.save()
@@ -74,7 +75,13 @@ router.get('/me', async (req, res) => {
 
     res.status(200).json({
         email: user.email,
-        nickname: user.nickname
+        nickname: user.nickname,
+        password: user.password, // è l'hash
+        bio: user.bio,
+        preferenze: user.preferenze,
+        piattaforme: user.piattaforme,
+        zona: user.zona,
+        avatar: user.id_img
     });
 });
 
@@ -94,6 +101,29 @@ router.get('/logout', async (req, res) => {
     }
 });
 
+// Se app.js capta una GET verso /api/v1/utenti/list allora ritorna i nickname di tutti gli utenti registrati alla piattaforma
+router.get('/list', async (req, res) => {
+    // Ritorna nickname di tutti gli utenti
+	let users = await utente.find({}).exec();
+    var nickUsers = [];
+
+    if(users){
+        users.forEach(function(user) {
+            nickUsers.push(user.nickname);
+        });
+        res.json({ 
+            success: true,
+            users: nickUsers
+        });
+    }
+    else{
+        res.json({ 
+            success: false, 
+            message: "Nessun utente registrato alla piattaforma!"
+        });
+    }
+});
+
 // Se app.js capta una GET verso /api/v1/utenti/:nickname allora ritorna i dati del profilo
 router.get('/:nickname', async (req, res) => {
     // Ritorna profilo utente da ricerca utenti
@@ -109,7 +139,8 @@ router.get('/:nickname', async (req, res) => {
             nickname: user.nickname,
             bio: user.bio,
             preferenze: user.preferenze,
-            piattaforme: user.piattaforme
+            piattaforme: user.piattaforme,
+            avatar: user.id_img
         });
     }
     else{
