@@ -247,7 +247,7 @@ function register()
 
 function creationTorneo(){
   // Questa funzione è chiamata durante la fase di creazione torneo
-  //var organizzatore = ;
+  var organizzatore = document.getElementById("nicknameUser").value;
   var nomeTorneo = document.getElementById("nomeTorneo").value;
   var logoT = document.querySelector('input[type = radio]:checked').value;
   var argomento = document.getElementById("argomento").value;

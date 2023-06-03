@@ -16,7 +16,7 @@ router.post('', async function(req, res) {
         piattaforma: req.body.piattaforma,
         numeroSquadre: req.body.nsquadre,
         numeroGiocatori: req.body.ngiocatori,
-        id_img: req.body.id_img,
+        id_img: req.body.logoT,
         zona: req.body.zona,
         dataInizio: req.body.data,
         publicato: false,
