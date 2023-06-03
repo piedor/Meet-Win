@@ -208,7 +208,8 @@ function register()
   if(errors != ""){
       errors = "errori presenti: " + errors;
       errors = String(errors);
-      document.getElementById("errors").innerHTML = errors;
+      //document.getElementById("errors").innerHTML = errors;
+      alert(errors);
       return;
   }
 
@@ -223,7 +224,8 @@ function register()
         bio: bio,
         preferenze: preferenze,
         piattaforme: piattaforme,
-        avatar: avatar
+        avatar: avatar,
+        zona: zona
       } ),
   })
   .then((resp) => resp.json()) // Trasforma i dati in JSON
@@ -247,9 +249,95 @@ function register()
         
 };
 
-function sendMails(toMail, oggetto, txt)
-{
-  // Questa funzione richiama l'API sendMails per inviare una mail
+function creationTorneo(){
+  // Questa funzione è chiamata durante la fase di creazione torneo
+  //var organizzatore = ;
+  var nomeTorneo = document.getElementById("nomeTorneo").value;
+  var logoT = document.querySelector('input[type = radio]:checked').value;
+  var argomento = document.getElementById("argomento").value;
+  var zona = document.getElementById("zona").value;
+  var bio = document.getElementById("bio").value;
+  var regolamento = document.getElementById("regolamento").value;
+  var tags = [];
+  var markedCheckbox = document.getElementsByName('tags');  
+  for (var checkbox of markedCheckbox) {  
+    if (checkbox.checked) 
+    tags.push(checkbox.value);
+  }
+  var piattaforma = document.getElementById('piattaforma').value;
+  var numeroSquadre = document.getElementById('nsquadre').value;
+  var numeroGiocatori = document.getElementById('ngiocatori').value;
+  var dataInizio = document.getElementById('dataInizio').value;
+  var formatoT = document.getElementById('formatoT').value;
+  var numeroGironi = document.getElementById('ngironi').value;
+  var formatoP = document.getElementById('formatoP').value;
+  
+  var errors = "";
+  if(nomeTorneo == "") errors += "nome torneo mancante; ";
+  if(argomento == "") errors += "argomento mancante; ";
+  if(numeroSquadre == "") errors += "numero di squadre è mancante; ";
+  if(numeroGiocatori == "") errors += "numero di giocatori mancante; ";     
+  
+  if(dataInizio == "") errors += "data inizio mancante; ";
+  if(bio == "") errors += "bio mancante; ";
+  if(regolamento == "") errors += "regolamento mancante; ";
+  if(numeroGironi == "" && formatoT=="gironi") errors += "numero gironi mancante; ";
+  
+  if(errors != ""){
+      errors = "errori presenti: " + errors;
+      errors = String(errors);
+      alert(errors);
+      return;
+  }  
+  var fasi=1;
+  if(formatoT=="gironi"){
+    fasi=2;
+  }
+
+  // Richiama l'API per la creazione torneo
+  fetch('../api/v1/tornei', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify( { 
+        organizzatore: organizzatore, 
+        nomeTorneo: nomeTorneo, 
+        password: password,
+        bio: bio,
+        regolamento: regolamento,
+        tags: tags,
+        piattaforma: piattaforma,
+        logoT: logoT,
+        argomento: argomento,
+        zona: zona,
+        nSquadre: numeroSquadre,
+        nGiocatori: numeroGiocatori,
+        dataInizio: dataInizio,
+        formatoT: formatoT,
+        ngironi: numeroGironi,
+        formatoP: formatoP,
+        fasi: fasi,
+      } ),
+  })
+  .then((resp) => resp.json()) // Trasforma i dati in JSON
+  .then(function(data) { // Risposta
+      // Popup messaggio API
+      alert(data.message);
+      if(data.success){
+        // creazione ok
+        
+      }
+      return;
+  })  .catch( function (error) {
+          alert(error.message);
+          console.error(error);
+          return;
+      } );
+  alert("creazione torneo");
+  document.getElementById("pubblica").removeAttribute("disabled");
+};
+
+function sendMails(toMail, oggetto, txt){
+  // Questa funzione richiama l'API mails per inviare una mail
   fetch('../api/v1/mails', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -271,7 +359,6 @@ function loadInfoUser(){
         // Autenticato mostra info
         var nickname = data.nickname;
         document.getElementById("nickname").textContent = nickname;
-        document.body.removeAttribute("hidden");
       }
   })
   .catch( error => console.error(error) );
@@ -289,23 +376,105 @@ function logout(){
   .catch( error => console.error(error) );
 }
 
-var password;
-//funzione per controllare la correttezza della password durante l'azione di modifica password
+// Funzione per controllare la correttezza della password durante l'azione di modifica password
 function controllaPassword(pass){
-  var userPass="ciao";
-  if(password==null) //richiedi password al database
-  //userPass=getvalue from database()
-  if (pass.value==userPass){
-    document.getElementById("vecPass").setAttribute("style","background: rgb(76, 249, 73);");
-    document.getElementById("newPass").removeAttribute("disabled");
-    document.getElementById("c_newPass").removeAttribute("disabled");
-  }else{
-    document.getElementById("vecPass").setAttribute("style","background: rgb(253, 116, 116);");}
+  let nickname = document.getElementById("nickname").innerHTML;
+  // Se la vecchia password è corretta allora abilita l'inserimento della nuova password
+  // Richiama API auth e vedi se risposta positiva
+  fetch('../api/v1/authentications', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify( { nickname: nickname, password: pass.value } ),
+  })
+  .then((resp) => resp.json()) // Trasforma i dati in json
+  .then(function(data) { // Ricevi la risposta
+    if (data.success){
+      document.getElementById("vecPass").setAttribute("style","background: rgb(76, 249, 73);");
+      document.getElementById("newPass").removeAttribute("disabled");
+      document.getElementById("c_newPass").removeAttribute("disabled");
+    }else{
+      document.getElementById("vecPass").setAttribute("style","background: rgb(253, 116, 116);");
+    }
+  });
 }
 
 //funzione per salvare le modifiche fatte ad un account
 function saveChanges(){
-  //?? forse conviene mettere un boolean su registrazione per dire se viene attivato da modificaProfilo allora salva i cambiamenti sennò crea un nuovo profilo??
+  // Usa il metodo PUT di API utenti
+  // Questa funzione è chiamata durante la fase di modifica profilo
+  var email = document.getElementById("email").innerHTML;
+  var password = document.getElementById("newPass").value;
+  var cpassword = document.getElementById("c_newPass").value;
+  var avatar = document.querySelector('input[type = radio]:checked').value;
+  var zona = document.getElementById("zona").value;
+  var bio = document.getElementById("bio").value;
+  var privato = document.getElementById("switch").value; 
+  var preferenze = [];
+  var markedCheckbox = document.getElementsByName('pref');  
+  for (var checkbox of markedCheckbox) {  
+    if (checkbox.checked) 
+    preferenze.push(checkbox.value);
+  }  
+  var piattaforme = [];
+  var markedCheckbox = document.getElementsByName('piatt');  
+  for (var checkbox of markedCheckbox) {  
+    if (checkbox.checked) 
+    piattaforme.push(checkbox.value);
+  }  
+  
+  document.getElementById("errors").innerHTML = "";
+  var errors = "";
+  // Se utente ha inserito la password vecchia corretta
+  if(!document.getElementById("newPass").disabled){
+    if(password == "") errors += "la password nuova è mancante; ";
+        else{
+        if(password != cpassword) errors += "nuova password e conferma nuova password devono essere uguali; ";
+        if(password.length < 8) errors += "la nuova password deve essere di almeno 8 caratteri; ";
+        if(!containsUppercase(password)) errors += "la nuova password deve contenere almeno un carattere maiuscolo; ";
+        if(!containsLowercase(password)) errors += "la nuova password deve contenere almeno un carattere minuscolo; ";
+        if(!containsNumbers(password)) errors += "la nuova password deve contenere almeno un numero; ";
+    }
+  }
+  if(preferenze.length == 0) errors += "devi selezionare almeno una preferenza; ";
+
+  if(errors != ""){
+      errors = "errori presenti: " + errors;
+      errors = String(errors);
+      document.getElementById("errors").innerHTML = errors;
+      return;
+  }
+
+  // Invia richiesta PUT a utenti
+  const update = { 
+    email: email,
+    bio: bio,
+    preferenze: preferenze,
+    piattaforme: piattaforme,
+    avatar: avatar,
+    zona: zona
+  };
+  if(!document.getElementById("newPass").disabled){
+    // L'utente vuole modificare la password
+    update.password = password;
+  }
+  fetch('../api/v1/utenti', {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(update)
+  })
+  .then((resp) => resp.json()) // Trasforma i dati in json
+  .then(function(data) { // Risposta
+    // Popup messaggio API
+    alert(data.message);
+    if(data.success){
+      location.href = "home_aut.html";
+    }
+    return;
+  }).catch( function (error) {
+    alert(error.message);
+    console.error(error);
+    return;
+  });
 }
 
 // Funzione usata da cercaUtenti
@@ -373,37 +542,45 @@ function getProfile(){
   .catch( error => console.error(error) );
 }
 
+//funzione usata da creaTorneo
+function gironiDiv(){
+  if(document.getElementById("formatoT").value=="gironi"){
+    document.getElementById("ngir").removeAttribute("hidden");
+  }else{
+    document.getElementById("ngir").setAttribute("hidden",true);
+  }
+} 
 // Funzione usata da modificaProfilo
 function getPersonalProfile(){
   fetch('../api/v1/utenti/me')
   .then((resp) => resp.json()) // Trasforma i dati in JSON
   .then(function(data) { // Risposta
-      // Carica nickname e bio e email
-      document.getElementById("nickname").innerHTML = data.nickname;
-      document.getElementById("bio").innerHTML = data.bio;  
-      document.getElementById("email").innerHTML = data.email;  
-      if (data.zona){
-        document.getElementById("zona").innerHTML = data.zona;  
+    // Carica nickname e bio e email
+    document.getElementById("nickname").innerHTML = data.nickname;
+    document.getElementById("bio").innerHTML = data.bio;  
+    document.getElementById("email").innerHTML = data.email;  
+    if (data.zona){
+      document.getElementById("zona").value = data.zona;  
+    }
+    // Checka le checkbox
+    var checkboxes = document.getElementsByName('pref'); 
+    for (var checkbox of checkboxes) {  
+      if(data.preferenze.includes(checkbox.value)){
+        checkbox.checked = "true";
       }
-      // Checka le checkbox
-      var checkboxes = document.getElementsByName('pref'); 
-      for (var checkbox of checkboxes) {  
-        if(data.preferenze.includes(checkbox.value)){
-          checkbox.checked = "true";
-        }
-      }  
-      var checkboxes = document.getElementsByName('piatt'); 
-      for (var checkbox of checkboxes) {  
-        if(data.piattaforme.includes(checkbox.value)){
-          checkbox.checked = "true";
-        }
-      }  
-      // Checkbox avatar
-      var avatars = document.getElementsByName('avatar');
-      for (var avatar of avatars) {  
-        if(avatar.value == data.avatar){
-          avatar.checked = "true";
-        }
-      }  
+    }  
+    var checkboxes = document.getElementsByName('piatt'); 
+    for (var checkbox of checkboxes) {  
+      if(data.piattaforme.includes(checkbox.value)){
+        checkbox.checked = "true";
+      }
+    }  
+    // Checkbox avatar
+    var avatars = document.getElementsByName('avatar');
+    for (var avatar of avatars) {  
+      if(avatar.value == data.avatar){
+        avatar.checked = "true";
+      }
+    }  
   })
 }

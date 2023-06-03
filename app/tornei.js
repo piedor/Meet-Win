@@ -3,19 +3,15 @@ const router = express.Router();
 // Modello di mongoose (stabilisce quali dati l'oggetto contiene)
 const torneo = require('./models/torneo'); 
 
-
-// Se app.js capta un POST verso /api/v1/registrations allora procedi alla registrazione dell'utente
+// Se app.js capta un POST verso /api/v1/tornei allora procedi alla creazione del torneo
 router.post('', async function(req, res) {   
     // Crea nuovo torneo
     const nuovoTorneo = new torneo({
-        nome: req.body.torneo,
+        nome: req.body.nomeTorneo,
         organizzatore: req.body.organizzatore,
         argomento: req.body.argomento,
-        //work in progress
-        
-        /*password: req.body.password,
         bio: req.body.bio,
-        regolamento: req.body.bio,
+        regolamento: req.body.regolamento,
         tags: req.body.tags,
         piattaforma: req.body.piattaforma,
         numeroSquadre: req.body.nsquadre,
@@ -34,6 +30,7 @@ router.post('', async function(req, res) {
         storicoPartite: null,
         squadreIscritte: null, //id delle squadre iscritte
         vincitrice: null, //id squdra vincitrice*/
+        //password
     });
     
     nuovoTorneo.save()
@@ -56,9 +53,8 @@ router.post('', async function(req, res) {
 
 // Se app.js capta una GET verso /api/v1/tornei/:idTorneo allora ritorna i dati del torneo
 router.get('/:idTorneo', async (req, res) => {
-    // Ritorna profilo utente da ricerca utenti
-    // Ricerca utente via nickname
-    // Attenzione a non mandare dati sensibili (es. mail, password)
+    // Ritorna le info del torneo
+    // Ricerca utente via idTorneo
 	let torn = await torneo.findOne({
 		idTorneo: req.params.idTorneo
 	}).exec();
@@ -79,6 +75,30 @@ router.get('/:idTorneo', async (req, res) => {
             message: "Torneo non trovato!"
         });
     }
+});
+
+// Se app.js capta una GET verso /api/v1/tornei/list allora ritorna la lista dei tornei presenti
+router.get('/list', async (req, res) => {
+    /*esempio di lista utenti, da completare
+    // Ritorna nickname di tutti gli utenti
+	let users = await utente.find({}).exec();
+    var nickUsers = [];
+
+    if(users){
+        users.forEach(function(user) {
+            nickUsers.push(user.nickname);
+        });
+        res.json({ 
+            success: true,
+            users: nickUsers
+        });
+    }
+    else{
+        res.json({ 
+            success: false, 
+            message: "Nessun utente registrato alla piattaforma!"
+        });
+    }*/
 });
 
 module.exports = router;
