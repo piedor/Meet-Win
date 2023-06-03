@@ -313,7 +313,48 @@ function controllaPassword(pass){
 
 //funzione per salvare le modifiche fatte ad un account
 function saveChanges(){
-  //?? forse conviene mettere un boolean su registrazione per dire se viene attivato da modificaProfilo allora salva i cambiamenti sennò crea un nuovo profilo??
+  // Usa il metodo PUT di API utenti
+    // Questa funzione è chiamata durante la fase di modifica profilo
+    var password = document.getElementById("newPass").value;
+    var cpassword = document.getElementById("c_newPass").value;
+    var avatar = document.querySelector('input[type = radio]:checked').value;
+    var zona = document.getElementById("zona").value;
+    var bio = document.getElementById("bio").value;
+    var privato = document.getElementById("switch").value; 
+    var preferenze = [];
+    var markedCheckbox = document.getElementsByName('pref');  
+    for (var checkbox of markedCheckbox) {  
+      if (checkbox.checked) 
+      preferenze.push(checkbox.value);
+    }  
+    var piattaforme = [];
+    var markedCheckbox = document.getElementsByName('piatt');  
+    for (var checkbox of markedCheckbox) {  
+      if (checkbox.checked) 
+      piattaforme.push(checkbox.value);
+    }  
+    
+    document.getElementById("errors").innerHTML = "";
+    var errors = "";
+    // Se utente ha inserito la password vecchia corretta
+    if(!document.getElementById("newPass").disabled){
+      if(password == "") errors += "la password nuova è mancante; ";
+          else{
+          if(password != cpassword) errors += "nuova password e conferma nuova password devono essere uguali; ";
+          if(password.length < 8) errors += "la nuova password deve essere di almeno 8 caratteri; ";
+          if(!containsUppercase(password)) errors += "la nuova password deve contenere almeno un carattere maiuscolo; ";
+          if(!containsLowercase(password)) errors += "la nuova password deve contenere almeno un carattere minuscolo; ";
+          if(!containsNumbers(password)) errors += "la nuova password deve contenere almeno un numero; ";
+      }
+    }
+    if(preferenze.length == 0) errors += "devi selezionare almeno una preferenza; ";
+  
+    if(errors != ""){
+        errors = "errori presenti: " + errors;
+        errors = String(errors);
+        document.getElementById("errors").innerHTML = errors;
+        return;
+    }
 }
 
 // Funzione usata da cercaUtenti
