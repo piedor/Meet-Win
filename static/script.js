@@ -223,7 +223,8 @@ function register()
         bio: bio,
         preferenze: preferenze,
         piattaforme: piattaforme,
-        avatar: avatar
+        avatar: avatar,
+        zona: zona
       } ),
   })
   .then((resp) => resp.json()) // Trasforma i dati in JSON
@@ -314,47 +315,80 @@ function controllaPassword(pass){
 //funzione per salvare le modifiche fatte ad un account
 function saveChanges(){
   // Usa il metodo PUT di API utenti
-    // Questa funzione è chiamata durante la fase di modifica profilo
-    var password = document.getElementById("newPass").value;
-    var cpassword = document.getElementById("c_newPass").value;
-    var avatar = document.querySelector('input[type = radio]:checked').value;
-    var zona = document.getElementById("zona").value;
-    var bio = document.getElementById("bio").value;
-    var privato = document.getElementById("switch").value; 
-    var preferenze = [];
-    var markedCheckbox = document.getElementsByName('pref');  
-    for (var checkbox of markedCheckbox) {  
-      if (checkbox.checked) 
-      preferenze.push(checkbox.value);
-    }  
-    var piattaforme = [];
-    var markedCheckbox = document.getElementsByName('piatt');  
-    for (var checkbox of markedCheckbox) {  
-      if (checkbox.checked) 
-      piattaforme.push(checkbox.value);
-    }  
-    
-    document.getElementById("errors").innerHTML = "";
-    var errors = "";
-    // Se utente ha inserito la password vecchia corretta
-    if(!document.getElementById("newPass").disabled){
-      if(password == "") errors += "la password nuova è mancante; ";
-          else{
-          if(password != cpassword) errors += "nuova password e conferma nuova password devono essere uguali; ";
-          if(password.length < 8) errors += "la nuova password deve essere di almeno 8 caratteri; ";
-          if(!containsUppercase(password)) errors += "la nuova password deve contenere almeno un carattere maiuscolo; ";
-          if(!containsLowercase(password)) errors += "la nuova password deve contenere almeno un carattere minuscolo; ";
-          if(!containsNumbers(password)) errors += "la nuova password deve contenere almeno un numero; ";
-      }
-    }
-    if(preferenze.length == 0) errors += "devi selezionare almeno una preferenza; ";
+  // Questa funzione è chiamata durante la fase di modifica profilo
+  var email = document.getElementById("email").innerHTML;
+  var password = document.getElementById("newPass").value;
+  var cpassword = document.getElementById("c_newPass").value;
+  var avatar = document.querySelector('input[type = radio]:checked').value;
+  var zona = document.getElementById("zona").value;
+  var bio = document.getElementById("bio").value;
+  var privato = document.getElementById("switch").value; 
+  var preferenze = [];
+  var markedCheckbox = document.getElementsByName('pref');  
+  for (var checkbox of markedCheckbox) {  
+    if (checkbox.checked) 
+    preferenze.push(checkbox.value);
+  }  
+  var piattaforme = [];
+  var markedCheckbox = document.getElementsByName('piatt');  
+  for (var checkbox of markedCheckbox) {  
+    if (checkbox.checked) 
+    piattaforme.push(checkbox.value);
+  }  
   
-    if(errors != ""){
-        errors = "errori presenti: " + errors;
-        errors = String(errors);
-        document.getElementById("errors").innerHTML = errors;
-        return;
+  document.getElementById("errors").innerHTML = "";
+  var errors = "";
+  // Se utente ha inserito la password vecchia corretta
+  if(!document.getElementById("newPass").disabled){
+    if(password == "") errors += "la password nuova è mancante; ";
+        else{
+        if(password != cpassword) errors += "nuova password e conferma nuova password devono essere uguali; ";
+        if(password.length < 8) errors += "la nuova password deve essere di almeno 8 caratteri; ";
+        if(!containsUppercase(password)) errors += "la nuova password deve contenere almeno un carattere maiuscolo; ";
+        if(!containsLowercase(password)) errors += "la nuova password deve contenere almeno un carattere minuscolo; ";
+        if(!containsNumbers(password)) errors += "la nuova password deve contenere almeno un numero; ";
     }
+  }
+  if(preferenze.length == 0) errors += "devi selezionare almeno una preferenza; ";
+
+  if(errors != ""){
+      errors = "errori presenti: " + errors;
+      errors = String(errors);
+      document.getElementById("errors").innerHTML = errors;
+      return;
+  }
+
+  // Invia richiesta PUT a utenti
+  const update = { 
+    email: email,
+    bio: bio,
+    preferenze: preferenze,
+    piattaforme: piattaforme,
+    avatar: avatar,
+    zona: zona
+  };
+  if(!document.getElementById("newPass").disabled){
+    // L'utente vuole modificare la password
+    update.password = password;
+  }
+  fetch('../api/v1/utenti', {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(update)
+  })
+  .then((resp) => resp.json()) // Trasforma i dati in json
+  .then(function(data) { // Risposta
+    // Popup messaggio API
+    alert(data.message);
+    if(data.success){
+      location.href = "home_aut.html";
+    }
+    return;
+  }).catch( function (error) {
+    alert(error.message);
+    console.error(error);
+    return;
+  });
 }
 
 // Funzione usata da cercaUtenti
@@ -432,7 +466,7 @@ function getPersonalProfile(){
     document.getElementById("bio").innerHTML = data.bio;  
     document.getElementById("email").innerHTML = data.email;  
     if (data.zona){
-      document.getElementById("zona").innerHTML = data.zona;  
+      document.getElementById("zona").value = data.zona;  
     }
     // Checka le checkbox
     var checkboxes = document.getElementsByName('pref'); 

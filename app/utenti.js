@@ -40,7 +40,9 @@ router.post('', async function(req, res) {
         limitato: false,
         bio: req.body.bio,
         preferenze: req.body.preferenze,
-        piattaforme: req.body.piattaforme
+        piattaforme: req.body.piattaforme,
+        id_img: req.body.avatar,
+        zona: req.body.zona
     });
     
     nuovoUtente.save()
@@ -50,8 +52,8 @@ router.post('', async function(req, res) {
     .catch((errore) => {
         console.error('Errore durante il salvataggio dell\'utente:', errore);
         res.json({ success: false, message: 'Errore durante il salvataggio dell\'utente' });
+        return;
     });
-
 
     res.json({
 		success: true,
@@ -59,6 +61,37 @@ router.post('', async function(req, res) {
 		email: req.body.email,
 		nickname: req.body.nickname
 	});
+});
+
+// Se app.js capta una PUT verso /api/v1/utenti allora procedi alla modifica dei dati dell'utente
+router.put('', async function(req, res) {
+    // Trova utente via email
+    let userByEmail = await utente.findOne({
+		email: req.body.email
+	}).exec();
+    // Aggiorna le variabili
+    userByEmail.bio = req.body.bio;
+    userByEmail.preferenze = req.body.preferenze;
+    userByEmail.piattaforme = req.body.piattaforme;
+    userByEmail.id_img = req.body.avatar;
+    userByEmail.zona = req.body.zona;
+    // Controlla che password sia stata modificata
+    if(req.body.password){
+        // Hash password
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(req.body.password, salt);
+        // Aggiorna password
+        userByEmail.password = hashedPassword;
+    }
+    // Salva
+    userByEmail.save();
+    
+    res.json({
+        success: true,
+        message: 'Utente modificato correttamente!',
+        email: req.body.email,
+        nickname: req.body.nickname
+    });
 });
 
 // Se app.js capta una GET verso /api/v1/utenti/me allora ritorna i dati del profilo
