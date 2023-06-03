@@ -208,7 +208,8 @@ function register()
   if(errors != ""){
       errors = "errori presenti: " + errors;
       errors = String(errors);
-      document.getElementById("errors").innerHTML = errors;
+      //document.getElementById("errors").innerHTML = errors;
+      alert(errors);
       return;
   }
 
@@ -248,9 +249,95 @@ function register()
         
 };
 
-function sendMails(toMail, oggetto, txt)
-{
-  // Questa funzione richiama l'API sendMails per inviare una mail
+function creationTorneo(){
+  // Questa funzione è chiamata durante la fase di creazione torneo
+  //var organizzatore = ;
+  var nomeTorneo = document.getElementById("nomeTorneo").value;
+  var logoT = document.querySelector('input[type = radio]:checked').value;
+  var argomento = document.getElementById("argomento").value;
+  var zona = document.getElementById("zona").value;
+  var bio = document.getElementById("bio").value;
+  var regolamento = document.getElementById("regolamento").value;
+  var tags = [];
+  var markedCheckbox = document.getElementsByName('tags');  
+  for (var checkbox of markedCheckbox) {  
+    if (checkbox.checked) 
+    tags.push(checkbox.value);
+  }
+  var piattaforma = document.getElementById('piattaforma').value;
+  var numeroSquadre = document.getElementById('nsquadre').value;
+  var numeroGiocatori = document.getElementById('ngiocatori').value;
+  var dataInizio = document.getElementById('dataInizio').value;
+  var formatoT = document.getElementById('formatoT').value;
+  var numeroGironi = document.getElementById('ngironi').value;
+  var formatoP = document.getElementById('formatoP').value;
+  
+  var errors = "";
+  if(nomeTorneo == "") errors += "nome torneo mancante; ";
+  if(argomento == "") errors += "argomento mancante; ";
+  if(numeroSquadre == "") errors += "numero di squadre è mancante; ";
+  if(numeroGiocatori == "") errors += "numero di giocatori mancante; ";     
+  
+  if(dataInizio == "") errors += "data inizio mancante; ";
+  if(bio == "") errors += "bio mancante; ";
+  if(regolamento == "") errors += "regolamento mancante; ";
+  if(numeroGironi == "" && formatoT=="gironi") errors += "numero gironi mancante; ";
+  
+  if(errors != ""){
+      errors = "errori presenti: " + errors;
+      errors = String(errors);
+      alert(errors);
+      return;
+  }  
+  var fasi=1;
+  if(formatoT=="gironi"){
+    fasi=2;
+  }
+
+  // Richiama l'API per la creazione torneo
+  fetch('../api/v1/tornei', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify( { 
+        organizzatore: organizzatore, 
+        nomeTorneo: nomeTorneo, 
+        password: password,
+        bio: bio,
+        regolamento: regolamento,
+        tags: tags,
+        piattaforma: piattaforma,
+        logoT: logoT,
+        argomento: argomento,
+        zona: zona,
+        nSquadre: numeroSquadre,
+        nGiocatori: numeroGiocatori,
+        dataInizio: dataInizio,
+        formatoT: formatoT,
+        ngironi: numeroGironi,
+        formatoP: formatoP,
+        fasi: fasi,
+      } ),
+  })
+  .then((resp) => resp.json()) // Trasforma i dati in JSON
+  .then(function(data) { // Risposta
+      // Popup messaggio API
+      alert(data.message);
+      if(data.success){
+        // creazione ok
+        
+      }
+      return;
+  })  .catch( function (error) {
+          alert(error.message);
+          console.error(error);
+          return;
+      } );
+  alert("creazione torneo");
+  document.getElementById("pubblica").removeAttribute("disabled");
+};
+
+function sendMails(toMail, oggetto, txt){
+  // Questa funzione richiama l'API mails per inviare una mail
   fetch('../api/v1/mails', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -272,7 +359,6 @@ function loadInfoUser(){
         // Autenticato mostra info
         var nickname = data.nickname;
         document.getElementById("nickname").textContent = nickname;
-        document.body.removeAttribute("hidden");
       }
   })
   .catch( error => console.error(error) );
@@ -456,6 +542,14 @@ function getProfile(){
   .catch( error => console.error(error) );
 }
 
+//funzione usata da creaTorneo
+function gironiDiv(){
+  if(document.getElementById("formatoT").value=="gironi"){
+    document.getElementById("ngir").removeAttribute("hidden");
+  }else{
+    document.getElementById("ngir").setAttribute("hidden",true);
+  }
+} 
 // Funzione usata da modificaProfilo
 function getPersonalProfile(){
   fetch('../api/v1/utenti/me')
