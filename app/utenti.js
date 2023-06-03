@@ -74,8 +74,7 @@ router.get('/me', async (req, res) => {
 
     res.status(200).json({
         email: user.email,
-        nickname: user.nickname,
-        password: user.password, // è l'hash
+        nickname: user.nickname, // Rimossa ritorno di password, non serve
         bio: user.bio,
         preferenze: user.preferenze,
         piattaforme: user.piattaforme,

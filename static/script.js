@@ -289,18 +289,26 @@ function logout(){
   .catch( error => console.error(error) );
 }
 
-var password;
-//funzione per controllare la correttezza della password durante l'azione di modifica password
+// Funzione per controllare la correttezza della password durante l'azione di modifica password
 function controllaPassword(pass){
-  var userPass="ciao";
-  if(password==null) //richiedi password al database
-  //userPass=getvalue from database()
-  if (pass.value==userPass){
-    document.getElementById("vecPass").setAttribute("style","background: rgb(76, 249, 73);");
-    document.getElementById("newPass").removeAttribute("disabled");
-    document.getElementById("c_newPass").removeAttribute("disabled");
-  }else{
-    document.getElementById("vecPass").setAttribute("style","background: rgb(253, 116, 116);");}
+  let nickname = document.getElementById("nickname").innerHTML;
+  // Se la vecchia password è corretta allora abilita l'inserimento della nuova password
+  // Richiama API auth e vedi se risposta positiva
+  fetch('../api/v1/authentications', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify( { nickname: nickname, password: pass.value } ),
+  })
+  .then((resp) => resp.json()) // Trasforma i dati in json
+  .then(function(data) { // Ricevi la risposta
+    if (data.success){
+      document.getElementById("vecPass").setAttribute("style","background: rgb(76, 249, 73);");
+      document.getElementById("newPass").removeAttribute("disabled");
+      document.getElementById("c_newPass").removeAttribute("disabled");
+    }else{
+      document.getElementById("vecPass").setAttribute("style","background: rgb(253, 116, 116);");
+    }
+  });
 }
 
 //funzione per salvare le modifiche fatte ad un account
@@ -378,32 +386,32 @@ function getPersonalProfile(){
   fetch('../api/v1/utenti/me')
   .then((resp) => resp.json()) // Trasforma i dati in JSON
   .then(function(data) { // Risposta
-      // Carica nickname e bio e email
-      document.getElementById("nickname").innerHTML = data.nickname;
-      document.getElementById("bio").innerHTML = data.bio;  
-      document.getElementById("email").innerHTML = data.email;  
-      if (data.zona){
-        document.getElementById("zona").innerHTML = data.zona;  
+    // Carica nickname e bio e email
+    document.getElementById("nickname").innerHTML = data.nickname;
+    document.getElementById("bio").innerHTML = data.bio;  
+    document.getElementById("email").innerHTML = data.email;  
+    if (data.zona){
+      document.getElementById("zona").innerHTML = data.zona;  
+    }
+    // Checka le checkbox
+    var checkboxes = document.getElementsByName('pref'); 
+    for (var checkbox of checkboxes) {  
+      if(data.preferenze.includes(checkbox.value)){
+        checkbox.checked = "true";
       }
-      // Checka le checkbox
-      var checkboxes = document.getElementsByName('pref'); 
-      for (var checkbox of checkboxes) {  
-        if(data.preferenze.includes(checkbox.value)){
-          checkbox.checked = "true";
-        }
-      }  
-      var checkboxes = document.getElementsByName('piatt'); 
-      for (var checkbox of checkboxes) {  
-        if(data.piattaforme.includes(checkbox.value)){
-          checkbox.checked = "true";
-        }
-      }  
-      // Checkbox avatar
-      var avatars = document.getElementsByName('avatar');
-      for (var avatar of avatars) {  
-        if(avatar.value == data.avatar){
-          avatar.checked = "true";
-        }
-      }  
+    }  
+    var checkboxes = document.getElementsByName('piatt'); 
+    for (var checkbox of checkboxes) {  
+      if(data.piattaforme.includes(checkbox.value)){
+        checkbox.checked = "true";
+      }
+    }  
+    // Checkbox avatar
+    var avatars = document.getElementsByName('avatar');
+    for (var avatar of avatars) {  
+      if(avatar.value == data.avatar){
+        avatar.checked = "true";
+      }
+    }  
   })
 }
