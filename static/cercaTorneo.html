@@ -14,29 +14,38 @@
       border: 2px solid #000000;
       font-style: Comic sans MS;
       color:blue;
+      height: 125px;
+      vertical-align: center;
       }
-        </style>
+  </style>
 </head>
 <body>
   <div class="testata">
     <img src="images/LOGO.png" style="position: absolute; left:150px;" width="100" height="120" />
     <span style="font-family: “Comic Sans MS”, “Comic Sans”, cursive; color:blue;">
       <p style="font-size:4rem; position: absolute; float: left; margin-top: 2px; margin-left: 40%; ">Meet&Win</p>
-    <p>
-          <form action="api/v1/utenti" method="post" name="loginform" id="loginform" style="text-align:right;">
-          <label>email o nickname</label>
+      <p>
+        <form action="api/v1/utenti" method="post" name="loginform" id="loginform" style="text-align:right;" hidden>            
+        <label>email o nickname</label>
           <input name="nickname" placeholder="red.rocco@unitn.it" id="loginNickname"/><br>
           <label>password</label>
           <input type="password" name="password" placeholder="Password2" id="loginPassword"/><br>
-          <button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px" type="button" onclick="login()">	Login</button>
-      </form>
-    </p>
-</p>
+          <button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px" type="button" onclick="login()">	Login</button>            
+        </form>
+        <span id="loggedInfo"  style="position:relative; float:right;" >
+        <label>Bentornato, </label>
+          <span id="nicknameUser"></span>!<br>
+          <button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px" type="button" onclick="location.href='home_aut.html'">HomePage</button>
+        </span>
+      </p>
   </div>
 <p style="color: blue; font-size: 40px; position: absolute; left: 45%; margin-top:5px;">Cerca Tornei</p>   
     <a href="index.html"><button style="background-color:#30b5fc;">INDIETRO</button></a>
+    <div style="float:right">
+      <a href="creaTorneo.html"><button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px">Crea Torneo</button></a>
+    </div>
     <p>coming soon</p>
-    <script src="script.js"></script> 
+    <script src="script.js">loadInfoUser(); </script> 
 </body>
 
 </html>

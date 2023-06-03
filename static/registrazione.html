@@ -15,6 +15,8 @@
         border: 2px solid #000000;
         font-style: Comic sans MS;
         color:blue;
+        height: 125px;
+        vertical-align: center;
         }
         h1   {color: blue;}
         /*switch css*/
@@ -205,15 +207,15 @@ la tua esperienza e agli altri utenti per chiederti di unirti a loro nelle sfide
                 </label>
             privato    
         </div>
-<p style="text-align: center;"><input type="reset" value="cancella tutto" onclick="clearAll()"> </p>
-    </form>
-<br>
+            <p style="text-align: center;"><input type="reset" value="cancella tutto" onclick="clearAll()"> </p>
         <div style="text-align: center;">	
             <button style="background-color:#30b5fc;" onclick="location.href='index.html'">Annulla</button>
             <button style="background-color:#30b5fc;" id="cmail" onclick="generaCodiceConfermaMail()" disabled>Conferma Mail</button>
             <button style="background-color:#30b5fc;" id="confermaR"onclick="register()" disabled>Conferma</button>
         </div> 
+    </form>
+<br>
         
-    <script src="script.js">    </script> 
+    <script src="script.js"> isUtenteLogged()</script> 
 </body>
 </html>

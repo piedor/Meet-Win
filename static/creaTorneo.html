@@ -15,6 +15,8 @@
         border: 2px solid #000000;
         font-style: Comic sans MS;
         color:blue;
+        height: 125px;
+        vertical-align: center;
         }
         h1   {color: blue;}
         </style>
@@ -25,15 +27,10 @@
         <span style="font-family: “Comic Sans MS”, “Comic Sans”, cursive; color:blue;">
           <p style="font-size:4rem; position: absolute; float: left; margin-top: 2px; margin-left: 40%; ">Meet&Win</p>
         <p>
-              <form action="api/v1/utenti" method="post" name="loginform" id="loginform" style="text-align:right;">
-              <label>email o nickname</label>
-              <input name="nickname" placeholder="red.rocco@unitn.it" id="loginNickname"/><br>
-              <label>password</label>
-              <input type="password" name="password" placeholder="Password2" id="loginPassword"/><br>
-              <button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px" type="button" onclick="login()">	Login</button>
-          </form>
+            <label>Bentornato, </label>
+            <span id="nicknameUser" style="position: relative; float: right;"></span>!<br>
+            <button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px" type="button" onclick="location.href='home_aut.html'">	HomePage</button>
         </p>
-    </p>
       </div>
    <div>
         <p style="color: blue; font-size: 40px; position: absolute; left: 45%; margin-top:5px;">Crea Torneo</p>   
@@ -177,10 +174,10 @@ la tua esperienza e quella degli altri utenti per cercare il torneo.">Scegli i t
     <div>
         <label>Zona:</label>
         <span title="Inserisci la posizione del torneo; attenzione: opzionale solo nel caso di tornei digitali."><input type="text" class="form-control" placeholder="posizione (opz)" name="zona" id="zona"></span>
+        <span style="margin-right: 30%;"></span><input type="reset" value="cancella tutto"> 
     </div>
     <div style="text-align: center;">
-            <input type="reset" value="cancella tutto"> 	
-            <button style="background-color:#30b5fc;" onclick="location.href='index.html'">Annulla</button>
+            <button style="background-color:#30b5fc;" onclick="location.href='creaTorneo.html'">Annulla</button>
             <button style="background-color:#30b5fc;" id="salvaModifiche" onclick="creationTorneo()">Salva modifiche</button>
             <button style="background-color:#30b5fc;" id="publica" onclick="publica()" disabled>Publica</button>
         </div> 

@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>schedaUtente</title>
-       <meta charset="UTF-8">
+<head>
+    <title>schedaUtente</title>
+    <meta charset="UTF-8">
       <style>
       body {background-color: #b8b9ba;}
       .center {
@@ -15,6 +15,8 @@
       border: 2px solid #000000;
       font-style: Comic sans MS;
       color:blue;
+      height: 125px;
+      vertical-align: center;
       }
 	.box1{
 	width: 125px;
@@ -53,13 +55,18 @@
         <span style="font-family: “Comic Sans MS”, “Comic Sans”, cursive; color:blue;">
           <p style="font-size:4rem; position: absolute; float: left; margin-top: 2px; margin-left: 40%; ">Meet&Win</p>
         <p>
-              <form action="api/v1/utenti" method="post" name="loginform" id="loginform" style="text-align:right;">
-              <label>email o nickname</label>
+            <form action="api/v1/utenti" method="post" name="loginform" id="loginform" style="text-align:right;" hidden>            
+            <label>email o nickname</label>
               <input name="nickname" placeholder="red.rocco@unitn.it" id="loginNickname"/><br>
               <label>password</label>
               <input type="password" name="password" placeholder="Password2" id="loginPassword"/><br>
-              <button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px" type="button" onclick="login()">	Login</button>
-          </form>
+              <button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px" type="button" onclick="login()">	Login</button>            
+            </form>
+            <span id="loggedInfo"  style="position:relative; float:right;" >
+            <label>Bentornato, </label>
+              <span id="nicknameUser"></span>!<br>
+              <button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px" type="button" onclick="location.href='home_aut.html'">HomePage</button>
+            </span>
         </p>
     </p>
       </div>
@@ -101,7 +108,7 @@
 <button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px" onClick="window.alert('coming soon')">Richiesta Amicizia</button>
 </div>
     <script src="script.js"></script> 
-    <script>getProfile();</script>
+    <script>getProfile(); loadInfoUser()</script>
 </body>
 
 </html>

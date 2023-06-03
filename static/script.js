@@ -190,7 +190,6 @@ function register()
     piattaforme.push(checkbox.value);
   }  
   
-  document.getElementById("errors").innerHTML = "";
   var errors = "";
   if(nickname == "") errors += "nickname mancante; ";
   if(email == "") errors += "email mancante; ";
@@ -204,11 +203,9 @@ function register()
   }
   if(preferenze.length == 0) errors += "devi selezionare almeno una preferenza; ";
   
-
   if(errors != ""){
       errors = "errori presenti: " + errors;
       errors = String(errors);
-      //document.getElementById("errors").innerHTML = errors;
       alert(errors);
       return;
   }
@@ -281,7 +278,7 @@ function creationTorneo(){
   if(bio == "") errors += "bio mancante; ";
   if(regolamento == "") errors += "regolamento mancante; ";
   if(numeroGironi == "" && formatoT=="gironi") errors += "numero gironi mancante; ";
-  
+  if(formatoT=="eliminazione" && numeroSquadre!="4" && numeroSquadre!="8" && numeroSquadre!="16") errors+="hai selezionato eliminazione diretta, puoi inserire 4/8/16 squadre; "
   if(errors != ""){
       errors = "errori presenti: " + errors;
       errors = String(errors);
@@ -322,8 +319,8 @@ function creationTorneo(){
       // Popup messaggio API
       alert(data.message);
       if(data.success){
-        // creazione ok
-        
+        // creazione ok        
+        document.getElementById("pubblica").removeAttribute("disabled");
       }
       return;
   })  .catch( function (error) {
@@ -332,7 +329,6 @@ function creationTorneo(){
           return;
       } );
   alert("creazione torneo");
-  document.getElementById("pubblica").removeAttribute("disabled");
 };
 
 function sendMails(toMail, oggetto, txt){
@@ -345,19 +341,40 @@ function sendMails(toMail, oggetto, txt){
 }
 
 function loadInfoUser(){
-  // Viene usata in home_aut per mostrare le info dell'utente
+  // Viene usata dalle schermate per mostrare definire se l'utente è loggato o meno
   fetch('../api/v1/utenti/me')
   .then((resp) => resp.json()) // Trasforma i dati in JSON
   .then(function(data) { // Risposta
       if(data.success == false){
+        if(document.getElementById("loginform")!=null){
+          //la schermata è visualizzabile anche da utenti non loggati
+        }else{
         // Non è autenticato ritorna su home non autenticato
-        alert("Errore non sei autenticato!");
+        alert("Errore, non sei autenticato!");
         location.href = "/";
-      }
-      else{
+        }
+      }else{
         // Autenticato mostra info
         var nickname = data.nickname;
-        document.getElementById("nickname").textContent = nickname;
+        document.getElementById("nicknameUser").textContent = nickname;
+        document.getElementById("loggedInfo").removeAttribute("hidden");
+        document.getElementById("loginform").setAttribute("hidden", true);
+      }
+  })
+  .catch( error => console.error(error) );
+}
+
+function isUtenteLogged(){
+  // Viene usata dalle schermate registrazione e index per definire se l'utente è loggato
+  fetch('../api/v1/utenti/me')
+  .then((resp) => resp.json()) // Trasforma i dati in JSON
+  .then(function(data) { // Risposta
+      if(data.success == false){
+        //do nothing, l'utente non è loggato quindi non serve 
+      }else{
+        //redirect to home_aut
+        alert("Risulti già loggato");
+        location.href = "/home_aut.html";
       }
   })
   .catch( error => console.error(error) );
@@ -466,7 +483,8 @@ function gironiDiv(){
   }else{
     document.getElementById("ngir").setAttribute("hidden",true);
   }
-} 
+}
+
 // Funzione usata da modificaProfilo
 function getPersonalProfile(){
   fetch('../api/v1/utenti/me')
