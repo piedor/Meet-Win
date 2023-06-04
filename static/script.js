@@ -436,6 +436,31 @@ function listUtenti(){
   .catch( error => console.error(error) );
 }
 
+// Funzione usata da cercaTornei
+function listTornei(){
+  // Elenca tutti i tornei sulla piattaforma
+  fetch('../api/v1/tornei/list')
+  .then((resp) => resp.json()) // Trasforma i dati in JSON
+  .then(function(data) { // Risposta
+    if(!data.success){
+      // Nessun torneo presente sulla piattaforma
+      alert(data.message);
+      return;
+    }
+    else{
+      data.tornei.map(function(nome) { 
+        let box = document.getElementById("boxTornei");
+        let button = document.createElement('button');
+        button.type = 'button';
+        button.setAttribute("onclick", "location.href='visualizzaSchedaTorneo.html?nome=" + nome + "'");
+        button.textContent = nome;
+        box.appendChild(button);
+      });
+    }
+  })
+  .catch( error => console.error(error) );
+}
+
 // Funzione usata da visualizzaSchedaUtente
 function getProfile(){
   const queryString = window.location.search;
