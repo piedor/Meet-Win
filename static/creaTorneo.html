@@ -26,19 +26,19 @@
         <img src="images/LOGO.png" style="position: absolute; left:150px;" width="100" height="120" />
         <span style="font-family: “Comic Sans MS”, “Comic Sans”, cursive; color:blue;">
           <p style="font-size:4rem; position: absolute; float: left; margin-top: 2px; margin-left: 40%; ">Meet&Win</p>
-        <p>
+        <p style="text-align: right;">
             <label>Bentornato, </label>
-            <span id="nicknameUser" style="position: relative; float: right;"></span>!<br>
-            <button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px" type="button" onclick="location.href='home_aut.html'">	HomePage</button>
+            <span id="nicknameUser"></span>!<br>
+            <button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px; margin-top: 5px;" type="button" onclick="location.href='home_aut.html'">	HomePage</button>
         </p>
       </div>
    <div>
         <p style="color: blue; font-size: 40px; position: absolute; left: 45%; margin-top:5px;">Crea Torneo</p>   
 <br><br><br>	
-<form action="api/v1/tornei" method="post" name="creationform" id="creationform">
+<form action="api/v1/tornei" method="post" name="creationform" id="creationform" onchange="changes()">
     <div>
         <label>Organizzatore: </label>
-        <span id="nicknameUser"></span>
+        <span id="nicknameUser2"></span>
         <span style="position: absolute; left:800px;">
         Scegli un'immagine per il tuo torneo: 
         <p>
@@ -177,11 +177,15 @@ la tua esperienza e quella degli altri utenti per cercare il torneo.">Scegli i t
         <span style="margin-right: 30%;"></span><input type="reset" value="cancella tutto"> 
     </div>
 </form>
+<br>
     <div style="text-align: center;">
-            <button style="background-color:#30b5fc;" onclick="location.href='creaTorneo.html'">Annulla</button>
+            <button style="background-color:#30b5fc;" onclick="location.href='cercaTorneo.html'">Annulla</button>
             <button style="background-color:#30b5fc;" id="salvaModifiche" onclick="creationTorneo()">Salva modifiche</button>
-            <button style="background-color:#30b5fc;" id="publica" onclick="publica()" disabled>Publica</button>
+            <button style="background-color:#30b5fc;" id="pubblica" onclick="publica()" disabled>Pubblica</button>
         </div> 
-    <script src="script.js">loadInfoUser(); loadInfoTorneo()</script>            
+    <script src="script.js"></script>
+    <script>
+    loadInfoUser(); //loadInfoTorneo();
+    </script>            
 </body>
 </html>
