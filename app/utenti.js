@@ -42,7 +42,8 @@ router.post('', async function(req, res) {
         preferenze: req.body.preferenze,
         piattaforme: req.body.piattaforme,
         id_img: req.body.avatar,
-        zona: req.body.zona
+        zona: req.body.zona,
+        privato: req.body.privato
     });
     
     nuovoUtente.save()
@@ -75,6 +76,7 @@ router.put('', async function(req, res) {
     userByEmail.piattaforme = req.body.piattaforme;
     userByEmail.id_img = req.body.avatar;
     userByEmail.zona = req.body.zona;
+    userByEmail.privato = req.body.privato;
     // Controlla che password sia stata modificata
     if(req.body.password){
         // Hash password
@@ -112,7 +114,8 @@ router.get('/me', async (req, res) => {
         preferenze: user.preferenze,
         piattaforme: user.piattaforme,
         zona: user.zona,
-        avatar: user.id_img
+        avatar: user.id_img,
+        privato: user.privato
     });
 });
 

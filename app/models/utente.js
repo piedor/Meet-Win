@@ -8,6 +8,7 @@ module.exports = mongoose.model('Utente', new Schema({
     password: String,
     cellulare: Number,
     verificato: Boolean,
+    privato: Boolean,
     bloccato: Boolean,
     limitato: Boolean,
     bio: String,

@@ -176,7 +176,7 @@ function register()
   var avatar = document.querySelector('input[type = radio]:checked').value;
   var zona = document.getElementById("zona").value;
   var bio = document.getElementById("bio").value;
-  var privato = document.getElementById("switch").value; 
+  var privato = document.getElementById("privato").checked; 
   var preferenze = [];
   var markedCheckbox = document.getElementsByName('pref');  
   for (var checkbox of markedCheckbox) {  
@@ -189,8 +189,7 @@ function register()
     if (checkbox.checked) 
     piattaforme.push(checkbox.value);
   }  
-  
-  document.getElementById("errors").innerHTML = "";
+
   var errors = "";
   if(nickname == "") errors += "nickname mancante; ";
   if(email == "") errors += "email mancante; ";
@@ -208,7 +207,6 @@ function register()
   if(errors != ""){
       errors = "errori presenti: " + errors;
       errors = String(errors);
-      //document.getElementById("errors").innerHTML = errors;
       alert(errors);
       return;
   }
@@ -225,7 +223,8 @@ function register()
         preferenze: preferenze,
         piattaforme: piattaforme,
         avatar: avatar,
-        zona: zona
+        zona: zona,
+        privato: privato
       } ),
   })
   .then((resp) => resp.json()) // Trasforma i dati in JSON
@@ -408,7 +407,7 @@ function saveChanges(){
   var avatar = document.querySelector('input[type = radio]:checked').value;
   var zona = document.getElementById("zona").value;
   var bio = document.getElementById("bio").value;
-  var privato = document.getElementById("switch").value; 
+  var privato = document.getElementById("privato").checked; 
   var preferenze = [];
   var markedCheckbox = document.getElementsByName('pref');  
   for (var checkbox of markedCheckbox) {  
@@ -451,7 +450,8 @@ function saveChanges(){
     preferenze: preferenze,
     piattaforme: piattaforme,
     avatar: avatar,
-    zona: zona
+    zona: zona,
+    privato: privato
   };
   if(!document.getElementById("newPass").disabled){
     // L'utente vuole modificare la password
@@ -582,5 +582,12 @@ function getPersonalProfile(){
         avatar.checked = "true";
       }
     }  
+    // Toggle switch privato
+    if(data.privato){
+      document.getElementById("privato").setAttribute("checked", true);
+    }
+    else{
+      document.getElementById("privato").removeAttribute("checked");
+    }
   })
 }
