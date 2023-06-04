@@ -7,7 +7,7 @@ const torneo = require('./models/torneo');
 router.post('', async function(req, res) {   
     // Crea nuovo torneo
     const nuovoTorneo = new torneo({
-        nome: req.body.nomeTorneo,
+        nomeTorneo: req.body.nomeTorneo,
         organizzatore: req.body.organizzatore,
         argomento: req.body.argomento,
         bio: req.body.bio,
@@ -59,7 +59,7 @@ router.get('/list', async (req, res) => {
 
     if(tornei){
         tornei.forEach(function(user) {
-            nomiTornei.push(user.nome);
+            nomiTornei.push(user.nomeTorneo);
         });
         res.json({ 
             success: true,

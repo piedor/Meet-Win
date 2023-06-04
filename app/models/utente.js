@@ -15,11 +15,11 @@ module.exports = mongoose.model('Utente', new Schema({
     preferenze: [String],
     id_img: Number,
     piattaforme: [String],
-    zona: String
+    zona: String,
+    tornei_vinti: Number, // 0
     
     //work in progress
     //feedback: Tipo_feedback, 
-    // tornei_vinti: Number, // 0
     // feedback_org: Tipo_feedback,
     // amici: [{type: Schema.Types.ObjectId, ref:'Utente'}], !!!     
     // utenti_bloccati: [{type: Schema.Types.ObjectId, ref:'Utente'}],

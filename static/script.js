@@ -297,8 +297,7 @@ function creationTorneo(){
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify( { 
         organizzatore: organizzatore, 
-        nomeTorneo: nomeTorneo, 
-        password: password,
+        nomeTorneo: nomeTorneo,
         bio: bio,
         regolamento: regolamento,
         tags: tags,
@@ -365,8 +364,8 @@ function loadInfoUser(){
         // Autenticato mostra info
         var nickname = data.nickname;
         document.getElementById("nicknameUser").textContent = nickname;
-        if(document.getElementById("nicknameUser2")!=NULL){
-        document.getElementById("nicknameUser2").textContent = nickname;   //used for some pages where its needed 2 times 
+        if(document.getElementById("nicknameUser2")){
+        document.getElementById("nicknameUser2").innerHTML = ""+ nickname;    //used for some pages where its needed 2 times 
         }         
         document.getElementById("loggedInfo").removeAttribute("hidden");
         document.getElementById("loginform").setAttribute("hidden", true);
@@ -577,6 +576,7 @@ function listUtenti(){
         let button = document.createElement('button');
         button.type = 'button';
         button.setAttribute("onclick", "location.href='visualizzaSchedaUtente.html?nickname=" + nickname + "'");
+        button.setAttribute("style", "background-color:#30b5fc; width:150px; height: 40px; font-size:16px");
         button.textContent = nickname;
         box.appendChild(button);
       });
@@ -597,12 +597,13 @@ function listTornei(){
       return;
     }
     else{
-      data.tornei.map(function(nome) { 
+      data.tornei.map(function(nomeTorneo) { 
         let box = document.getElementById("boxTornei");
         let button = document.createElement('button');
         button.type = 'button';
-        button.setAttribute("onclick", "location.href='visualizzaSchedaTorneo.html?nome=" + nome + "'");
-        button.textContent = nome;
+        button.setAttribute("onclick", "location.href='visualizzaSchedaTorneo.html?nome=" + nomeTorneo + "'");
+        button.setAttribute("style", "background-color:#30b5fc; width:150px; height: 40px; font-size:16px");      
+        button.textContent = nomeTorneo;
         box.appendChild(button);
       });
     }
