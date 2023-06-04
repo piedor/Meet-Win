@@ -85,7 +85,8 @@ router.get('/:idTorneo', async (req, res) => {
     if(torn){
         res.json({ 
             success: true, 
-            nome: torn.nomeTorneo,
+            organizzatore:torn.organizzatore,
+            nomeTorneo: torn.nomeTorneo,
             argomento: torn.argomento,
             id_img: torn.id_img,
             bio: torn.bio,
