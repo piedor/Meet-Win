@@ -319,8 +319,9 @@ function creationTorneo(){
       // Popup messaggio API
       alert(data.message);
       if(data.success){
-        // creazione ok        
-        document.getElementById("pubblica").removeAttribute("disabled");
+        // creazione ok
+      document.getElementById("salvaModifiche").setAttribute("disabled", true);
+      document.getElementById("pubblica").removeAttribute("disabled");
       }
       return;
   })  .catch( function (error) {
@@ -330,6 +331,12 @@ function creationTorneo(){
       } );
   alert("creazione torneo");
 };
+
+function changes() {
+  // Questa funzione viene chiamata dalla schermata torneo a seguito della modifica di un campo
+  document.getElementById("pubblica").setAttribute("disabled", true);
+  document.getElementById("salvaModifiche").removeAttribute("disabled");
+}
 
 function sendMails(toMail, oggetto, txt){
   // Questa funzione richiama l'API mails per inviare una mail
@@ -357,6 +364,9 @@ function loadInfoUser(){
         // Autenticato mostra info
         var nickname = data.nickname;
         document.getElementById("nicknameUser").textContent = nickname;
+        if(document.getElementById("nicknameUser2")!=NULL){
+        document.getElementById("nicknameUser2").textContent = nickname;   //used for some pages where its needed 2 times 
+        }         
         document.getElementById("loggedInfo").removeAttribute("hidden");
         document.getElementById("loginform").setAttribute("hidden", true);
       }
@@ -379,6 +389,61 @@ function isUtenteLogged(){
   })
   .catch( error => console.error(error) );
 }
+
+//work in progress
+function loadInfoTorneo(){
+  // Viene usata dalla schermata creaTorneo per inserire i dati preesistenti
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  var torneo = urlParams.get("idTorneo");
+  if(torneo == null){
+    //sta creando un nuovo torneo
+  fetch('../api/v1/utenti/me')
+  .then((resp) => resp.json()) // Trasforma i dati in JSON
+  .then(function(data) { // Risposta
+    if(!data.success){
+      return;
+    }
+    else{
+      // Carica nickname organizzatore
+      document.getElementById("organizzatore").innerHTML = data.nickname;
+    }
+  })
+  .catch( error => console.error(error) );
+  }
+  
+  fetch('../api/v1/tornei/'+torneo)
+  .then((resp) => resp.json()) // Trasforma i dati in JSON
+  .then(function(data) { // Risposta
+    if(!data.success){
+      alert(data.message);
+      location.href = "cercaTornei.html";
+      return;
+    }
+    else{
+      document.getElementById("organizzatore").innerHTML = data.organizzatore;
+      // Carica campi
+      /*
+      document.getElementById("nickname").innerHTML = data.nickname;
+      document.getElementById("bio").innerHTML = data.bio;  
+      // Inserisci ogni preferenza in span
+      data.preferenze.map(function(preferenze) { 
+        let span = document.getElementById('preferenze');
+        span.innerHTML += " " + MAPPA_PREFERENZE[preferenze]; 
+      });
+      // Inserisci ogni piattaforma in span
+      data.piattaforme.map(function(piattaforme) {
+        let span = document.getElementById('piatt');
+        span.innerHTML += " " + MAPPA_PIATTAFORME[piattaforme]; 
+      });
+      // Carica foto avatar
+      document.getElementById("avatar").setAttribute("alt", MAPPA_AVATAR[data.avatar]);
+      document.getElementById("avatar").setAttribute("src", "images/" + MAPPA_AVATAR[data.avatar] + ".png");*/
+    }
+  })
+  .catch( error => console.error(error) );
+}
+
 
 function logout(){
   // Funzione per eseguire il logout dell'utente (in pratica rimuove il token dai cookie)
@@ -404,11 +469,6 @@ function controllaPassword(pass){
     document.getElementById("c_newPass").removeAttribute("disabled");
   }else{
     document.getElementById("vecPass").setAttribute("style","background: rgb(253, 116, 116);");}
-}
-
-//funzione per salvare le modifiche fatte ad un account
-function saveChanges(){
-  //?? forse conviene mettere un boolean su registrazione per dire se viene attivato da modificaProfilo allora salva i cambiamenti sennò crea un nuovo profilo??
 }
 
 // Funzione usata da cercaUtenti
