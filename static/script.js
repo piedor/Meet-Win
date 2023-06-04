@@ -352,24 +352,24 @@ function loadInfoUser(){
   fetch('../api/v1/utenti/me')
   .then((resp) => resp.json()) // Trasforma i dati in JSON
   .then(function(data) { // Risposta
-      if(data.success == false){
-        if(document.getElementById("loginform")!=null){
-          //la schermata è visualizzabile anche da utenti non loggati
-        }else{
-        // Non è autenticato ritorna su home non autenticato
+    if(data.success == false){
+      if(document.getElementById("loginform")!=null){
+        //la schermata è visualizzabile anche da utenti non loggati
+      }else{
+      // Non è autenticato ritorna su home non autenticato
         alert("Errore, non sei autenticato!");
         location.href = "/";
-        }
-      }else{
-        // Autenticato mostra info
-        var nickname = data.nickname;
-        document.getElementById("nicknameUser").textContent = nickname;
-        if(document.getElementById("nicknameUser2")){
-        document.getElementById("nicknameUser2").innerHTML = ""+ nickname;    //used for some pages where its needed 2 times 
-        }         
-        document.getElementById("loggedInfo").removeAttribute("hidden");
-        document.getElementById("loginform").setAttribute("hidden", true);
       }
+    }else{
+      // Autenticato mostra info
+      var nickname = data.nickname;
+      document.getElementById("nicknameUser").textContent = nickname;
+      if(document.getElementById("nicknameUser2")){
+        document.getElementById("nicknameUser2").innerHTML = ""+ nickname;    //used for some pages where its needed 2 times 
+      }         
+      document.getElementById("loggedInfo").removeAttribute("hidden");
+      document.getElementById("loginform").setAttribute("hidden", true);
+    }
   })
   .catch( error => console.error(error) );
 }
