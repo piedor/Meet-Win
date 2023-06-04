@@ -597,17 +597,31 @@ function listTornei(){
       return;
     }
     else{
-      data.tornei.map(function(nomeTorneo) { 
+      data.tornei.map(function(idTorneo) { 
         let box = document.getElementById("boxTornei");
         let button = document.createElement('button');
         button.type = 'button';
-        button.setAttribute("onclick", "location.href='visualizzaSchedaTorneo.html?nome=" + nomeTorneo + "'");
-        button.setAttribute("style", "background-color:#30b5fc; width:150px; height: 40px; font-size:16px");      
-        button.textContent = nomeTorneo;
+        button.setAttribute("onclick", "location.href='visualizzaSchedaTorneo.html?id=" + idTorneo + "'");
+        button.setAttribute("style", "background-color:#30b5fc; width:150px; height: 40px; font-size:16px");
+        var contenutoButton;                
+        
+        fetch('../api/v1/tornei/'+idTorneo)
+        .then((resp) => resp.json()) // Trasforma i dati in JSON
+        .then(function(data) {alert("here1"); // Risposta
+        if(!data.success){
+          alert("err");
+          return;
+        }else{
+        // crea il contenuto del button
+        contenutoButton=data.nomeTorneo+" org: "+data.organizzatore+" argomento: "+data.argomento;
+        }
+        alert("here2");
+        button.textContent = contenutoButton;
         box.appendChild(button);
-      });
-    }
+      });    
   })
+  .catch( error => console.error(error) );
+  }})
   .catch( error => console.error(error) );
 }
 

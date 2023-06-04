@@ -59,7 +59,7 @@ router.get('/list', async (req, res) => {
 
     if(tornei){
         tornei.forEach(function(user) {
-            nomiTornei.push(user.nomeTorneo);
+            nomiTornei.push(user._id);
         });
         res.json({ 
             success: true,
@@ -77,9 +77,9 @@ router.get('/list', async (req, res) => {
 // Se app.js capta una GET verso /api/v1/tornei/:idTorneo allora ritorna i dati del torneo
 router.get('/:idTorneo', async (req, res) => {
     // Ritorna le info del torneo
-    // Ricerca utente via idTorneo
+    // Ricerca torneo via idTorneo
 	let torn = await torneo.findOne({
-		idTorneo: req.params.idTorneo
+		_id: req.params.idTorneo
 	}).exec();
 
     if(torn){
@@ -98,30 +98,6 @@ router.get('/:idTorneo', async (req, res) => {
             message: "Torneo non trovato!"
         });
     }
-});
-
-// Se app.js capta una GET verso /api/v1/tornei/list allora ritorna la lista dei tornei presenti
-router.get('/list', async (req, res) => {
-    /*esempio di lista utenti, da completare
-    // Ritorna nickname di tutti gli utenti
-	let users = await utente.find({}).exec();
-    var nickUsers = [];
-
-    if(users){
-        users.forEach(function(user) {
-            nickUsers.push(user.nickname);
-        });
-        res.json({ 
-            success: true,
-            users: nickUsers
-        });
-    }
-    else{
-        res.json({ 
-            success: false, 
-            message: "Nessun utente registrato alla piattaforma!"
-        });
-    }*/
 });
 
 module.exports = router;
