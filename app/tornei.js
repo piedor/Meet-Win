@@ -16,7 +16,7 @@ router.post('', async function(req, res) {
         piattaforma: req.body.piattaforma,
         numeroSquadre: req.body.nsquadre,
         numeroGiocatori: req.body.ngiocatori,
-        id_img: req.body.id_img,
+        id_img: req.body.logoT,
         zona: req.body.zona,
         dataInizio: req.body.data,
         publicato: false,
@@ -49,6 +49,29 @@ router.post('', async function(req, res) {
 		email: req.body.email,
 		nickname: req.body.nickname
 	});
+});
+
+// Se app.js capta una GET verso /api/v1/tornei/list allora ritorna i nomi di tutti i tornei creati sulla piattaforma
+router.get('/list', async (req, res) => {
+    // Ritorna nickname di tutti gli utenti
+	let tornei = await torneo.find({}).exec();
+    var nomiTornei = [];
+
+    if(tornei){
+        tornei.forEach(function(user) {
+            nomiTornei.push(user.nome);
+        });
+        res.json({ 
+            success: true,
+            tornei: nomiTornei
+        });
+    }
+    else{
+        res.json({ 
+            success: false, 
+            message: "Nessun torneo presente sulla piattaforma!"
+        });
+    }
 });
 
 // Se app.js capta una GET verso /api/v1/tornei/:idTorneo allora ritorna i dati del torneo

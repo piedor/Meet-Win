@@ -15,6 +15,8 @@
         border: 2px solid #000000;
         font-style: Comic sans MS;
         color:blue;
+        height: 125px;
+        vertical-align: center;
         }
         h1   {color: blue;}
         /*switch css*/
@@ -84,18 +86,17 @@
     <div class="testata">
         <img src="images/LOGO.png" style="position: absolute; left:150px;" width="100" height="120" />
         <span style="font-family: “Comic Sans MS”, “Comic Sans”, cursive; color:blue;">
-          <p style="font-size:4rem; position: absolute; float: left; margin-top: 2px; margin-left: 40%; ">Meet&Win</p>
+            <p style="font-size:4rem; position: absolute; float: left; margin-top: 2px; margin-left: 40%; ">Meet&Win</p>
         <p>
-              <form action="api/v1/utenti" method="post" name="loginform" id="loginform" style="text-align:right;">
-              <label>email o nickname</label>
-              <input name="nickname" placeholder="red.rocco@unitn.it" id="loginNickname"/><br>
-              <label>password</label>
-              <input type="password" name="password" placeholder="Password2" id="loginPassword"/><br>
-              <button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px" type="button" onclick="login()">	Login</button>
-          </form>
+                <form action="api/v1/utenti" method="post" name="loginform" id="loginform" style="text-align:right;">
+                <label>email o nickname</label>
+                <input name="nickname" placeholder="red.rocco@unitn.it" id="loginNickname"/><br>
+                <label>password</label>
+                <input type="password" name="password" placeholder="Password2" id="loginPassword"/><br>
+                <button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px; margin-top: 5px;" type="button" onclick="login()">	Login</button>
+            </form>
         </p>
-    </p>
-      </div>
+    </div>
     <div>
         <p style="color: blue; font-size: 40px; position: absolute; left: 45%; margin-top:5px;">Registrazione</p>   
 <br><br><br>	
@@ -205,14 +206,14 @@ la tua esperienza e agli altri utenti per chiederti di unirti a loro nelle sfide
                 </label>
             privato    
         </div>
-<p style="text-align: center;"><input type="reset" value="cancella tutto" onclick="clearAll()"> </p>
+            <p style="text-align: center;"><input type="reset" value="cancella tutto" onclick="clearAll()"> </p> 
     </form>
         <div style="text-align: center;">	
             <button style="background-color:#30b5fc;" onclick="location.href='index.html'">Annulla</button>
             <button style="background-color:#30b5fc;" id="cmail" onclick="generaCodiceConfermaMail()" disabled>Conferma Mail</button>
             <button style="background-color:#30b5fc;" id="confermaR"onclick="register()" disabled>Conferma</button>
-        </div> 
-</div>
-    <script src="script.js">    </script> 
+        </div>
+<script src="script.js"></script>
+<script>isUtenteLogged()</script> 
 </body>
 </html>

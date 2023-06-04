@@ -188,8 +188,7 @@ function register()
   for (var checkbox of markedCheckbox) {  
     if (checkbox.checked) 
     piattaforme.push(checkbox.value);
-  }  
-
+  }
   var errors = "";
   if(nickname == "") errors += "nickname mancante; ";
   if(email == "") errors += "email mancante; ";
@@ -203,7 +202,6 @@ function register()
   }
   if(preferenze.length == 0) errors += "devi selezionare almeno una preferenza; ";
   
-
   if(errors != ""){
       errors = "errori presenti: " + errors;
       errors = String(errors);
@@ -250,7 +248,7 @@ function register()
 
 function creationTorneo(){
   // Questa funzione è chiamata durante la fase di creazione torneo
-  //var organizzatore = ;
+  var organizzatore = document.getElementById("nicknameUser").value;
   var nomeTorneo = document.getElementById("nomeTorneo").value;
   var logoT = document.querySelector('input[type = radio]:checked').value;
   var argomento = document.getElementById("argomento").value;
@@ -281,7 +279,7 @@ function creationTorneo(){
   if(bio == "") errors += "bio mancante; ";
   if(regolamento == "") errors += "regolamento mancante; ";
   if(numeroGironi == "" && formatoT=="gironi") errors += "numero gironi mancante; ";
-  
+  if(formatoT=="eliminazione" && numeroSquadre!="4" && numeroSquadre!="8" && numeroSquadre!="16") errors+="hai selezionato eliminazione diretta, puoi inserire 4/8/16 squadre; "
   if(errors != ""){
       errors = "errori presenti: " + errors;
       errors = String(errors);
@@ -323,7 +321,8 @@ function creationTorneo(){
       alert(data.message);
       if(data.success){
         // creazione ok
-        
+      document.getElementById("salvaModifiche").setAttribute("disabled", true);
+      document.getElementById("pubblica").removeAttribute("disabled");
       }
       return;
   })  .catch( function (error) {
@@ -332,8 +331,13 @@ function creationTorneo(){
           return;
       } );
   alert("creazione torneo");
-  document.getElementById("pubblica").removeAttribute("disabled");
 };
+
+function changes() {
+  // Questa funzione viene chiamata dalla schermata torneo a seguito della modifica di un campo
+  document.getElementById("pubblica").setAttribute("disabled", true);
+  document.getElementById("salvaModifiche").removeAttribute("disabled");
+}
 
 function sendMails(toMail, oggetto, txt){
   // Questa funzione richiama l'API mails per inviare una mail
@@ -345,23 +349,102 @@ function sendMails(toMail, oggetto, txt){
 }
 
 function loadInfoUser(){
-  // Viene usata in home_aut per mostrare le info dell'utente
+  // Viene usata dalle schermate per mostrare definire se l'utente è loggato o meno
   fetch('../api/v1/utenti/me')
   .then((resp) => resp.json()) // Trasforma i dati in JSON
   .then(function(data) { // Risposta
       if(data.success == false){
+        if(document.getElementById("loginform")!=null){
+          //la schermata è visualizzabile anche da utenti non loggati
+        }else{
         // Non è autenticato ritorna su home non autenticato
-        alert("Errore non sei autenticato!");
+        alert("Errore, non sei autenticato!");
         location.href = "/";
-      }
-      else{
+        }
+      }else{
         // Autenticato mostra info
         var nickname = data.nickname;
-        document.getElementById("nickname").textContent = nickname;
+        document.getElementById("nicknameUser").textContent = nickname;
+        if(document.getElementById("nicknameUser2")!=NULL){
+        document.getElementById("nicknameUser2").textContent = nickname;   //used for some pages where its needed 2 times 
+        }         
+        document.getElementById("loggedInfo").removeAttribute("hidden");
+        document.getElementById("loginform").setAttribute("hidden", true);
       }
   })
   .catch( error => console.error(error) );
 }
+
+function isUtenteLogged(){
+  // Viene usata dalle schermate registrazione e index per definire se l'utente è loggato
+  fetch('../api/v1/utenti/me')
+  .then((resp) => resp.json()) // Trasforma i dati in JSON
+  .then(function(data) { // Risposta
+      if(data.success == false){
+        //do nothing, l'utente non è loggato quindi non serve 
+      }else{
+        //redirect to home_aut
+        alert("Risulti già loggato");
+        location.href = "/home_aut.html";
+      }
+  })
+  .catch( error => console.error(error) );
+}
+
+//work in progress
+function loadInfoTorneo(){
+  // Viene usata dalla schermata creaTorneo per inserire i dati preesistenti
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  var torneo = urlParams.get("idTorneo");
+  if(torneo == null){
+    //sta creando un nuovo torneo
+  fetch('../api/v1/utenti/me')
+  .then((resp) => resp.json()) // Trasforma i dati in JSON
+  .then(function(data) { // Risposta
+    if(!data.success){
+      return;
+    }
+    else{
+      // Carica nickname organizzatore
+      document.getElementById("organizzatore").innerHTML = data.nickname;
+    }
+  })
+  .catch( error => console.error(error) );
+  }
+  
+  fetch('../api/v1/tornei/'+torneo)
+  .then((resp) => resp.json()) // Trasforma i dati in JSON
+  .then(function(data) { // Risposta
+    if(!data.success){
+      alert(data.message);
+      location.href = "cercaTornei.html";
+      return;
+    }
+    else{
+      document.getElementById("organizzatore").innerHTML = data.organizzatore;
+      // Carica campi
+      /*
+      document.getElementById("nickname").innerHTML = data.nickname;
+      document.getElementById("bio").innerHTML = data.bio;  
+      // Inserisci ogni preferenza in span
+      data.preferenze.map(function(preferenze) { 
+        let span = document.getElementById('preferenze');
+        span.innerHTML += " " + MAPPA_PREFERENZE[preferenze]; 
+      });
+      // Inserisci ogni piattaforma in span
+      data.piattaforme.map(function(piattaforme) {
+        let span = document.getElementById('piatt');
+        span.innerHTML += " " + MAPPA_PIATTAFORME[piattaforme]; 
+      });
+      // Carica foto avatar
+      document.getElementById("avatar").setAttribute("alt", MAPPA_AVATAR[data.avatar]);
+      document.getElementById("avatar").setAttribute("src", "images/" + MAPPA_AVATAR[data.avatar] + ".png");*/
+    }
+  })
+  .catch( error => console.error(error) );
+}
+
 
 function logout(){
   // Funzione per eseguire il logout dell'utente (in pratica rimuove il token dai cookie)
@@ -502,6 +585,31 @@ function listUtenti(){
   .catch( error => console.error(error) );
 }
 
+// Funzione usata da cercaTornei
+function listTornei(){
+  // Elenca tutti i tornei sulla piattaforma
+  fetch('../api/v1/tornei/list')
+  .then((resp) => resp.json()) // Trasforma i dati in JSON
+  .then(function(data) { // Risposta
+    if(!data.success){
+      // Nessun torneo presente sulla piattaforma
+      alert(data.message);
+      return;
+    }
+    else{
+      data.tornei.map(function(nome) { 
+        let box = document.getElementById("boxTornei");
+        let button = document.createElement('button');
+        button.type = 'button';
+        button.setAttribute("onclick", "location.href='visualizzaSchedaTorneo.html?nome=" + nome + "'");
+        button.textContent = nome;
+        box.appendChild(button);
+      });
+    }
+  })
+  .catch( error => console.error(error) );
+}
+
 // Funzione usata da visualizzaSchedaUtente
 function getProfile(){
   const queryString = window.location.search;
@@ -549,7 +657,8 @@ function gironiDiv(){
   }else{
     document.getElementById("ngir").setAttribute("hidden",true);
   }
-} 
+}
+
 // Funzione usata da modificaProfilo
 function getPersonalProfile(){
   fetch('../api/v1/utenti/me')
