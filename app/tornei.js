@@ -100,4 +100,28 @@ router.get('/:idTorneo', async (req, res) => {
     }
 });
 
+// Se app.js capta una GET verso /api/v1/tornei/list allora ritorna la lista dei tornei presenti
+router.get('/list', async (req, res) => {
+    /*esempio di lista utenti, da completare
+    // Ritorna nickname di tutti gli utenti
+	let users = await utente.find({}).exec();
+    var nickUsers = [];
+
+    if(users){
+        users.forEach(function(user) {
+            nickUsers.push(user.nickname);
+        });
+        res.json({ 
+            success: true,
+            users: nickUsers
+        });
+    }
+    else{
+        res.json({ 
+            success: false, 
+            message: "Nessun utente registrato alla piattaforma!"
+        });
+    }*/
+});
+
 module.exports = router;

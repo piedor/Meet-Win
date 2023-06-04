@@ -124,7 +124,7 @@
         <div>
             <label>vecchia password:</label>
             <span title="Inserisci la tua vecchia password.">
-            <input type="text" placeholder="Vecchia password" id="vecPass" onkeyup="controllaPassword(this)"></span>
+            <input type="password" placeholder="Vecchia password" id="vecPass" onchange="controllaPassword(this)"></span>
             </div>
 <br>
             <div>
@@ -185,21 +185,21 @@ la tua esperienza e agli altri utenti per chiederti di unirti a loro nelle sfide
         </div>
         <div>
             <span title="Inserisci le piattaforme di cui sei a disposizione (opz), serviranno a noi per personalizzare la tua esperienza e agli altri utenti per chiederti di unirti a loro nelle sfide.">Piattaforme (opz): 
-            <input type="checkbox" name="ps5" id="piatt" value="100"/> Playstation 5
-            <input type="checkbox" name="ps4" id="piatt" value="101"/> Playstation 4
-            <input type="checkbox" name="xbox1" id="piatt" value="102"/> Xbox ONE
-            <input type="checkbox" name="switch" id="piatt" value="103"/> Switch
-            <input type="checkbox" name="PC" id="piatt" value="104"/> PC
+            <input type="checkbox" name="piatt" id="piatt" value="100"/> Playstation 5
+            <input type="checkbox" name="piatt" id="piatt" value="101"/> Playstation 4
+            <input type="checkbox" name="piatt" id="piatt" value="102"/> Xbox ONE
+            <input type="checkbox" name="piatt" id="piatt" value="103"/> Switch
+            <input type="checkbox" name="piatt" id="piatt" value="104"/> PC
             </span>
 
             </div>
             <div>
                     <label>Zona:</label>
-                    <span title="Inserisci un paese di riferimento vicino a te (opz); non è necessario mettere il paese di appartenenza, questa informazione è completamente privata e al solo scopo di migliorare la tua esperienza di suggeriti, grazie alla zona infatti potremmo consigliarti tornei che si svolgono vicino a te."><input type="text" class="form-control" placeholder="posizione (opz)" name="zona" id="zona"></span>
+                    <span title="Inserisci un paese di riferimento vicino a te (opz); non è necessario mettere il paese di appartenenza, questa informazione è completamente privata e al solo scopo di migliorare la tua esperienza di suggeriti, grazie alla zona infatti potremmo consigliarti tornei che si svolgono vicino a te."><input type="text" class="form-control" placeholder="posizione (opz)" name="zona" id="zona"/></span>
             </div>
         <div style="margin-top: 5px;">account: pubblico
             <label class="switch">
-                <input type="checkbox" id="switch" class="checkbox" name="switch" value="privato">
+                <input type="checkbox" id="privato" class="checkbox" name="switch" value="privato">
                 <span class="slider round"></span>
               </label>
             privato    
@@ -210,8 +210,7 @@ la tua esperienza e agli altri utenti per chiederti di unirti a loro nelle sfide
 <br><br>
         <div style="text-align: center;">	
             <button style="background-color:#30b5fc;" onclick="location.href='index.html'">Annulla</button>
-            <button style="background-color:#30b5fc;" id="cmail" onclick="generaCodiceConfermaMail()" disabled>Conferma Mail</button>
-            <button style="background-color:#30b5fc;" id="confermaR"onclick="register()" disabled>Conferma</button>
+            <button style="background-color:#30b5fc;" id="confermaR"onclick="saveChanges()">Conferma</button>
         </div> 
     <script src="script.js"></script> 
     <script>getPersonalProfile(); loadInfoUser();</script>

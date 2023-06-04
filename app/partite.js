@@ -46,8 +46,9 @@ router.get('/:idPartita', async (req, res) => {
 		idPartita: req.params.idPartita
 	}).exec();
 
-    if(part){
+   if(part){
         let torneo = await id_Torneo.findOne({id_Torneo: part.id_Torneo}).exec();
+        if(torneo){
         res.json({ 
             success: true,
             nomeTorneo: torneo.nomeTorneo,
@@ -64,6 +65,12 @@ router.get('/:idPartita', async (req, res) => {
             risultato2: part.risultato2,
             vincitrice: part.vincitrice,
         });
+        }else{
+            res.json({ 
+                success: false, 
+                message: "Torneo non trovato!"
+            });
+        }
     }
     else{
         res.json({ 
