@@ -701,3 +701,55 @@ function getPersonalProfile(){
     }
   })
 }
+
+// Funzione usata da index // Vedere se va aggiunta ad altri login form in giro
+function reimpostaPassword(){
+  // Controlla che il campo nickname sia una email valida
+  var email = document.getElementById("loginNickname").value;
+
+  if(!isValidEmail(email)){
+    alert("Inserisci una mail valida!");
+    return;
+  }
+  var conferma = confirm("Verrà reimpostata la password per l'account di " + email + ". Confermi?");
+  if(conferma){
+    // Crea stringa alfanumerica casuale di 10 caratteri
+    var randomstring = Math.random().toString(36).slice(-10);
+    // Converti maiuscolo un carattere casuale
+    for (let i = 0; i < randomstring.length; i++) { 
+      if(containsLowercase(randomstring[i])){
+        randomstring = randomstring.substring(0, i) + randomstring[i].toUpperCase() + randomstring.substring(i + 1);
+        break;
+      }
+    }
+    // Aggiungi numero 
+    randomstring += parseInt(Math.random()*10).toString();
+    var passwordCasuale = randomstring;
+    // Invia richiesta PUT a utenti con password generata 
+    fetch('../api/v1/utenti', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: email,
+        password: passwordCasuale
+      })
+    })
+    .then((resp) => resp.json()) // Trasforma i dati in json
+    .then(function(data) { // Risposta
+      if(data.success){
+        // Invia nuova password via email all'utente
+        sendMails(email,"resetPasswd", passwordCasuale);
+        alert("Controlla la tua password temporanea inviata per email");
+      }
+      else{
+        // Popup messaggio API errore
+        alert(data.message);
+      }
+      return;
+    }).catch( function (error) {
+      alert(error.message);
+      console.error(error);
+      return;
+    });
+  }
+}

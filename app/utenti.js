@@ -70,13 +70,21 @@ router.put('', async function(req, res) {
     let userByEmail = await utente.findOne({
 		email: req.body.email
 	}).exec();
+    // Utente non trovato
+	if(!userByEmail) {
+		res.json({ success: false, message: 'Utente non trovato!' });
+		return;
+	}
     // Aggiorna le variabili
-    userByEmail.bio = req.body.bio;
-    userByEmail.preferenze = req.body.preferenze;
-    userByEmail.piattaforme = req.body.piattaforme;
-    userByEmail.id_img = req.body.avatar;
-    userByEmail.zona = req.body.zona;
-    userByEmail.privato = req.body.privato;
+    // Se preferenze non è definito allora si tratta di una reimpostazione della password (preferenze è obbligatorio vedi registrazione o modificaProfilo)
+    if(req.body.preferenze){
+        userByEmail.bio = req.body.bio;
+        userByEmail.preferenze = req.body.preferenze;
+        userByEmail.piattaforme = req.body.piattaforme;
+        userByEmail.id_img = req.body.avatar;
+        userByEmail.zona = req.body.zona;
+        userByEmail.privato = req.body.privato;
+    }
     // Controlla che password sia stata modificata
     if(req.body.password){
         // Hash password
