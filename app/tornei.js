@@ -51,6 +51,29 @@ router.post('', async function(req, res) {
 	});
 });
 
+// Se app.js capta una GET verso /api/v1/tornei/list allora ritorna i nomi di tutti i tornei creati sulla piattaforma
+router.get('/list', async (req, res) => {
+    // Ritorna nickname di tutti gli utenti
+	let tornei = await torneo.find({}).exec();
+    var nomiTornei = [];
+
+    if(tornei){
+        tornei.forEach(function(user) {
+            nomiTornei.push(user.nome);
+        });
+        res.json({ 
+            success: true,
+            tornei: nomiTornei
+        });
+    }
+    else{
+        res.json({ 
+            success: false, 
+            message: "Nessun torneo presente sulla piattaforma!"
+        });
+    }
+});
+
 // Se app.js capta una GET verso /api/v1/tornei/:idTorneo allora ritorna i dati del torneo
 router.get('/:idTorneo', async (req, res) => {
     // Ritorna le info del torneo
