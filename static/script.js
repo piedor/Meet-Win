@@ -780,12 +780,12 @@ function getProfile(){
       // Inserisci ogni preferenza in span
       data.preferenze.map(function(preferenze) { 
         let span = document.getElementById('preferenze');
-        span.innerHTML += " " + MAPPA_PREFERENZE[preferenze]; 
+        span.innerHTML += " | " + MAPPA_PREFERENZE[preferenze]; 
       });
       // Inserisci ogni piattaforma in span
       data.piattaforme.map(function(piattaforme) {
         let span = document.getElementById('piatt');
-        span.innerHTML += " " + MAPPA_PIATTAFORME[piattaforme]; 
+        span.innerHTML += " | " + MAPPA_PIATTAFORME[piattaforme]; 
       });
       // Carica foto avatar
       document.getElementById("avatar").setAttribute("alt", MAPPA_AVATAR[data.avatar]);
