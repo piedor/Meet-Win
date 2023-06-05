@@ -32,8 +32,8 @@ const MAPPA_PIATTAFORME = {
   101: "Playstation 4",
   102: "Playstation 5",
   103: "Xbox ONE",
-  104: "Switch",
-  105: "PC"
+  105: "Switch",
+  104: "PC"
 };
 
 const MAPPA_AVATAR = {
@@ -476,7 +476,6 @@ function isUtenteLogged(){
         //do nothing, l'utente non è loggato quindi non serve 
       }else{
         //redirect to home_aut
-        alert("Risulti già loggato");
         location.href = "/home_aut.html";
       }
   })
