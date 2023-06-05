@@ -248,7 +248,7 @@ function register()
 
 function creationTorneo(){
   // Questa funzione è chiamata durante la fase di creazione torneo
-  var organizzatore = document.getElementById("nicknameUser").value;
+  var organizzatore = document.getElementById("nicknameUser2").textContent;
   var nomeTorneo = document.getElementById("nomeTorneo").value;
   var logoT = document.querySelector('input[type = radio]:checked').value;
   var argomento = document.getElementById("argomento").value;
@@ -290,7 +290,12 @@ function creationTorneo(){
   if(formatoT=="gironi"){
     fasi=2;
   }
-
+  //check se sta creando un nuovo torneo o modificando uno già esistente
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  var torneo = urlParams.get("idTorneo");
+  if(torneo == null){
+  //sta creando un nuovo torneo, nessun dato di default 
   // Richiama l'API per la creazione torneo
   fetch('../api/v1/tornei', {
       method: 'POST',
@@ -305,11 +310,11 @@ function creationTorneo(){
         logoT: logoT,
         argomento: argomento,
         zona: zona,
-        nSquadre: numeroSquadre,
-        nGiocatori: numeroGiocatori,
+        numeroSquadre: numeroSquadre,
+        numeroGiocatori: numeroGiocatori,
         dataInizio: dataInizio,
         formatoT: formatoT,
-        ngironi: numeroGironi,
+        numeroGironi: numeroGironi,
         formatoP: formatoP,
         fasi: fasi,
       } ),
@@ -321,7 +326,8 @@ function creationTorneo(){
       if(data.success){
         // creazione ok
       document.getElementById("salvaModifiche").setAttribute("disabled", true);
-      document.getElementById("pubblica").removeAttribute("disabled");
+      document.getElementById("pubblica").removeAttribute("disabled");  
+      location.href = "/creaTorneo.html?idTorneo="+data._id;
       }
       return;
   })  .catch( function (error) {
@@ -330,7 +336,94 @@ function creationTorneo(){
           return;
       } );
   alert("creazione torneo");
+  return;
+  }
+  else{
+    // aggiorna le info del torneo
+  const update = {
+    _id:torneo,
+    nomeTorneo: nomeTorneo,
+    bio: bio,
+    regolamento: regolamento,
+    tags: tags,
+    piattaforma: piattaforma,
+    logoT: logoT,
+    argomento: argomento,
+    zona: zona,
+    numeroSquadre: numeroSquadre,
+    numeroGiocatori: numeroGiocatori,
+    dataInizio: dataInizio,
+    formatoT: formatoT,
+    numeroGironi: numeroGironi,
+    formatoP: formatoP,
+    fasi: fasi,
+  };
+  fetch('../api/v1/tornei', {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(update)
+  })
+  .then((resp) => resp.json()) // Trasforma i dati in json
+  .then(function(data) { // Risposta
+    // Popup messaggio API
+    alert(data.message);
+    if(data.success){
+      // salvataggio ok
+    document.getElementById("salvaModifiche").setAttribute("disabled", true);
+    document.getElementById("pubblica").removeAttribute("disabled");  
+    }
+    return;
+  }).catch( function (error) {
+    alert(error.message);
+    console.error(error);
+    return;
+  });
+  }
 };
+
+//working on
+function pubblicaTorneo(){
+  //funzione richiamata dalla schermata creaTorneo per pubblicare il torneo
+  //controlla la completezza e correttezza delle info
+  var nomeTorneo = document.getElementById("nomeTorneo").value;
+  var logoT = document.querySelector('input[type = radio]:checked').value;
+  var argomento = document.getElementById("argomento").value;
+  var zona = document.getElementById("zona").value;
+  var bio = document.getElementById("bio").value;
+  var regolamento = document.getElementById("regolamento").value;
+  var tags = [];
+  var markedCheckbox = document.getElementsByName('tags');  
+  for (var checkbox of markedCheckbox) {  
+    if (checkbox.checked) 
+    tags.push(checkbox.value);
+  }
+  var piattaforma = document.getElementById('piattaforma').value;
+  var numeroSquadre = document.getElementById('nsquadre').value;
+  var numeroGiocatori = document.getElementById('ngiocatori').value;
+  var dataInizio = document.getElementById('dataInizio').value;
+  var formatoT = document.getElementById('formatoT').value;
+  var numeroGironi = document.getElementById('ngironi').value;
+  var formatoP = document.getElementById('formatoP').value;
+  
+  var errors = "";
+  if(nomeTorneo == "") errors += "nome torneo mancante; ";
+  if(argomento == "") errors += "argomento mancante; ";
+  if(numeroSquadre == "") errors += "numero di squadre è mancante; ";
+  if(numeroGiocatori == "") errors += "numero di giocatori mancante; ";     
+  
+  if(dataInizio == "") errors += "data inizio mancante; ";
+  if(bio == "") errors += "bio mancante; ";
+  if(regolamento == "") errors += "regolamento mancante; ";
+  if(numeroGironi == "" && formatoT=="gironi") errors += "numero gironi mancante; ";
+  if(formatoT=="eliminazione" && numeroSquadre!="4" && numeroSquadre!="8" && numeroSquadre!="16") errors+="hai selezionato eliminazione diretta, puoi inserire 4/8/16 squadre; "
+  if(errors != ""){
+      errors = "errori presenti: " + errors;
+      errors = String(errors);
+      alert(errors);
+      return;
+  }
+
+}
 
 function changes() {
   // Questa funzione viene chiamata dalla schermata torneo a seguito della modifica di un campo
@@ -397,21 +490,9 @@ function loadInfoTorneo(){
   const urlParams = new URLSearchParams(queryString);
   var torneo = urlParams.get("idTorneo");
   if(torneo == null){
-    //sta creando un nuovo torneo
-  fetch('../api/v1/utenti/me')
-  .then((resp) => resp.json()) // Trasforma i dati in JSON
-  .then(function(data) { // Risposta
-    if(!data.success){
-      return;
-    }
-    else{
-      // Carica nickname organizzatore
-      document.getElementById("organizzatore").innerHTML = data.nickname;
-    }
-  })
-  .catch( error => console.error(error) );
+    //sta creando un nuovo torneo, nessun dato di default
+    return;
   }
-  
   fetch('../api/v1/tornei/'+torneo)
   .then((resp) => resp.json()) // Trasforma i dati in JSON
   .then(function(data) { // Risposta
@@ -419,31 +500,82 @@ function loadInfoTorneo(){
       alert(data.message);
       location.href = "cercaTornei.html";
       return;
-    }
-    else{
-      document.getElementById("organizzatore").innerHTML = data.organizzatore;
+    }else{      
+      if(data.pubblicato){
+        //non può essere modificato
+        location.href = "cercaTornei.html";
+        return;
+      }
+      //check se l'user è l'organizzatore del torneo
+      //if(data.organizzatore==)
       // Carica campi
-      /*
-      document.getElementById("nickname").innerHTML = data.nickname;
-      document.getElementById("bio").innerHTML = data.bio;  
-      // Inserisci ogni preferenza in span
-      data.preferenze.map(function(preferenze) { 
-        let span = document.getElementById('preferenze');
-        span.innerHTML += " " + MAPPA_PREFERENZE[preferenze]; 
-      });
-      // Inserisci ogni piattaforma in span
-      data.piattaforme.map(function(piattaforme) {
-        let span = document.getElementById('piatt');
-        span.innerHTML += " " + MAPPA_PIATTAFORME[piattaforme]; 
-      });
-      // Carica foto avatar
-      document.getElementById("avatar").setAttribute("alt", MAPPA_AVATAR[data.avatar]);
-      document.getElementById("avatar").setAttribute("src", "images/" + MAPPA_AVATAR[data.avatar] + ".png");*/
+    if(data.nomeTorneo!=undefined){
+      document.getElementById("nomeTorneo").value = data.nomeTorneo;
+    } 
+    if(data.argomento!=undefined){
+      document.getElementById("argomento").value = data.argomento;
+    }
+    if(data.bio!=undefined){
+      document.getElementById("bio").innerHTML = data.bio;
+    }
+    if(data.regolamento!=undefined){
+      document.getElementById("regolamento").innerHTML = data.regolamento;
+    }
+    if(data.numeroSquadre!=undefined){     
+      document.getElementById('nsquadre').value = data.numeroSquadre.toString();
+    }
+    if(data.numeroGiocatori!=undefined){
+      document.getElementById('ngiocatori').value = data.numeroGiocatori;
+    }
+    if(data.dataInizio!=undefined){
+      document.getElementById('dataInizio').value = data.dataInizio;
+    }
+    if(data.zona!=undefined){
+      document.getElementById("zona").value = data.zona;
+    }
+    if(data.formatoT=="gironi" && data.numeroGironi!=undefined){      
+    document.getElementById('ngironi').value = data.numeroGironi;
+    }
+    /*
+    // Checka i tag
+    var checkboxes = document.getElementsByName('tags'); 
+    for (var checkbox of checkboxes) {  
+      if(data.tags.includes(checkbox.value)){
+        checkbox.checked = "true";
+      }
+    }  
+    //checka la piattaforma
+    var checkboxes = document.getElementsByName('piattaforma'); 
+    for (var checkbox of checkboxes) {  
+      if(data.piattaforme.includes(checkbox.value)){
+        checkbox.checked = "true";
+      }
+    }  
+    // Checkbox logo
+    var logoTs = document.getElementsByName('logoT');
+    for (var logoT of logoTs) {  
+      if(logoT.value == data.id_img){
+        logoT.checked = "true";
+      }
+    }  
+    // select formatoT
+    var formatoTs = document.getElementsByName('formatoT');
+    for (var formatoT of formatoTs) {  
+      if(formatoT.value == data.formatoT){
+        formatoT.checked = "true";
+      }
+    }  
+    // select formatop
+    var formatoPs = document.getElementsByName('formatoP');
+    for (var formatoP of formatoPs) {  
+      if(formatoP.value == data.formatoP){
+        formatoP.checked = "true";
+      }
+    }  */
     }
   })
   .catch( error => console.error(error) );
 }
-
 
 function logout(){
   // Funzione per eseguire il logout dell'utente (in pratica rimuove il token dai cookie)

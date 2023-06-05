@@ -22,7 +22,6 @@ router.post('', async function(req, res) {
         organizzatore: req.body.organizzatore,
         nomeTorneo: req.body.nomeTorneo
 	}).exec();
-    alert(torne0ByOrg);
     // torneo esiste già
 	if (torneoByOrg) {
 		res.json({ success: false, message: 'Non puoi avere 2 tornei con lo stesso nome!' });        
@@ -38,15 +37,15 @@ router.post('', async function(req, res) {
         regolamento: req.body.regolamento,
         tags: req.body.tags,
         piattaforma: req.body.piattaforma,
-        numeroSquadre: req.body.nsquadre,
-        numeroGiocatori: req.body.ngiocatori,
+        numeroSquadre: req.body.numeroSquadre,
+        numeroGiocatori: req.body.numeroGiocatori,
+        dataInizio: req.body.dataInizio,
         id_img: req.body.logoT,
         zona: req.body.zona,
-        dataInizio: req.body.data,
-        publicato: false,
+        pubblicato: false,
         terminato: false,
         formatoT: req.body.formatoT,
-        numeroGironi: req.body.ngironi,
+        numeroGironi: req.body.numeroGironi,
         fasi: req.body.fasi,
         faseAttuale: 0,
         formatoP: req.body.formatoP,
@@ -56,7 +55,6 @@ router.post('', async function(req, res) {
         vincitrice: null, //id squdra vincitrice*/
         //password
     });
-    
     nuovoTorneo.save()
     .then(() => {
         console.log('Nuovo torneo salvato con successo');
@@ -66,13 +64,48 @@ router.post('', async function(req, res) {
         res.json({ success: false, message: 'Errore durante il salvataggio del torneo' });
     });
 
-
     res.json({
 		success: true,
 		message: 'Torneo salvato correttamente!',
-		email: req.body.email,
-		nickname: req.body.nickname
+		_id: nuovoTorneo._id.toString(),
 	});
+});
+
+// Se app.js capta una PUT verso /api/v1/tornei allora procedi alla modifica dei dati del torneo
+router.put('', async function(req, res) {
+    // Trova torneo via id
+    let torneoById = await torneo.findOne({
+		_id: req.body._id
+	}).exec();
+    // Torneo non trovato
+	if(!torneoById) {
+		res.json({ success: false, message: 'Torneo non trovato!' });
+		return;
+	}
+    // Aggiorna le variabili
+        torneoById.organizzatore=torneoById.organizzatore;
+        torneoById.nomeTorneo = req.body.nomeTorneo;
+        torneoById.bio = req.body.bio;
+        torneoById.regolamento = req.body.regolamento;
+        torneoById.tags = req.body.tags;
+        torneoById.piattaforma = req.body.piattaforma;
+        torneoById.logoT = req.body.logoT;
+        torneoById.zona = req.body.zona;
+        torneoById.numeroSquadre = req.body.numeroSquadre;
+        torneoById.numeroGiocatori = req.body.numeroGiocatori;
+        torneoById.dataInizio = req.body.dataInizio;
+        torneoById.formatoT = req.body.formatoT;
+        torneoById.numeroGironi = req.body.numeroGironi;
+        torneoById.formatoP = req.body.formatoP;
+        torneoById.fasi = req.body.fasi;
+
+    // Salva
+    torneoById.save();
+    
+    res.json({
+        success: true,
+        message: 'Torneo modificato correttamente!',
+    });
 });
 
 // Se app.js capta una GET verso /api/v1/tornei/list allora ritorna i nomi di tutti i tornei creati sulla piattaforma
@@ -114,7 +147,20 @@ router.get('/:idTorneo', async (req, res) => {
             argomento: torn.argomento,
             id_img: torn.id_img,
             bio: torn.bio,
-            regolamento: torn.regolamento
+            regolamento: torn.regolamento,
+            numeroSquadre: torn.numeroSquadre,
+            numeroGiocatori: torn.numeroGiocatori,
+            formatoT: torn.formatoT,
+            numeroGironi: torn.numeroGironi,
+            formatoP: torn.formatoP,
+            pubblicato: torn.pubblicato,
+            //tags: [String],
+            piattaforma: torn.piattaforma,
+            dataInizio: torn.dataInizio,
+            terminato: torn.terminato,
+            fasi: torn.fasi,
+            faseAttuale: torn.faseAttuale,
+
         });
     }
     else{
