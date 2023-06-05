@@ -4,7 +4,31 @@ const router = express.Router();
 const torneo = require('./models/torneo'); 
 
 // Se app.js capta un POST verso /api/v1/tornei allora procedi alla creazione del torneo
-router.post('', async function(req, res) {   
+router.post('', async function(req, res) {
+    //vedi se l'organizzatore ha già 10 tornei non terminati
+    let torneiByOrg = await torneo.find({
+        organizzatore: req.body.organizzatore,
+        terminato: false
+	}).exec();
+    // if org ha più di 10 tornei
+	if (torneiByOrg.length>10) {
+		res.json({ success: false, message: 'Non puoi avere più di 10 tornei non terminati!' });        
+		return;
+	}
+
+    // Vedi se l'organizzatore ha già un torneo con quel nome
+
+    let torneoByOrg = await torneo.findOne({
+        organizzatore: req.body.organizzatore,
+        nomeTorneo: req.body.nomeTorneo
+	}).exec();
+    alert(torne0ByOrg);
+    // torneo esiste già
+	if (torneoByOrg) {
+		res.json({ success: false, message: 'Non puoi avere 2 tornei con lo stesso nome!' });        
+		return;
+	}
+
     // Crea nuovo torneo
     const nuovoTorneo = new torneo({
         nomeTorneo: req.body.nomeTorneo,
@@ -55,15 +79,15 @@ router.post('', async function(req, res) {
 router.get('/list', async (req, res) => {
     // Ritorna nickname di tutti gli utenti
 	let tornei = await torneo.find({}).exec();
-    var nomiTornei = [];
+    var idTornei = [];
 
     if(tornei){
         tornei.forEach(function(user) {
-            nomiTornei.push(user._id);
+            idTornei.push(user._id);
         });
         res.json({ 
             success: true,
-            tornei: nomiTornei
+            tornei: idTornei
         });
     }
     else{
