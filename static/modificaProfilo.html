@@ -15,41 +15,71 @@
         border: 2px solid #000000;
         font-style: Comic sans MS;
         color:blue;
+        height: 125px;
+        vertical-align: center;
         }
         h1   {color: blue;}
     /*switch css*/
         /* toggle in label designing */
-            .toggle {
-                position : relative ;
-                display : inline-block;
-                width : 40px;
-                height : 22px;
-                background-color: red;
-                border-radius: 30px;
-                border: 2px solid black;
-            }
-                   
-            /* After slide changes */
-            .toggle:after {
-                content: '';
-                position: absolute;
-                width: 20px;
-                height: 20px;
-                border-radius: 50%;
-                background-color: gray;
-                top: 578px;
-                left: 124px;
-                transition:  all 0.5s;
-            }      
-            /* Checkbox checked effect */
-            .checkbox:checked + .toggle::after {
-                left : 146px;
-            }
-                   
-            /* Checkbox vanished */
-            .checkbox {
-                display : none;
-            }
+        .switch {
+        position: relative;
+        display: inline-block;
+        width: 36px;
+        height: 18px;
+        }
+
+        .switch input { 
+        opacity: 0;
+        width: 0;
+        height: 0;
+        }
+
+        .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+        }
+
+        .slider:before {
+        position: absolute;
+        content: "";
+        height: 15px;
+        width: 15px;
+        left: 4px;
+        bottom: 2px;
+        background-color: white;
+        -webkit-transition: .4s;
+        transition: .4s;
+        }
+
+        input:checked + .slider {
+        background-color: #2196F3;
+        }
+
+        input:focus + .slider {
+        box-shadow: 0 0 1px #2196F3;
+        }
+
+        input:checked + .slider:before {
+        -webkit-transform: translateX(15px);
+        -ms-transform: translateX(15px);
+        transform: translateX(15px);
+        }
+
+        /* Rounded sliders */
+        .slider.round {
+        border-radius: 34px;
+        }
+
+        .slider.round:before {
+        border-radius: 50%;
+        }
         </style>
 </head>
 <body>
@@ -57,41 +87,37 @@
         <img src="images/LOGO.png" style="position: absolute; left:150px;" width="100" height="120" />
         <span style="font-family: “Comic Sans MS”, “Comic Sans”, cursive; color:blue;">
           <p style="font-size:4rem; position: absolute; float: left; margin-top: 2px; margin-left: 40%; ">Meet&Win</p>
-        <p>
-              <form action="api/v1/utenti" method="post" name="loginform" id="loginform" style="text-align:right;">
-              <label>email o nickname</label>
-              <input name="nickname" placeholder="red.rocco@unitn.it" id="loginNickname"/><br>
-              <label>password</label>
-              <input type="password" name="password" placeholder="Password2" id="loginPassword"/><br>
-              <button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px" type="button" onclick="login()">	Login</button>
-          </form>
+        <p style="text-align: right;">
+            <label>Bentornato, </label>
+            <span id="nicknameUser"></span>!<br>
+            <button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px; margin-top: 5px;" type="button" onclick="location.href='home_aut.html'">	HomePage</button>
         </p>
-    </p>
+        </span>
       </div>
-    <div>
-        <p style="color: blue; font-size: 40px; position: absolute; left: 40%; margin-top:5px;">Modifica Profilo</p>   
+<div>
+<p style="color: blue; font-size: 40px; position: absolute; left: 40%; margin-top:5px;">Modifica Profilo</p>   
 <br><br><br>	
 <form action="api/v1/utenti" method="post" name="regform" id="regform">
         <div>
             <label>nickname: </label>
-            <span id="nick"></span>
+            <span id="nickname"></span>
             <span title="Inserisci la tua email" style="position: absolute; left: 300px;">
             <label>email: </label>
             <span id="email"></span>
             </span>
             <span style="position: absolute; left:800px;">
             Scegli il tuo avatar: 
+            <p>
+                <input type="radio" name="avatar" id="avatar" value="101" checked/> <img src="images/avatar1.png" width="50" height="50" />
+                <input type="radio" name="avatar"  id="avatar" value="102"/> <img src="images/avatar2.png" width="50" height="50" />
+                <input type="radio" name="avatar"  id="avatar" value="103"/> <img src="images/avatar3.png" width="50" height="50" />
+                <input type="radio" name="avatar"  id="avatar" value="104"/> <img src="images/avatar4.png" width="50" height="50" />
+                </p>
                 <p>
-                    <input type="radio" name="avatar" id="avatar" value="101" checked/> <img src="images/avatar1.png" width="50" height="50" />
-                    <input type="radio" name="avatar"  id="avatar" value="102"/> <img src="images/avatar2.png" width="50" height="50" />
-                    <input type="radio" name="avatar"  id="avatar" value="103"/> <img src="images/avatar3.png" width="50" height="50" />
-                    <input type="radio" name="avatar"  id="avatar" value="104"/> <img src="images/avatar4.png" width="50" height="50" />
-                    </p>
-                    <p>
-                    <input type="radio" name="avatar"  id="avatar" value="105"/> <img src="images/avatar5.png" width="50" height="50" />
-                    <input type="radio" name="avatar"  id="avatar" value="106"/> <img src="images/avatar6.png" width="50" height="50" />
-                    <input type="radio" name="avatar"  id="avatar" value="107"/> <img src="images/avatar7.png" width="50" height="50" />
-                    <input type="radio" name="avatar"  id="avatar" value="108"/> <img src="images/avatar8.png" width="50" height="50" />
+                <input type="radio" name="avatar"  id="avatar" value="105"/> <img src="images/avatar5.png" width="50" height="50" />
+                <input type="radio" name="avatar"  id="avatar" value="106"/> <img src="images/avatar6.png" width="50" height="50" />
+                <input type="radio" name="avatar"  id="avatar" value="107"/> <img src="images/avatar7.png" width="50" height="50" />
+                <input type="radio" name="avatar"  id="avatar" value="108"/> <img src="images/avatar8.png" width="50" height="50" />
             </p>
             </span>
         </div>
@@ -99,27 +125,26 @@
         <div>
             <label>vecchia password:</label>
             <span title="Inserisci la tua vecchia password.">
-            <input type="text" placeholder="Vecchia password" id="vecPass" onkeypress="controllaPassword(this)"></span>
+            <input type="password" placeholder="Vecchia password" id="vecPass" onchange="controllaPassword(this)"></span>
             </div>
 <br>
             <div>
             <label>nuova password:</label>
             <span title="Inserisci la tua nuova password; la password deve essere di almeno 8 caratteri, 
-            contenere almeno un carattere maiuscolo, uno minuscolo e un numero.">
-            <input type="password" placeholder="nuova password" id="newPass" disabled></span>
+contenere almeno un carattere maiuscolo, uno minuscolo e un numero.">
+            <input type="password" placeholder="nuova password" id="newPass" disabled></span>&nbsp;
             <label>conferma password:</label>
             <input type="password" placeholder="conferma password" id="c_newPass" disabled>
             </div>
 <br>
-        <div>
-        <label>Bio:</label>
-            <span title=" esempio: Ciao a tutti, sono un ragazzo a cui piacciono i videogame sparatutto.">
-            <input type="text" placeholder="Scrivi qui una tua breve descrizione;" name="bio" id="bio" maxlength="200" style="width: 500px; height: 100px;"></span>
-        </div>
+<div>
+    <span title=" esempio: Ciao a tutti, sono un ragazzo a cui piacciono i videogame sparatutto.">
+    Bio: <textarea placeholder="Scrivi qui una tua breve descrizione;" name="bio" id="bio" maxlength="200" style="width: 500px; height: 100px; resize: none; vertical-align: top;"></textarea></span>
+</div>
 <br>
         <div>
             <span title="Inserisci i tuoi giochi e sport preferiti (min 1), serviranno a noi per personalizzare 
-la tua esperienza e agli altri utenti per chiederti di unirti a loro nelle sfide.">Preferenze</span>
+la tua esperienza e agli altri utenti per chiederti di unirti a loro nelle sfide.">Preferenze:</span>
 <br>
             <span> Sport:&nbsp; </span>
             <span style="position: absolute; left: 115px;">
@@ -160,35 +185,37 @@ la tua esperienza e agli altri utenti per chiederti di unirti a loro nelle sfide
             </span>
         </div>
         <div>
-                <span title="Inserisci le piattaforme di cui sei a disposizione (opz), serviranno a noi per personalizzare la tua esperienza e agli altri utenti per chiederti di unirti a loro nelle sfide.">Piattaforme (opz): 
-                <input type="checkbox" name="ps5" id="piatt" value="100"/> Playstation 5
-                <input type="checkbox" name="ps4" id="piatt" value="101"/> Playstation 4
-                <input type="checkbox" name="xbox1" id="piatt" value="102"/> Xbox ONE
-                <input type="checkbox" name="switch" id="piatt" value="103"/> Switch
-                <input type="checkbox" name="PC" id="piatt" value="104"/> PC
-                </span>
+            <span title="Inserisci le piattaforme di cui sei a disposizione (opz), serviranno a noi per personalizzare la tua esperienza e agli altri utenti per chiederti di unirti a loro nelle sfide.">Piattaforme (opz): 
+            <input type="checkbox" name="piatt" id="piatt" value="100"/> Playstation 5
+            <input type="checkbox" name="piatt" id="piatt" value="101"/> Playstation 4
+            <input type="checkbox" name="piatt" id="piatt" value="102"/> Xbox ONE
+            <input type="checkbox" name="piatt" id="piatt" value="103"/> Switch
+            <input type="checkbox" name="piatt" id="piatt" value="104"/> PC
+            </span>
 
             </div>
             <div>
                     <label>Zona:</label>
-                    <span title="Inserisci un paese di riferimento vicino a te (opz); non è necessario mettere il paese di appartenenza, questa informazione è completamente privata e al solo scopo di migliorare la tua esperienza di suggeriti, grazie alla zona infatti potremmo consigliarti tornei che si svolgono vicino a te."><input type="text" class="form-control" placeholder="posizione (opz)" name="zona" id="zona"></span>
+                    <span title="Inserisci un paese di riferimento vicino a te (opz); non è necessario mettere il paese di appartenenza, questa informazione è completamente privata e al solo scopo di migliorare la tua esperienza di suggeriti, grazie alla zona infatti potremmo consigliarti tornei che si svolgono vicino a te."><input type="text" class="form-control" placeholder="posizione (opz)" name="zona" id="zona"/></span>
             </div>
-        <div>account: pubblico
-            <input type="checkbox" id="switch" class="checkbox" name="switch"/>
-            <label for="switch" class="toggle">
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <div style="margin-top: 5px;">account: pubblico
+            <label class="switch">
+                <input type="checkbox" id="privato" class="checkbox" name="switch" value="privato">
+                <span class="slider round"></span>
+              </label>
             privato    
         </div>
-<p align=center><input type="reset" value="cancella tutto" onclick="clearAll()"> </p>
+<p style="text-align: center;"><input type="reset" value="cancella tutto" onclick="clearAll()"> </p>
     </form>
     <div id="errors" name="errors" style="color: rgb(179, 34, 34)"></div>
 <br><br>
-        <div align=center>	
-            <button style="background-color:#30b5fc;" onclick="location.href='index.html'">Annulla</button>
-            <button style="background-color:#30b5fc;" id="cmail" onclick="generaCodiceConfermaMail()" disabled>Conferma Mail</button>
-            <button style="background-color:#30b5fc;" id="confermaR"onclick="register()" disabled>Conferma</button>
+        <div style="text-align: center;">	
+            <button style="background-color:#30b5fc;" onclick="location.href='home_aut.html'">Annulla</button>
+            <button style="background-color:#30b5fc;" id="confermaR"onclick="saveChanges()">Conferma</button>
         </div> 
+</div>
     <script src="script.js"></script> 
+    <script>getPersonalProfile(); loadInfoUser();</script>
             
 </body>
 </html>

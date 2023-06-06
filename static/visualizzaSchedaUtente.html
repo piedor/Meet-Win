@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>schedaUtente</title>
-       <meta charset="UTF-8">
+<head>
+    <title>schedaUtente</title>
+    <meta charset="UTF-8">
       <style>
       body {background-color: #b8b9ba;}
       .center {
@@ -15,6 +15,8 @@
       border: 2px solid #000000;
       font-style: Comic sans MS;
       color:blue;
+      height: 125px;
+      vertical-align: center;
       }
 	.box1{
 	width: 125px;
@@ -53,21 +55,25 @@
         <span style="font-family: “Comic Sans MS”, “Comic Sans”, cursive; color:blue;">
           <p style="font-size:4rem; position: absolute; float: left; margin-top: 2px; margin-left: 40%; ">Meet&Win</p>
         <p>
-              <form action="api/v1/utenti" method="post" name="loginform" id="loginform" style="text-align:right;">
-              <label>email o nickname</label>
+            <form action="api/v1/utenti" method="post" name="loginform" id="loginform" style="text-align:right;">            
+            <label>email o nickname</label>
               <input name="nickname" placeholder="red.rocco@unitn.it" id="loginNickname"/><br>
               <label>password</label>
               <input type="password" name="password" placeholder="Password2" id="loginPassword"/><br>
-              <button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px" type="button" onclick="login()">	Login</button>
-          </form>
+              <button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px" type="button" onclick="login()">	Login</button>            
+            </form>
+            <span id="loggedInfo"  style="position:relative; float:right;" hidden>
+            <label>Bentornato, </label>
+              <span id="nicknameUser"></span>!<br>
+              <button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px" type="button" onclick="location.href='home_aut.html'">HomePage</button>
+            </span>
         </p>
-    </p>
       </div>
       <button style="background-color:#30b5fc;" onclick="location.href='cercaUtenti.html'">INDIETRO</button> 
 	<p style="color: blue; font-size: 40px; position: absolute; left: 35%; margin-top:5px;">Visualizza Scheda Utente</p>   
 	<br><br>
 	<div class="box1"> 
-	icona avatar, coming soon
+        <img src="" alt="" id="avatar" width="125px" height="125px" />
     </div>
     <div style="margin-left:15%"> 
 	<p style="font-size: 18px;">Nickname: <span id="nickname"></span></p>
@@ -77,9 +83,9 @@
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <span hidden>Rating organizzatore: <span id="rating"></span>&nbsp;&nbsp;<img src="images/star.png" width="20" height="20" /></span>
     </p>
-    <p>Bio: <span class="box2" id="bio">Testo di prova</span></p>
-    <p>Preferenze: <span class="box2" id="preferenze">Testo di prova</span></p>
-    <p>Piattaforme: <span class="box2" id="piatt">Testo di prova</span></p>
+    <p>Bio: <span class="box2" id="bio"></span></p>
+    <p>Preferenze: <span class="box2" id="preferenze"></span></p>
+    <p>Piattaforme: <span class="box2" id="piatt"></span></p>
     <p class="box3">
         <span>Community Iscritto:</span><br>
         <button style="background-color:#30b5fc; width:350px; height: 40px; font-size:16px"> Community1</button>
@@ -101,6 +107,7 @@
 <button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px" onClick="window.alert('coming soon')">Richiesta Amicizia</button>
 </div>
     <script src="script.js"></script> 
+    <script>getProfile(); loadInfoUser()</script>
 </body>
 
 </html>

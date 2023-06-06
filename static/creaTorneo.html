@@ -15,41 +15,10 @@
         border: 2px solid #000000;
         font-style: Comic sans MS;
         color:blue;
+        height: 125px;
+        vertical-align: center;
         }
         h1   {color: blue;}
-    /*switch css*/
-        /* toggle in label designing */
-            .toggle {
-                position : relative ;
-                display : inline-block;
-                width : 40px;
-                height : 22px;
-                background-color: red;
-                border-radius: 30px;
-                border: 2px solid black;
-            }
-                   
-            /* After slide changes */
-            .toggle:after {
-                content: '';
-                position: absolute;
-                width: 20px;
-                height: 20px;
-                border-radius: 50%;
-                background-color: gray;
-                top: 578px;
-                left: 124px;
-                transition:  all 0.5s;
-            }      
-            /* Checkbox checked effect */
-            .checkbox:checked + .toggle::after {
-                left : 146px;
-            }
-                   
-            /* Checkbox vanished */
-            .checkbox {
-                display : none;
-            }
         </style>
 </head>
 <body>
@@ -57,130 +26,166 @@
         <img src="images/LOGO.png" style="position: absolute; left:150px;" width="100" height="120" />
         <span style="font-family: “Comic Sans MS”, “Comic Sans”, cursive; color:blue;">
           <p style="font-size:4rem; position: absolute; float: left; margin-top: 2px; margin-left: 40%; ">Meet&Win</p>
-        <p>
-              <form action="api/v1/utenti" method="post" name="loginform" id="loginform" style="text-align:right;">
-              <label>email o nickname</label>
-              <input name="nickname" placeholder="red.rocco@unitn.it" id="loginNickname"/><br>
-              <label>password</label>
-              <input type="password" name="password" placeholder="Password2" id="loginPassword"/><br>
-              <button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px" type="button" onclick="login()">	Login</button>
-          </form>
-        </p>
-    </p>
+        <p style="text-align: right;">
+            <label>Bentornato, </label>
+            <span id="nicknameUser"></span>!<br>
+            <button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px; margin-top: 5px;" type="button" onclick="location.href='home_aut.html'">	HomePage</button>
+        </p></span>
       </div>
    <div>
         <p style="color: blue; font-size: 40px; position: absolute; left: 45%; margin-top:5px;">Crea Torneo</p>   
 <br><br><br>	
-<form action="api/v1/utenti" method="post" name="regform" id="regform">
-        <div>
-            <label>Organizzatore: </label>
-            <span id="nick"></span>
-            <span style="position: absolute; left:800px;">
-            Scegli un'immagine per il tuo torneo: 
-            <p>
-                <input type="radio" name="avatar" id="avatar" value="101" checked/> <img src="images/avatar1.png" width="50" height="50" />
-                <input type="radio" name="avatar"  id="avatar" value="102"/> <img src="images/avatar2.png" width="50" height="50" />
-                <input type="radio" name="avatar"  id="avatar" value="103"/> <img src="images/avatar3.png" width="50" height="50" />
-                <input type="radio" name="avatar"  id="avatar" value="104"/> <img src="images/avatar4.png" width="50" height="50" />
-                </p>
-                <p>
-                <input type="radio" name="avatar"  id="avatar" value="105"/> <img src="images/avatar5.png" width="50" height="50" />
-                <input type="radio" name="avatar"  id="avatar" value="106"/> <img src="images/avatar6.png" width="50" height="50" />
-                <input type="radio" name="avatar"  id="avatar" value="107"/> <img src="images/avatar7.png" width="50" height="50" />
-                <input type="radio" name="avatar"  id="avatar" value="108"/> <img src="images/avatar8.png" width="50" height="50" />
+<form action="api/v1/tornei" method="post" name="creationform" id="creationform" onchange="changes()">
+    <div>
+        <label>Organizzatore: </label>
+        <span id="nicknameUser2"></span>
+        <span style="position: absolute; left:800px;">
+        Scegli un'immagine per il tuo torneo: 
+        <p>
+            <input type="radio" name="logoT" id="logoT" value="101" checked/> <img src="images/sport.png" width="50" height="50" />
+            <input type="radio" name="logoT"  id="logoT" value="102"/> <img src="images/calcio.jpg" width="50" height="50" />
+            <input type="radio" name="logoT"  id="logoT" value="103"/> <img src="images/pallavolo.jpg" width="50" height="50" />
+            <input type="radio" name="logoT"  id="logoT" value="104"/> <img src="images/carte.png" width="50" height="50" />
             </p>
-            </span>
+            <p>
+            <input type="radio" name="logoT"  id="logoT" value="105"/> <img src="images/esports.png" width="50" height="50" />
+            <input type="radio" name="logoT"  id="logoT" value="106"/> <img src="images/lol.png" width="50" height="50" />
+            <input type="radio" name="logoT"  id="logoT" value="107"/> <img src="images/csgo.png" width="50" height="50" />
+            <input type="radio" name="logoT"  id="logoT" value="108"/> <img src="images/scacchi.png" width="50" height="50" />
+        </p>
+        </span>
+    </div>
+<br>
+    <div>
+        <label>Nome torneo:</label>
+        <span title="Inserisci il nome del torneo che vuoi organizzare.">
+        <input type="text" placeholder="nome torneo" id="nomeTorneo" ></span>
         </div>
 <br>
+    <div>
+        <label>Argomento:</label>
+        <span title="Inserisci l'argomento del torneo che vuoi organizzare, esempio: League of Legends/Calcetto/Pallavolo.">
+        <input type="text" placeholder="argomento" id="argomento" ></span>
+        <label>Data Inizio:</label>
+        <span title="Inserisci la data di inizio del torneo che vuoi organizzare" style="margin-left: 5px;">
+        <input type="text" placeholder="data inizio" id="dataInizio" ></span>
+    </div>
+<br>
+    <div> 
+        <span title="esempio: Ciao a tutti, sto organizzando un torneo di pallavolo a Bassano per universitari.">
+        Bio: <textarea placeholder="Scrivi qui una breve descrizione del torneo" name="bio" id="bio" maxlength="200" style="width: 500px; height: 100px; resize:none; vertical-align: top;"></textarea>
+        </span>
+    </div>
+<br>
+    <div> 
+        <span title="esempio: Torneo di pallavolo 6 contro 6 per universitari, in campo devono esserci almeno 4 persone che fanno l'università, si gioca al centro giovanile." style="float:left">
+        Regolamento: <textarea placeholder="Scrivi qui il regolamento particolare del torneo, ricorda che le info generali sono visibili tramite gli altri campi" id="regolamento" maxlength="200" style="width: 500px; height: 100px; resize:none; vertical-align: top;"></textarea>
+        </span>
         <div>
-            <label>Nome torneo:</label>
-            <span title="Inserisci il nome del torneo che vuoi organizzare.">
-            <input type="text" placeholder="nome torneo" id="nomeTorneo" ></span>
-            </div>
+        <span title="Seleziona il formato del tuo torneo. Campionato: tutti giocano contro tutti; 
+eliminazione diretta: viene generato un tabellone dove chi vince avanza alla fase sucessiva; 
+gironi: prima fase in cui vengoni generati dei mini campionati dove tutti giocano contro tutti 
+    successivamente i primi entrano in una fase ad eliminazione diretta." style="margin-left: 5px;">
+            <label>Formato Torneo</label>
+            <select name="formatoT" id="formatoT" onchange="gironiDiv()">
+            <option value="campionato" selected>campionato</option>
+            <option value="eliminazione">eliminazione diretta</option>
+            <option value="gironi">gironi con eliminazione diretta</option>
+            </select>
+        </span>     
+        <span id="ngir"title="Inserisci il numero di gironi" hidden>
+        <label>Numero gironi:</label>
+        <input type="text" placeholder="numero gironi" name="ngironi" id="ngironi"></span>
+        <span title="Seleziona il formato delle partite. Best of 1: partita secca, chi vince prende i punti; 
+best of 3: per vincere bisogna vincere 2 partite su 3;
+best of 5: per vincere bisogna vincere 3 partite su ">
+        <label>Formato Partite</label>
+        <select name="formatoP" id="formatoP">
+        <option value="bo1">Best of 1</option>
+        <option value="bo3">Best of 3</option>
+        <option value="bo5">Best of 5</option>
+        </select>
+    </span>
+    </div>
 <br>
-        <div> 
-            <span title="esempio: Ciao a tutti, sto organizzando un torneo di pallavolo a Bassano per universitari.">
-            Bio: <textarea placeholder="Scrivi qui una breve descrizione del torneo" name="bio" id="bio" maxlength="200" style="width: 500px; height: 100px; resize:none; vertical-align: top;"></textarea>
-            </span>
-        </div>
+    <div> 
+        <span title="Inserisci il numero di squadre" style="margin-left: 5px;">
+        <label>Numero Squadre:</label>
+        <input type="text" placeholder="numero squadre" name="nsquadre" id="nsquadre"></span>
+        <span title="Inserisci il numero di giocatori per squadra" style="margin-left: 20px;">
+        <label>Numero Giocatori per squadra:</label>
+        <input type="text" placeholder="numero giocatori" name="ngiocatori" id="ngiocatori" ></span>
+    </div>
+    <br>
+    <span title="Inserisci la piattaforma su cui sei si svolgerà il torneo, obbligatoria nel caso di tornei di videogiochi." style="margin-left: 5px;">Piattaforme (opz): 
+        <input type="radio" name="piattaforma" id="piattaforma" value="100"/> Cross platform
+        <input type="radio" name="piattaforma" id="piattaforma" value="101"/> Playstation 4
+        <input type="radio" name="piattaforma" id="piattaforma" value="102"/> Playstation 5
+        <input type="radio" name="piattaforma" id="piattaforma" value="103"/> Xbox ONE
+        <input type="radio" name="piattaforma" id="piattaforma" value="104"/> Switch
+        <input type="radio" name="piattaforma" id="piattaforma" value="105"/> PC
+    </span>
+</div>
 <br>
-        <div> 
-            <span title="esempio: Torneo di pallavolo 6 contro 6 per universitari, in campo devono esserci almeno 4 persone che fanno l'università, si gioca al centro giovanile.">
-            Regolamento: <textarea placeholder="Scrivi qui il regolamento particolare del torneo, ricorda che le info generali sono visibili tramite gli altri campi" id="regolamento" maxlength="200" style="width: 500px; height: 100px; resize:none; vertical-align: top;"></textarea>
-          </span>
-        </div>  
+    <div>
+        <span title="Seleziona i tag relativi al tuo torneo (min 1), serviranno a per migliorare la ricerca del torneo, così da migliorare 
+la tua esperienza e quella degli altri utenti per cercare il torneo.">Scegli i tag che rappresentano il tuo torneo:</span>
 <br>
-        <div>
-            <span title="Inserisci i tuoi giochi e sport preferiti (min 1), serviranno a noi per personalizzare 
-la tua esperienza e agli altri utenti per chiederti di unirti a loro nelle sfide.">Scegli i tag che rappresentano il tuo torneo:</span>
+    <span> Sport:&nbsp; </span>
+    <span style="position: absolute; left: 115px;">
+        <input type="checkbox" name="tags" id="tags" value="100"/> sport di squadra
+        <input type="checkbox" name="tags" id="tags" value="101"/> calcio
+        <input type="checkbox" name="tags" id="tags" value="102"/> calcetto
+        <input type="checkbox" name="tags" id="tags" value="103"/> basket
+        <input type="checkbox" name="tags" id="tags" value="104"/> freccette
+        <input type="checkbox" name="tags" id="tags" value="105"/> hockey
+        <input type="checkbox" name="tags" id="tags" value="106"/> tennis
+        <input type="checkbox" name="tags" id="tags" value="107"/> ping pong
+        <input type="checkbox" name="tags" id="tags" value="108"/> paddel
+        <input type="checkbox" name="tags" id="tags" value="109"/> pallavolo
+        <input type="checkbox" name="tags" id="tags" value="110"/> beach volley
+        </span>
 <br>
-            <span> Sport:&nbsp; </span>
-            <span style="position: absolute; left: 115px;">
-            <input type="checkbox" name="pref" id="pref" value="100"/> sport di squadra
-            <input type="checkbox" name="pref" id="pref" value="101"/> calcio
-            <input type="checkbox" name="pref" id="pref" value="102"/> calcetto
-            <input type="checkbox" name="pref" id="pref" value="103"/> basket
-            <input type="checkbox" name="pref" id="pref" value="104"/> freccette
-            <input type="checkbox" name="pref" id="pref" value="105"/> hockey
-            <input type="checkbox" name="pref" id="pref" value="106"/> tennis
-            <input type="checkbox" name="pref" id="pref" value="107"/> ping pong
-            <input type="checkbox" name="pref" id="pref" value="108"/> paddel
-            <input type="checkbox" name="pref" id="pref" value="109"/> pallavolo
-            <input type="checkbox" name="pref" id="pref" value="110"/> beach volley
-            </span>
-<br>
-            <span> Videogiochi:&nbsp; </span>
-            <span style="position: absolute; left: 115px;">
-            <input type="checkbox" name="pref" id="pref" value="201"/> Fifa
-            <input type="checkbox" name="pref" id="pref" value="202"/> League of Legends
-            <input type="checkbox" name="pref" id="pref" value="203"/> Valorant
-            <input type="checkbox" name="pref" id="pref" value="204"/> CS:GO
-            <input type="checkbox" name="pref" id="pref" value="205"/> Rainbow Six Siege
-            <input type="checkbox" name="pref" id="pref" value="206"/> Fortnite
-            <input type="checkbox" name="pref" id="pref" value="207"/> Super Smash Bros
-            <input type="checkbox" name="pref" id="pref" value="208"/> Rocket League
-            </span>
+        <span> Videogiochi:&nbsp; </span>
+        <span style="position: absolute; left: 115px;">
+        <input type="checkbox" name="tags" id="tags" value="200"/> Videogiochi
+        <input type="checkbox" name="tags" id="tags" value="201"/> Fifa
+        <input type="checkbox" name="tags" id="tags" value="202"/> League of Legends
+        <input type="checkbox" name="tags" id="tags" value="203"/> Valorant
+        <input type="checkbox" name="tags" id="tags" value="204"/> CS:GO
+        <input type="checkbox" name="tags" id="tags" value="205"/> Rainbow Six Siege
+        <input type="checkbox" name="tags" id="tags" value="206"/> Fortnite
+        <input type="checkbox" name="tags" id="tags" value="207"/> Super Smash Bros
+        <input type="checkbox" name="tags" id="tags" value="208"/> Rocket League
+        </span>
 <br>		
-            <span>Giochi da tavolo:&nbsp; </span>
-            <span style="position: absolute; left: 115px;">
-            <input type="checkbox" name="pref" id="pref" value="301"/> Scacchi
-            <input type="checkbox" name="pref" id="pref" value="302"/> Catan
-            <input type="checkbox" name="pref" id="pref" value="303"/> Ticket To Ride
-            <input type="checkbox" name="pref" id="pref" value="304"/> Dominion
-            <input type="checkbox" name="pref" id="pref" value="305"/> giochi di carte
-            <input type="checkbox" name="pref" id="pref" value="306"/> Yu-Gi-Oh!
-            <input type="checkbox" name="pref" id="pref" value="307"/> Magic
-            </span>
-        </div>
-        <div>
-            <span title="Inserisci le piattaforme di cui sei a disposizione (opz), serviranno a noi per personalizzare la tua esperienza e agli altri utenti per chiederti di unirti a loro nelle sfide.">Piattaforme (opz): 
-            <input type="checkbox" name="ps5" id="piatt" value="100"/> Playstation 5
-            <input type="checkbox" name="ps4" id="piatt" value="101"/> Playstation 4
-            <input type="checkbox" name="xbox1" id="piatt" value="102"/> Xbox ONE
-            <input type="checkbox" name="switch" id="piatt" value="103"/> Switch
-            <input type="checkbox" name="PC" id="piatt" value="104"/> PC
-            </span>
-        </div>
-        <div>
-            <label>Zona:</label>
-            <span title="Inserisci un paese di riferimento vicino a te (opz); non è necessario mettere il paese di appartenenza, questa informazione è completamente privata e al solo scopo di migliorare la tua esperienza di suggeriti, grazie alla zona infatti potremmo consigliarti tornei che si svolgono vicino a te."><input type="text" class="form-control" placeholder="posizione (opz)" name="zona" id="zona"></span>
-        </div>
-        <div>account: pubblico
-            <input type="checkbox" id="switch" class="checkbox" name="switch"/>
-            <label for="switch" class="toggle">
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            privato    
-        </div>
-<p align=center><input type="reset" value="cancella tutto" onclick="clearAll()"> </p>
-    </form>
-    <div id="errors" name="errors" style="color: rgb(179, 34, 34)"></div>
-<br><br>
-        <div align=center>	
-            <button style="background-color:#30b5fc;" onclick="location.href='index.html'">Annulla</button>
-            <button style="background-color:#30b5fc;" id="cmail" onclick="generaCodiceConfermaMail()">Salva modifiche</button>
-            <button style="background-color:#30b5fc;" id="confermaR"onclick="register()" disabled>Pubblica</button>
+        <span>Giochi da tavolo:&nbsp; </span>
+        <span style="position: absolute; left: 115px;">
+        <input type="checkbox" name="tags" id="tags" value="301"/> Scacchi
+        <input type="checkbox" name="tags" id="tags" value="302"/> Catan
+        <input type="checkbox" name="tags" id="tags" value="303"/> Ticket To Ride
+        <input type="checkbox" name="tags" id="tags" value="304"/> Dominion
+        <input type="checkbox" name="tags" id="tags" value="305"/> giochi di carte
+        <input type="checkbox" name="tags" id="tags" value="306"/> Yu-Gi-Oh!
+        <input type="checkbox" name="tags" id="tags" value="307"/> Magic
+        </span>
+    </div>
+<br>
+    <div>
+        <label>Zona:</label>
+        <span title="Inserisci la posizione del torneo; attenzione: opzionale solo nel caso di tornei digitali."><input type="text" class="form-control" placeholder="posizione (opz)" name="zona" id="zona"></span>
+        <span style="margin-right: 30%;"></span><input type="reset" value="cancella tutto"> 
+    </div>
+</form>
+<br>
+    <div style="text-align: center;">
+            <button style="background-color:#30b5fc;" onclick="location.href='cercaTorneo.html'">Annulla</button>
+            <button style="background-color:#30b5fc;" id="salvaModifiche" onclick="creationTorneo()">Salva modifiche</button>
+            <button style="background-color:#30b5fc;" id="pubblica" onclick="publica()" disabled>Pubblica</button>
         </div> 
-    <script src="script.js"></script> 
-            
+    <script src="script.js"></script>
+    <script>
+    loadInfoUser(); loadInfoTorneo();
+    </script>            
 </body>
 </html>

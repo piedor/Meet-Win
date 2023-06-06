@@ -14,7 +14,9 @@
       border: 2px solid #000000;
       font-style: Comic sans MS;
       color:blue;
-      }
+      height: 125px;
+      vertical-align: center;
+      }       
     .box3{
   	width: 800px;
 	  height: 180px;
@@ -24,10 +26,9 @@
   	background-color:rgb(117, 116, 116);
   	font-size: 15px;
     text-align: center;
-    float:left;
     color: white; 
     font-size: 20px;
-    margin-left: 20%;
+    margin: auto;
 	}
         </style>
 </head>
@@ -36,28 +37,30 @@
     <img src="images/LOGO.png" style="position: absolute; left:150px;" width="100" height="120" />
     <span style="font-family: “Comic Sans MS”, “Comic Sans”, cursive; color:blue;">
       <p style="font-size:4rem; position: absolute; float: left; margin-top: 2px; margin-left: 40%; ">Meet&Win</p>
-    <p>
-          <form action="api/v1/utenti" method="post" name="loginform" id="loginform" style="text-align:right;">
-          <label>email o nickname</label>
+      <p>
+        <form action="api/v1/utenti" method="post" name="loginform" id="loginform" style="text-align:right;">            
+        <label>email o nickname</label>
           <input name="nickname" placeholder="red.rocco@unitn.it" id="loginNickname"/><br>
           <label>password</label>
           <input type="password" name="password" placeholder="Password2" id="loginPassword"/><br>
-          <button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px" type="button" onclick="login()">	Login</button>
-      </form>
+          <button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px; margin-top: 5px;" type="button" onclick="login()">	Login</button>            
+        </form>
+        <span id="loggedInfo"  style="position:relative; float:right;" hidden>
+        <label>Bentornato, </label>
+          <span id="nicknameUser"></span>!<br>
+          <button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px; margin-top: 5px;" type="button" onclick="location.href='home_aut.html'">HomePage</button>
+        </span>
     </p>
-</p>
   </div>
 <p style="color: blue; font-size: 40px; position: absolute; left: 45%; margin-top:5px;">Cerca Utenti</p>   
-    <button style="background-color:#30b5fc;" onclick="location.href='index.html'">INDIETRO</button>
-    <p>coming soon</p>
-    <script src="script.js"></script> 
-  <div class="box3">
-    elenco utenti di prova per visualizzarne le schede profilo:
+    <button style="background-color:#30b5fc; margin-top: 5px;" onclick="location.href='index.html'">INDIETRO</button>
+<br><br><br>
+  <div class="box3" id="boxUtenti">
+    Elenco utenti per visualizzarne le schede profilo:
 <br><br>
-    <button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px" onclick="location.href='visualizzaSchedaUtente.html?nickname=Tmao'"> Tmao</button>
-    <button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px" onclick="location.href='visualizzaSchedaUtente.html?nickname=Banana'"> Banana</button>
-    <button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px" onclick="location.href='visualizzaSchedaUtente.html?nickname=Utente3'"> Utente3</button>
   </div>
+  <script src="script.js"></script> 
+  <script> loadInfoUser(); listUtenti();</script>
 </body>
 
 </html>

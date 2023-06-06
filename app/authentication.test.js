@@ -23,6 +23,7 @@ describe('POST /api/v1/authentications', () => {
     return request(app)
       .post('/api/v1/authentications')
       .set('Accept', 'application/json')
+      .send({nickname: "", password: ""})
       .expect(200, { success: false, message: "Nessun utente trovato!" });
   });
 

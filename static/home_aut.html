@@ -3,7 +3,7 @@
     <head>
         <title>home</title>
        <meta charset="UTF-8">
-      <style>
+    <style>
       body {background-color: #b8b9ba;}
       .center {
       margin: auto;
@@ -15,77 +15,89 @@
       border: 2px solid #000000;
       font-style: Comic sans MS;
       color:blue;
+      height: 125px;
+      vertical-align: center;
       }
 	.box1{
-	margin-left: 200px;
-	width: 500px;
-	height: 125px;
-	padding-top: 5px;
-	padding-left: 10px;
-	padding-right: 10px;
-	border: 2px solid black;
-	font-size: 18px;
+	margin-top: 20px;
+  margin-right: 20%;
+  	width: 400px;
+	  height: 180px;
+	  padding: 10px;
+    align-content: center;
+    align-items: center;
+  	background-color:rgb(117, 116, 116);
+  	font-size: 15px;
+    text-align: center;
+    color: white; 
+    font-size: 20px;
+    float: right;
 	}
 	.box2{
-	margin-left: 700px;
-	width: 500px;
-	height: 125px;
-	padding-top: 5px;
-	padding-left: 10px;
-	padding-right: 10px;
-	border: 2px solid black;
-	font-size: 18px;
+	margin-top: 20px;
+  margin-left: 20%;
+  	width: 400px;
+	  height: 180px;
+	  padding: 10px;
+    align-content: center;
+    align-items: center;
+  	background-color:rgb(117, 116, 116);
+  	font-size: 15px;
+    text-align: center;
+    color: white; 
+    font-size: 20px;
 	}
-	.box3{
-	margin-left: 400px;
-	width: 500px;
-	height: 125px;
-	padding-top: 5px;
-	padding-left: 10px;
-	padding-right: 10px;
-	border: 2px solid black;
-	font-size: 18px;
+    .box3{
+  	width: 800px;
+	  height: 180px;
+	  padding: 10px;
+    align-content: center;
+    align-items: center;
+  	background-color:rgb(117, 116, 116);
+  	font-size: 15px;
+    text-align: center;
+    color: white; 
+    font-size: 20px;
+    margin:auto;
 	}
         </style>
 </head>
 <body>
-    <div class="testata">
-        <img src="images/LOGO.png" style="position: absolute; left:150px;" width="100" height="120" />
-        <span style="font-family: “Comic Sans MS”, “Comic Sans”, cursive; color:blue;">
-          <p style="font-size:4rem; position: absolute; float: left; margin-top: 2px; margin-left: 40%; ">Meet&Win</p>
-        <p>
-              <form action="api/v1/utenti" method="post" name="loginform" id="loginform" style="text-align:right;">
-              <label>email o nickname</label>
-              <input name="nickname" placeholder="red.rocco@unitn.it" id="loginNickname"/><br>
-              <label>password</label>
-              <input type="password" name="password" placeholder="Password2" id="loginPassword"/><br>
-              <button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px" type="button" onclick="login()">	Login</button>
-          </form>
-        </p>
-    </p>
-      </div>
+  <div class="testata">
+    <img src="images/LOGO.png" style="position: absolute; left:150px;" width="100" height="120" />
+    <span style="font-family: “Comic Sans MS”, “Comic Sans”, cursive; color:blue;">
+      <p style="font-size:4rem; position: absolute; float: left; margin-top: 2px; margin-left: 40%; ">Meet&Win</p>
+    <p style="text-align: right;">
+        <label>Bentornato, </label>
+        <span id="nicknameUser"></span>!<br>
+        <button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px; margin-top: 5px;" type="button" onclick="location.href='home_aut.html'">	HomePage</button>
+        <button style="background-color:#30b5fc; font-size:16px; margin-top: 5px;" onclick="logout()">Logout</button>
+    </p></span>
+  </div>
 	<p style="color: blue; font-size: 40px; position: absolute; left: 38%; margin-top:5px;">HomePage Autenticato</p>   
-	<p style="padding-right:40px; text-align: right;	font-size: 20px;"> 
-	<button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px" onClick="window.alert('coming soon')">Il mio profilo</button>
+	<p style="padding-right:40px; text-align: right; font-size: 20px;"> 
+	<button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px" onClick="location.href='modificaProfilo.html'">Modifica profilo</button>
   	</p>
-      <div class="box1"> 
-	<img src="images/torneo.jpg" style="float:left" width="120" height="120"/>
-     	<b>&nbspCerca il torneo più adatto a te oppure Organizza &nbspun torneo sul tuo gioco preferito</b><br>
-	&nbspEsplora i tornei creati dagli altri utenti e scegli &nbspquello più adatto. Non c'è? Allora crealo e &nbsppersonalizzalo come preferisci! 
-	</div>
-<br>  
-	<div class="box2"> 
-	<img src="images/comm.jpg" style="float:left" width="150" height="120" />
-      <b>&nbspForma squadre con i tuoi amici oppure &nbspalleati con i membri dei tuoi gruppi</b><br>
-	&nbspCerca i tuoi amici nella piattaforma e invitali a &nbsppartecipare ai tornei con te. Se sei un lupo &nbspsolitario puoi sempre unirti ad una community &nbspper cercare altri utenti con cui vincere i tornei.
-	</div>
+  <div class="box3">
+    Prossime partite:
+<br><br>
+    <button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px" onclick=""> Partita1</button>
+    <button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px" onclick=""> Partita2</button>
+    <button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px" onclick=""> Partita3</button>
+  </div>
+<div class="box1">
+  Chat box:
+<br><br> coming soon...
+  </div> 
+    <div class="box2">
+    Notifiche Interne:
+<br><br>
+    <button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px" onclick=""> Notifica1</button><br>
+    <button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px" onclick=""> Notifica2</button><br>
+    <button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px" onclick=""> Notifica3</button>
+    </div>
 <br>
-      <div class="box3"> 
-	<img src="images/trofeo.jpg" style="float:left" width="100" height="120" />
-      <b>&nbspGioca, Divertiti e VINCI!!!</b><br>
-	&nbspGioca a partite dei tuoi giochi preferiti, gli amici di oggi potrebbero diventare i nemici di domani, preparati a dare il massimo per uscirne vincitore.
-	</div><br>
-<div align=center>
+<div style="align-content: center; align-items: center; text-align: center; margin:auto;">
 	<button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px" onclick="location.href='cercaTorneo.html'"> Cerca Tornei</button>
 	<button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px" onclick="location.href='cercaUtenti.html'"> Cerca Utenti</button>
 	<button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px" >DIVERTITI</button>
