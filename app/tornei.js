@@ -108,15 +108,15 @@ router.put('', async function(req, res) {
     });
 });
 
-// Se app.js capta una GET verso /api/v1/tornei/list allora ritorna i nomi di tutti i tornei creati sulla piattaforma
+// Se app.js capta una GET verso /api/v1/tornei/list allora ritorna gli id di tutti i tornei creati sulla piattaforma
 router.get('/list', async (req, res) => {
-    // Ritorna nickname di tutti gli utenti
+    // Ritorna l'id di tutti i tornei
 	let tornei = await torneo.find({}).exec();
     var idTornei = [];
 
     if(tornei){
-        tornei.forEach(function(user) {
-            idTornei.push(user._id);
+        tornei.forEach(function(torneo) {
+            idTornei.push(torneo._id);
         });
         res.json({ 
             success: true,
@@ -170,5 +170,29 @@ router.get('/:idTorneo', async (req, res) => {
         });
     }
 });
+
+// Se app.js capta una GET verso /api/v1/tornei/:nickname allora ritorna gli id di tutti i tornei creati da quell'utente
+router.get('/nickname/:nickname', async (req, res) => {
+    // Ritorna gli id dei tornei di un utente
+	let tornei = await torneo.find({organizzatore: req.params.nickname}).exec();
+    var idTornei = [];
+
+    if(tornei){
+        tornei.forEach(function(torneo) {
+            idTornei.push(torneo._id);
+        });
+        res.json({ 
+            success: true,
+            tornei: idTornei
+        });
+    }
+    else{
+        res.json({ 
+            success: false, 
+            message: "Non hai ancora creato nessun torneo, creane uno ora!"
+        });
+    }
+});
+
 
 module.exports = router;

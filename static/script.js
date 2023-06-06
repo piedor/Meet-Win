@@ -59,11 +59,10 @@ const MAPPA_IMG_TORNEI = {
 };
 // Memorizza l'utente loggato
 var loggedUser = {};
-// Memorizza l'utente registrato
-var registeredUser = {};
+//memorizza il nickname dell'utente
+var globalNickname;
 
-function login()
-{
+function login(){
   // Questa funzione è chiamata quando si preme il pulsante login
   // Prendi i valori del form html
   var nickname = document.getElementById("loginNickname").value;
@@ -118,7 +117,8 @@ function isValidEmail(mail)
   return(mail.match(mailFormat));
 }
 
-document.getElementById("regEmail").onkeyup = function() {
+if(document.getElementById("regEmail")!=null){
+  document.getElementById("regEmail").onkeyup = function() {
   if (isValidEmail(document.getElementById("regEmail").value)) {
        document.getElementById("cmail").removeAttribute("disabled");
         // Rendere bordo input mail verde
@@ -130,6 +130,7 @@ document.getElementById("regEmail").onkeyup = function() {
         document.getElementById("regEmail").setAttribute("style","background: rgb(253, 116, 116);");
     }        
   }
+}
 // Funzione per generare e inviare il codice per confermare la mail
 { 
   var vcode;
@@ -248,7 +249,7 @@ function register()
 
 function creationTorneo(){
   // Questa funzione è chiamata durante la fase di creazione torneo
-  var organizzatore = document.getElementById("nicknameUser2").textContent;
+  var organizzatore = globalNickname;
   var nomeTorneo = document.getElementById("nomeTorneo").value;
   var logoT = document.querySelector('input[type = radio]:checked').value;
   var argomento = document.getElementById("argomento").value;
@@ -455,13 +456,15 @@ function loadInfoUser(){
       }
     }else{
       // Autenticato mostra info
-      var nickname = data.nickname;
-      document.getElementById("nicknameUser").textContent = nickname;
+      globalNickname = data.nickname;
+      document.getElementById("nicknameUser").textContent = globalNickname;
       if(document.getElementById("nicknameUser2")){
-        document.getElementById("nicknameUser2").innerHTML = ""+ nickname;    //used for some pages where its needed 2 times 
-      }         
+        document.getElementById("nicknameUser2").innerHTML = ""+ globalNickname;    //used for some pages where its needed 2 times 
+      }
+      if(document.getElementById("loggedInfo")){      
       document.getElementById("loggedInfo").removeAttribute("hidden");
       document.getElementById("loginform").setAttribute("hidden", true);
+    }
     }
   })
   .catch( error => console.error(error) );
@@ -733,7 +736,7 @@ function listTornei(){
         let button = document.createElement('button');
         button.type = 'button';
         button.setAttribute("onclick", "location.href='visualizzaSchedaTorneo.html?id=" + idTorneo + "'");
-        button.setAttribute("style", "background-color:#30b5fc; width:600px; height: 40px; font-size:16px");
+        button.setAttribute("style", "background-color:#30b5fc; width:600px; height: 30px; font-size:16px");
         var contenutoButton;                
         
         fetch('../api/v1/tornei/'+idTorneo)
@@ -749,9 +752,68 @@ function listTornei(){
         box.appendChild(button);
       });    
   })
-  .catch( error => console.error(error) );
   }})
-  .catch( error => console.error(error) );
+  .catch( error => console.error(error) );  
+}
+
+function listTorneiUtente(){
+  if(globalNickname!=undefined ){
+    if(!document.getElementById("boxTorneiUser").checkVisibility()){
+      //non è visibile-> rendi visibile e carica i tornei
+    document.getElementById("boxTornei").setAttribute("style","margin-right:10%; float: right;");
+    document.getElementById("boxTorneiUser").removeAttribute("hidden");
+      //call get tornei/nickname/:nickname
+      fetch('../api/v1/tornei/nickname/'+globalNickname)
+      .then((resp) => resp.json()) // Trasforma i dati in JSON
+      .then(function(data) { // Risposta
+        if(!data.success){
+          // Nessun torneo dell'utente presente sulla piattaformalet box = document.getElementById("boxTorneiUser");
+          let button = document.createElement('button');
+          button.type = 'button';
+          button.setAttribute("onclick", "location.href='creaTorneo.html'");
+          button.setAttribute("style", "background-color:#30b5fc; width:300px; height: 30px; font-size:16px");
+          button.textContent = data.message;
+          box.appendChild(button);      
+          return;
+        }
+        else{
+          data.tornei.map(function(idTorneo) { 
+            let box = document.getElementById("boxTorneiUser");
+            let button = document.createElement('button');
+            button.type = 'button';
+            button.setAttribute("style", "background-color:#30b5fc; width:300px; height: 30px; font-size:16px");
+            var contenutoButton;                
+            
+            fetch('../api/v1/tornei/'+idTorneo)
+            .then((resp) => resp.json()) // Trasforma i dati in JSON
+            .then(function(data) { // Risposta
+            if(!data.success){
+              return;
+            }else{
+              // crea il contenuto del button
+              contenutoButton=data.nomeTorneo+"; argomento: "+data.argomento;
+              if(data.pubblicato){              
+              button.setAttribute("onclick", "location.href='visualizzaSchedaTorneo.html?id=" + idTorneo + "'");            
+              }else{              
+              button.setAttribute("onclick", "location.href='creaTorneo.html?id=" + idTorneo + "'");            
+              }
+            }
+            button.textContent = contenutoButton;
+            box.appendChild(button);
+          });    
+      })
+      }})
+      .catch( error => console.error(error) );  
+
+    }else{
+      //è visibile-> rendi invisibile      
+      document.getElementById("boxTorneiUser").setAttribute("hidden","true");
+      document.getElementById("boxTornei").removeAttribute("style");  
+    }
+  }else{
+    alert("Per visualizzare i tuoi tornei devi autenticarti");
+  }
+  
 }
 
 // Funzione usata da visualizzaSchedaUtente
