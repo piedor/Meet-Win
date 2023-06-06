@@ -50,7 +50,7 @@ router.post('', async function(req, res) {
 	}
 	var token = jwt.sign(payload, process.env.SUPER_SECRET, options);
 	// Inserisci il token nei cookie
-	res.cookie("token", token, { maxAge: 86400, httpOnly: true, secure: true})
+	res.cookie("token", token, { maxAge: 86400, httpOnly: true, secure: true, sameSite: "Strict"})
 
 	res.json({
 		success: true,
