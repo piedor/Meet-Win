@@ -766,41 +766,43 @@ function listTorneiUtente(){
       fetch('../api/v1/tornei/nickname/'+globalNickname)
       .then((resp) => resp.json()) // Trasforma i dati in JSON
       .then(function(data) { // Risposta
-        if(!data.success){
-          // Nessun torneo dell'utente presente sulla piattaformalet box = document.getElementById("boxTorneiUser");
+    
+      if(data.tornei==""){
+        // Nessun torneo dell'utente presente sulla piattaformalet box = document.getElementById("boxTorneiUser");          
+        let box = document.getElementById("boxTorneiUser");
+        let button = document.createElement('button');
+        button.type = 'button';
+        button.setAttribute("onclick", "location.href='creaTorneo.html'");
+        button.setAttribute("style", "background-color:#30b5fc; width:300px; height: 30px; font-size:14px");
+        button.textContent = "Non hai creato nessun torneo, crealo ora!";
+        box.appendChild(button);      
+        return;
+      }
+      else{
+        data.tornei.map(function(idTorneo) { 
+          let box = document.getElementById("boxTorneiUser");
           let button = document.createElement('button');
           button.type = 'button';
-          button.setAttribute("onclick", "location.href='creaTorneo.html'");
           button.setAttribute("style", "background-color:#30b5fc; width:300px; height: 30px; font-size:16px");
-          button.textContent = data.message;
-          box.appendChild(button);      
-          return;
-        }
-        else{
-          data.tornei.map(function(idTorneo) { 
-            let box = document.getElementById("boxTorneiUser");
-            let button = document.createElement('button');
-            button.type = 'button';
-            button.setAttribute("style", "background-color:#30b5fc; width:300px; height: 30px; font-size:16px");
-            var contenutoButton;                
-            
-            fetch('../api/v1/tornei/'+idTorneo)
-            .then((resp) => resp.json()) // Trasforma i dati in JSON
-            .then(function(data) { // Risposta
-            if(!data.success){
-              return;
-            }else{
-              // crea il contenuto del button
-              contenutoButton=data.nomeTorneo+"; argomento: "+data.argomento;
-              if(data.pubblicato){              
-              button.setAttribute("onclick", "location.href='visualizzaSchedaTorneo.html?id=" + idTorneo + "'");            
-              }else{              
-              button.setAttribute("onclick", "location.href='creaTorneo.html?id=" + idTorneo + "'");            
-              }
+          var contenutoButton;                
+          
+          fetch('../api/v1/tornei/'+idTorneo)
+          .then((resp) => resp.json()) // Trasforma i dati in JSON
+          .then(function(data) { // Risposta
+          if(!data.success){
+            return;
+          }else{
+            // crea il contenuto del button
+            contenutoButton=data.nomeTorneo+"; argomento: "+data.argomento;
+            if(data.pubblicato){              
+            button.setAttribute("onclick", "location.href='visualizzaSchedaTorneo.html?idTorneo=" + idTorneo + "'");            
+            }else{              
+            button.setAttribute("onclick", "location.href='creaTorneo.html?idTorneo=" + idTorneo + "'");            
             }
-            button.textContent = contenutoButton;
-            box.appendChild(button);
-          });    
+          }
+          button.textContent = contenutoButton;
+          box.appendChild(button);
+        });    
       })
       }})
       .catch( error => console.error(error) );  
