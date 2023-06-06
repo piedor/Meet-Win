@@ -538,7 +538,7 @@ function loadInfoTorneo(){
     if(data.formatoT=="gironi" && data.numeroGironi!=undefined){      
     document.getElementById('ngironi').value = data.numeroGironi;
     }
-    /*
+
     // Checka i tag
     var checkboxes = document.getElementsByName('tags'); 
     for (var checkbox of checkboxes) {  
@@ -549,7 +549,7 @@ function loadInfoTorneo(){
     //checka la piattaforma
     var checkboxes = document.getElementsByName('piattaforma'); 
     for (var checkbox of checkboxes) {  
-      if(data.piattaforme.includes(checkbox.value)){
+      if(data.piattaforma.includes(checkbox.value)){
         checkbox.checked = "true";
       }
     }  
@@ -573,7 +573,7 @@ function loadInfoTorneo(){
       if(formatoP.value == data.formatoP){
         formatoP.checked = "true";
       }
-    }  */
+    }  
     }
   })
   .catch( error => console.error(error) );

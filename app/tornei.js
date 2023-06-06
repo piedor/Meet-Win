@@ -89,7 +89,7 @@ router.put('', async function(req, res) {
         torneoById.regolamento = req.body.regolamento;
         torneoById.tags = req.body.tags;
         torneoById.piattaforma = req.body.piattaforma;
-        torneoById.logoT = req.body.logoT;
+        torneoById.id_img = req.body.logoT;
         torneoById.zona = req.body.zona;
         torneoById.numeroSquadre = req.body.numeroSquadre;
         torneoById.numeroGiocatori = req.body.numeroGiocatori;
@@ -154,7 +154,7 @@ router.get('/:idTorneo', async (req, res) => {
             numeroGironi: torn.numeroGironi,
             formatoP: torn.formatoP,
             pubblicato: torn.pubblicato,
-            //tags: [String],
+            tags: torn.tags,
             piattaforma: torn.piattaforma,
             dataInizio: torn.dataInizio,
             terminato: torn.terminato,
