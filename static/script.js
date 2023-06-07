@@ -52,7 +52,7 @@ const MAPPA_IMG_TORNEI = {
   102: "logoT2",
   103: "logoT3",
   104: "logoT4",
-  105: "logoT",
+  105: "logoT5",
   106: "logoT6",
   107: "logoT7",
   108: "logoT8"
@@ -186,6 +186,7 @@ function clearAll(){
 
 function register()
 {
+  document.getElementById("confermaR").setAttribute("disabled", true);
   // Questa funzione è chiamata durante la fase di registrazione
   var nickname = document.getElementById("regNickname").value;
   var email = document.getElementById("regEmail").value;
@@ -254,6 +255,7 @@ function register()
         // Registrazione ok
         // Invia mail 
         sendMails(email,"registrazionec", nickname);
+        location.href = "/";
       }
       return;
   })  .catch( function (error) {
@@ -262,6 +264,7 @@ function register()
           return;
       } );
         
+  document.getElementById("confermaR").setAttribute("disabled", false);
 };
 
 function creationTorneo(){
