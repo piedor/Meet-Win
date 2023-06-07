@@ -4,6 +4,6 @@ var Schema = mongoose.Schema;
 // Crea modello mongoose
 module.exports = mongoose.model('Squadra', new Schema({ 
     nomeSquadra: String,
-    id_Torneo: int,
+    id_Torneo: String,
     giocatori: [String], //nickname giocatori squadra
 }));
