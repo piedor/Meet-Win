@@ -48,14 +48,14 @@ const MAPPA_AVATAR = {
 };
 
 const MAPPA_IMG_TORNEI = {
-  101: "img1",
-  102: "img2",
-  103: "img3",
-  104: "img4",
-  105: "img5",
-  106: "img6",
-  107: "img7",
-  108: "img8"
+  101: "logoT1",
+  102: "logoT2",
+  103: "logoT3",
+  104: "logoT4",
+  105: "logoT",
+  106: "logoT6",
+  107: "logoT7",
+  108: "logoT8"
 };
 // Memorizza l'utente loggato
 var loggedUser = {};
@@ -735,7 +735,7 @@ function listTornei(){
         let box = document.getElementById("boxTornei");
         let button = document.createElement('button');
         button.type = 'button';
-        button.setAttribute("onclick", "location.href='visualizzaSchedaTorneo.html?id=" + idTorneo + "'");
+        button.setAttribute("onclick", "location.href='visualizzaSchedaTorneo.html?idTorneo=" + idTorneo + "'");
         button.setAttribute("style", "background-color:#30b5fc; width:600px; height: 30px; font-size:16px");
         var contenutoButton;                
         
@@ -857,6 +857,47 @@ function getProfile(){
   })
   .catch( error => console.error(error) );
 }
+
+// Funzione usata da visualizzaSchedaUtente
+function getTorneo(){
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  var idTorneo = urlParams.get("idTorneo");
+  if(idTorneo == null){
+    alert("IdTorneo non specificato!");
+    location.href = "cercaUtenti.html";
+    return;
+  }
+  fetch('../api/v1/tornei/'+idTorneo)
+  .then((resp) => resp.json()) // Trasforma i dati in JSON
+  .then(function(data) { // Risposta
+    if(!data.success){
+      location.href = "cercaTorneo.html";
+      return;
+    }
+    else{
+      // Carica nickname e bio
+      document.getElementById("organizzatore").innerHTML = data.organizzatore;
+      document.getElementById("nomeTorneo").innerHTML = data.nomeTorneo;
+      document.getElementById("argomento").innerHTML = data.argomento;
+      document.getElementById("bio").innerHTML = data.bio;  
+      document.getElementById("regolamento").innerHTML = data.regolamento;
+      if(data.piattaforma!="000"){        
+        document.getElementById("piattaforma").innerHTML = MAPPA_PIATTAFORME[data.piattaforma];
+        document.getElementById("piattaformaHolder").removeAttribute("hidden");
+      }
+      // Carica foto logoT
+      document.getElementById("logoT").setAttribute("alt", MAPPA_IMG_TORNEI[data.id_img]);
+      document.getElementById("logoT").setAttribute("src", "images/" + MAPPA_IMG_TORNEI[data.id_img] + ".png");
+    
+      if(data.zona!=undefined){        
+        document.getElementById("zona").innerHTML = data.zona;
+      }
+    }
+  })
+  .catch( error => console.error(error) );
+}
+
 
 //funzione usata da creaTorneo
 function gironiDiv(){
