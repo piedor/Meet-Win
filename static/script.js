@@ -72,7 +72,7 @@ const MAPPA_FORMATOP = {
 // Memorizza l'utente loggato
 var loggedUser = {};
 // Memorizza l'utente loggato
-var registerUser = {};
+var registeredUser = {};
 
 //memorizza il nickname dell'utente
 var globalNickname;
@@ -170,6 +170,8 @@ if(document.getElementById("regEmail")!=null){
       document.getElementById("cmail").disabled = true;
       document.getElementById("confcode").setAttribute("disabled","true");
       document.getElementById("confebtn").setAttribute("disabled","true");
+    }else{
+      alert("codice errato");
     }
   };
 }
