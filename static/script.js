@@ -57,6 +57,18 @@ const MAPPA_IMG_TORNEI = {
   107: "logoT7",
   108: "logoT8"
 };
+
+const MAPPA_FORMATOT = {
+  "gironi": "Gironi+eliminazione diretta",
+  "campionato": "Campionato",
+  "eliminazione": "Eliminazione diretta",
+};
+const MAPPA_FORMATOP = {
+  "bo1": "Best of 1",
+  "bo2": "Best of 2",
+  "bo3": "Best of 3",
+};
+
 // Memorizza l'utente loggato
 var loggedUser = {};
 //memorizza il nickname dell'utente
@@ -891,8 +903,16 @@ function getTorneo(){
       // Carica foto logoT
       document.getElementById("logoT").setAttribute("alt", MAPPA_IMG_TORNEI[data.id_img]);
       document.getElementById("logoT").setAttribute("src", "images/" + MAPPA_IMG_TORNEI[data.id_img] + ".png");
-    
-      if(data.zona!=undefined){        
+      document.getElementById("numeroGiocatori").innerHTML = data.numeroGiocatori;  
+      document.getElementById("numeroSquadre").innerHTML = data.numeroSquadre;
+      document.getElementById("formatoP").innerHTML = MAPPA_FORMATOP[data.formatoP];  
+      document.getElementById("formatoT").innerHTML = MAPPA_FORMATOT[data.formatoT]; 
+      if(data.formatoT=="gironi"){
+        document.getElementById("gironiHolder").removeAttribute("hidden");
+        document.getElementById("gironi").innerHTML = data.numeroGironi;
+      } 
+      if(data.zona!=""){        
+        document.getElementById("zonaHolder").removeAttribute("hidden");
         document.getElementById("zona").innerHTML = data.zona;
       }
     }
