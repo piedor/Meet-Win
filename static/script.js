@@ -32,8 +32,9 @@ const MAPPA_PIATTAFORME = {
   101: "Playstation 4",
   102: "Playstation 5",
   103: "Xbox ONE",
+  104: "PC",
   105: "Switch",
-  104: "PC"
+  000: "Torneo fisico"
 };
 
 const MAPPA_AVATAR = {
@@ -768,7 +769,7 @@ function listTornei(){
           return;
         }else{
         // crea il contenuto del button
-        contenutoButton=data.nomeTorneo+" --> org: "+data.organizzatore+"; argomento: "+data.argomento;
+        contenutoButton=data.nomeTorneo+" --> org: "+data.organizzatore+"; attivita': "+data.argomento;
         }
         button.textContent = contenutoButton;
         box.appendChild(button);
