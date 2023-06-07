@@ -176,10 +176,20 @@ if(document.getElementById("regEmail")!=null){
 }
 
 function clearAll(){
+
+  document.getElementById("regNickname").value="";
+  document.getElementById("regEmail").value="";
+  document.getElementById("regPassword").value="";
+  document.getElementById("regC_Password").value="";
+  document.getElementById("zona").value="";
+  document.getElementById("bio").value="";
+  document.getElementById("privato").checked="";
+  document.getElementsByName('pref').values="";  
+  document.getElementsByName('piatt').values="";
+
   document.getElementById("regEmail").disabled = false;
   document.getElementById("confermaR").disabled = true;
-  document.getElementById("cmail").disabled = true;
-  document.getElementById("cmail").removeAttribute("style");
+  document.getElementById("cmail").disabled = false;
   document.getElementById("confcode").disabled=false;
 }
 
@@ -224,7 +234,7 @@ function register()
       errors = "errori presenti: " + errors;
       errors = String(errors);
       alert(errors);
-      document.getElementById("confermaR").setAttribute("disabled", false);
+      document.getElementById("confermaR").removeAttribute("disabled");
       return;
   }
 
@@ -292,7 +302,7 @@ function creationTorneo(){
   
   var errors = "";
   if(nomeTorneo == "") errors += "nome torneo mancante; ";
-  if(argomento == "") errors += "argomento mancante; ";
+  if(argomento == "") errors += "attivit&agrave;' mancante; ";
   if(numeroSquadre == "") errors += "numero di squadre è mancante; ";
   if(numeroGiocatori == "") errors += "numero di giocatori mancante; ";     
   
@@ -428,7 +438,7 @@ function pubblicaTorneo(){
   
   var errors = "";
   if(nomeTorneo == "") errors += "nome torneo mancante; ";
-  if(argomento == "") errors += "argomento mancante; ";
+  if(argomento == "") errors += "attivit&agrave; mancante; ";
   if(numeroSquadre == "") errors += "numero di squadre è mancante; ";
   if(numeroGiocatori == "") errors += "numero di giocatori mancante; ";     
   
@@ -768,7 +778,7 @@ function listTornei(){
           return;
         }else{
         // crea il contenuto del button
-        contenutoButton=data.nomeTorneo+" --> org: "+data.organizzatore+"; attivita': "+data.argomento;
+        contenutoButton=data.nomeTorneo+" --> org: "+data.organizzatore+"; attivit&agrave;: "+data.argomento;
         }
         button.textContent = contenutoButton;
         box.appendChild(button);
@@ -815,7 +825,7 @@ function listTorneiUtente(){
             return;
           }else{
             // crea il contenuto del button
-            contenutoButton=data.nomeTorneo+"; argomento: "+data.argomento;
+            contenutoButton=data.nomeTorneo+"; attivit&agrave;: "+data.argomento;
             if(data.pubblicato){              
             button.setAttribute("onclick", "location.href='visualizzaSchedaTorneo.html?idTorneo=" + idTorneo + "'");            
             }else{              
