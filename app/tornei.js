@@ -161,7 +161,7 @@ router.get('/:idTorneo', async (req, res) => {
             terminato: torn.terminato,
             fasi: torn.fasi,
             faseAttuale: torn.faseAttuale,
-
+            zona:torn.zona,
         });
     }
     else{
