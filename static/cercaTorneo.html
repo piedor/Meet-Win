@@ -14,7 +14,7 @@
       border: 2px solid #000000;
       font-style: Comic sans MS;
       color:blue;
-      height: 125px;
+      height: 135px;
       vertical-align: center;
       }
       .box2{
@@ -51,13 +51,14 @@
     <span style="font-family: “Comic Sans MS”, “Comic Sans”, cursive; color:blue;">
       <p style="font-size:4rem; position: absolute; float: left; margin-top: 2px; margin-left: 40%; ">Meet&Win</p>
       <p>
-        <form action="api/v1/utenti" method="post" name="loginform" id="loginform" style="text-align:right;">            
-        <label>email o nickname</label>
+        <form action="api/v1/utenti" method="post" name="loginform" id="loginform" style="text-align:right;">
+          <label>email o nickname</label>
           <input name="nickname" placeholder="RedRocco" id="loginNickname"/><br>
           <label>password</label>
           <input type="password" name="password" placeholder="Password2" id="loginPassword"/><br>
-          <button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px; margin-top: 5px;" type="button" onclick="login()">	Login</button>            
-        </form>
+          <a href="#" onclick="reimpostaPassword();">Ho dimenticato la password</a><br/>
+          <button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px; margin-top: 5px;" type="button" onclick="login()">	Login</button>
+      </form>
         <span id="loggedInfo"  style="position:relative; float:right;" hidden>
         <span>Bentornato, </span>
           <span id="nicknameUser"></span>!<br>
