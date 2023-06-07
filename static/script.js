@@ -71,6 +71,9 @@ const MAPPA_FORMATOP = {
 
 // Memorizza l'utente loggato
 var loggedUser = {};
+// Memorizza l'utente loggato
+var registerUser = {};
+
 //memorizza il nickname dell'utente
 var globalNickname;
 
