@@ -1,13 +1,107 @@
 <!DOCTYPE html>
 <html>
-
 <head>
+    <title>schedaUtente</title>
+    <meta charset="UTF-8">
+      <style>
+      body {background-color: #b8b9ba;}
+      .center {
+      margin: auto;
+      width: 50%;
+      }
+      .testata {
+      padding: 2px;
+      background-color: #96eef2;
+      border: 2px solid #000000;
+      font-style: Comic sans MS;
+      color:blue;
+      height: 125px;
+      vertical-align: center;
+      }
+	.box1{
+	width: 125px;
+	height: 125px;
+	padding-top: 5px;
+    margin-right:10%;
+    position: relative;
+	border: 2px solid black;
+    float: right;
+	}
+    .box2{
+	max-height: 150px;
+	padding: 5px;
+	border: 2px solid rgb(98, 193, 249);
+	font-size: 15px;
+    vertical-align: top;
+	}
+    .box3{
+    position: absolute;
+    bottom: 10px;
+	width: 600px;
+	max-height: 200px;
+	padding: 10px;
+    right:100px;
+    align-items: center;
+	background-color:rgb(117, 116, 116);
+	font-size: 15px;
+    text-align: center;
+    float:left;
+    color: white; 
+    font-size: 20px;
+	}
+        </style>
 </head>
-
 <body>
+    <div class="testata">
+        <img src="images/LOGO.png" style="position: absolute; left:150px;" width="100" height="120" />
+        <span style="font-family: “Comic Sans MS”, “Comic Sans”, cursive; color:blue;">
+          <p style="font-size:4rem; position: absolute; float: left; margin-top: 2px; margin-left: 40%; ">Meet&Win</p>
+        <p>
+            <form action="api/v1/utenti" method="post" name="loginform" id="loginform" style="text-align:right;">            
+            <label>email o nickname</label>
+              <input name="nickname" placeholder="red.rocco@unitn.it" id="loginNickname"/><br>
+              <label>password</label>
+              <input type="password" name="password" placeholder="Password2" id="loginPassword"/><br>
+              <button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px" type="button" onclick="login()">	Login</button>            
+            </form>
+            <span id="loggedInfo"  style="position:relative; float:right;" hidden>
+            <label>Bentornato, </label>
+              <span id="nicknameUser"></span>!<br>
+              <button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px" type="button" onclick="location.href='home_aut.html'">HomePage</button>
+            </span>
+        </p>
+      </div>
+      <button style="background-color:#30b5fc;" onclick="location.href='cercaTorneo.html'">INDIETRO</button> 
+	<p style="color: blue; font-size: 40px; position: absolute; left: 38%; margin-top:-10px;">Visualizza Scheda Torneo</p>
+	<br><br><br>
+    <div style="margin-left:15%"> 
+    <div class="box1"> 
+        <img src="" alt="" id="logoT" width="125px" height="125px" />    </div>
+    <p style="font-size: 30px; margin: auto;">Torneo: <span id="nomeTorneo"></span></p>
+	<p style="font-size: 18px;">Organizzatore: <span id="organizzatore"></span></p>
+    <p id="zonaHolder" style=" float:right; margin-right: 30%;" hidden>Zona: <span class="box2" id="zona"></span></p>
+    <p>Argomento: <span class="box2" id="argomento"></span><span id="piattaformaHolder"hidden>&nbspPiattaforma: <span class="box2" id="piattaforma"></span></span> </p>
+    <p>Formato Torneo: <span class="box2" id="formatoT"></span>
+        <span id="gironiHolder" hidden>&nbspGironi: <span class="box2" id="gironi"></span></span> 
+        &nbspFormato Partite: <span class="box2" id="formatoP"></span>
+    </p>
+    <p>Numero Squadre: <span class="box2" id="numeroSquadre"></span>
+            &nbspNumero Giocatori: <span class="box2" id="numeroGiocatori"></span></p>
+    <p style="max-width: 500px;">Bio: <span class="box2" id="bio" style="display: inline-block; word-wrap: break-word; overflow-wrap:break-word;"></span></p>
+    <p style="max-width: 500px;">Regolamento: <span class="box2" id="regolamento" style="display: inline-block; word-wrap: break-word; overflow-wrap:break-word;"></span></p>   
+    <p class="box3">
+        <button style="background-color:#30b5fc; width:90px; height: 30px; font-size:16px; float:right; position: relative; margin-right: -10px; margin-top: -10px;" onClick="window.alert('coming soon')">Iscritivi</button>        
+        <span>Squadre Iscritte:</span><br>
+        <button style="background-color:#30b5fc; width:350px; height: 40px; font-size:16px"> Squadra1</button>
+        <button style="background-color:#30b5fc; width:350px; height: 40px; font-size:16px"> Squadra2</button>
+        <button style="background-color:#30b5fc; width:350px; height: 40px; font-size:16px"> Squadra3</button>
+    
+    
+    </p>
+    </div>
 
-<h1>Meat&Wine</h1>
-    <h2>visualizza scheda Torneo</h2>
+    <script src="script.js"></script> 
+    <script>loadInfoUser(); getTorneo(); </script>
 </body>
 
 </html>
