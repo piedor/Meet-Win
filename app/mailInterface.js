@@ -50,6 +50,11 @@ router.post('', async function (req){
                 subject = "Il tuo account è stato sospeso";
                 testo = "Siamo spiacenti, a seguito di una revisione delle segnalazioni ricevute dai nostri amministratori sui tuoi comportamenti, abbiamo deciso di bloccare il tuo account sulla nostra piattaforma. La limitazione durerà: "+txt;
             break;
+
+            case "resetPasswd":
+                subject = "Reset password";
+                testo = "Abbiamo ricevuto una richiesta di reimpostazione della password. La tua nuova password è la seguente: " + txt + ". Ti suggeriamo di cambiarla al più presto.";
+            break;
           
             default:
               //
