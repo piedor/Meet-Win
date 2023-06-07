@@ -83,21 +83,22 @@ router.put('', async function(req, res) {
 		return;
 	}
     // Aggiorna le variabili
-        torneoById.organizzatore=torneoById.organizzatore;
-        torneoById.nomeTorneo = req.body.nomeTorneo;
-        torneoById.bio = req.body.bio;
-        torneoById.regolamento = req.body.regolamento;
-        torneoById.tags = req.body.tags;
-        torneoById.piattaforma = req.body.piattaforma;
-        torneoById.id_img = req.body.logoT;
-        torneoById.zona = req.body.zona;
-        torneoById.numeroSquadre = req.body.numeroSquadre;
-        torneoById.numeroGiocatori = req.body.numeroGiocatori;
-        torneoById.dataInizio = req.body.dataInizio;
-        torneoById.formatoT = req.body.formatoT;
-        torneoById.numeroGironi = req.body.numeroGironi;
-        torneoById.formatoP = req.body.formatoP;
-        torneoById.fasi = req.body.fasi;
+        
+    torneoById.argomento = req.body.argomento;
+    torneoById.nomeTorneo = req.body.nomeTorneo;
+    torneoById.bio = req.body.bio;
+    torneoById.regolamento = req.body.regolamento;
+    torneoById.tags = req.body.tags;
+    torneoById.piattaforma = req.body.piattaforma;
+    torneoById.id_img = req.body.logoT;
+    torneoById.zona = req.body.zona;
+    torneoById.numeroSquadre = req.body.numeroSquadre;
+    torneoById.numeroGiocatori = req.body.numeroGiocatori;
+    torneoById.dataInizio = req.body.dataInizio;
+    torneoById.formatoT = req.body.formatoT;
+    torneoById.numeroGironi = req.body.numeroGironi;
+    torneoById.formatoP = req.body.formatoP;
+    torneoById.fasi = req.body.fasi;
 
     // Salva
     torneoById.save();

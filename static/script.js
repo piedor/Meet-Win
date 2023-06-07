@@ -262,7 +262,7 @@ function creationTorneo(){
     if (checkbox.checked) 
     tags.push(checkbox.value);
   }
-  var piattaforma = document.getElementById('piattaforma').value;
+  var piattaforma = document.querySelector('input[id = "piattaforma"]:checked').value;
   var numeroSquadre = document.getElementById('nsquadre').value;
   var numeroGiocatori = document.getElementById('ngiocatori').value;
   var dataInizio = document.getElementById('dataInizio').value;
@@ -561,17 +561,19 @@ function loadInfoTorneo(){
       }
     }  
     // select formatoT
-    var formatoTs = document.getElementsByName('formatoT');
+    var formatoTs = document.getElementById('formatoT').options;
     for (var formatoT of formatoTs) {  
       if(formatoT.value == data.formatoT){
-        formatoT.checked = "true";
+        formatoT.selected = "true";
       }
     }  
+    // Se gironi allora apri div
+    gironiDiv();
     // select formatop
-    var formatoPs = document.getElementsByName('formatoP');
+    var formatoPs = document.getElementById('formatoP').options;
     for (var formatoP of formatoPs) {  
       if(formatoP.value == data.formatoP){
-        formatoP.checked = "true";
+        formatoP.selected = "true";
       }
     }  
     }
