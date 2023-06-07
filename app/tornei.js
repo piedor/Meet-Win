@@ -146,6 +146,7 @@ router.get('/:idTorneo', async (req, res) => {
             nomeTorneo: torn.nomeTorneo,
             argomento: torn.argomento,
             id_img: torn.id_img,
+            zona: torn.zona,
             bio: torn.bio,
             regolamento: torn.regolamento,
             numeroSquadre: torn.numeroSquadre,
