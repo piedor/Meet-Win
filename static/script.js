@@ -171,10 +171,8 @@ if(document.getElementById("regEmail")!=null){
       document.getElementById("cmail").disabled = true;
       document.getElementById("confcode").setAttribute("disabled","true");
       document.getElementById("confebtn").setAttribute("disabled","true");
-    }else{
-      alert("codice errato");
     }
-  };
+  }
 }
 
 function clearAll(){
