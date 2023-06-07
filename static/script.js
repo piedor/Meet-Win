@@ -184,12 +184,14 @@ function clearAll(){
   document.getElementById("zona").value="";
   document.getElementById("bio").value="";
   document.getElementById("privato").checked="";
-  document.getElementsByName('pref').values="";  
+  document.getElementsByName('pref').checked="";  
   document.getElementsByName('piatt').values="";
+  document.getElementById("confcode").value="";
 
   document.getElementById("regEmail").disabled = false;
   document.getElementById("confermaR").disabled = true;
   document.getElementById("cmail").disabled = false;
+  document.getElementById("confcode").removeAttribute("style");
   document.getElementById("confcode").disabled=false;
 }
 
@@ -778,7 +780,7 @@ function listTornei(){
           return;
         }else{
         // crea il contenuto del button
-        contenutoButton=data.nomeTorneo+" --> org: "+data.organizzatore+"; attivit&agrave;: "+data.argomento;
+        contenutoButton=data.nomeTorneo+" --> org: "+data.organizzatore+"; attività: "+data.argomento;
         }
         button.textContent = contenutoButton;
         box.appendChild(button);
@@ -821,11 +823,11 @@ function listTorneiUtente(){
           fetch('../api/v1/tornei/'+idTorneo)
           .then((resp) => resp.json()) // Trasforma i dati in JSON
           .then(function(data) { // Risposta
-          if(!data.success){
+          if(!data.success){            
             return;
           }else{
             // crea il contenuto del button
-            contenutoButton=data.nomeTorneo+"; attivit&agrave;: "+data.argomento;
+            contenutoButton=data.nomeTorneo+"; attività: "+data.argomento;
             if(data.pubblicato){              
             button.setAttribute("onclick", "location.href='visualizzaSchedaTorneo.html?idTorneo=" + idTorneo + "'");            
             }else{              
@@ -840,6 +842,10 @@ function listTorneiUtente(){
       .catch( error => console.error(error) );  
 
     }else{
+      let box = document.getElementById("boxTorneiUser");        
+      while (box.firstChild.nextSibling.nextSibling.nextSibling) {
+        box.removeChild(box.lastChild);
+      }
       //è visibile-> rendi invisibile      
       document.getElementById("boxTorneiUser").setAttribute("hidden","true");
       document.getElementById("boxTornei").removeAttribute("style");  
