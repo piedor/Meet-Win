@@ -49,9 +49,6 @@ router.post('', async function(req, res) {
         fasi: req.body.fasi,
         faseAttuale: 0,
         formatoP: req.body.formatoP,
-        partite: null, //id delle partite associate al torneo
-        storicoPartite: null,
-        squadreIscritte: null, //id delle squadre iscritte
         vincitrice: null, //id squdra vincitrice*/
         //password
     });
@@ -194,6 +191,8 @@ router.get('/nickname/:nickname', async (req, res) => {
         });
     }
 });
+
+
 
 
 module.exports = router;

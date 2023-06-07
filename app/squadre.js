@@ -9,6 +9,7 @@ router.post('', async function(req, res) {
     // Crea nuovo partita
     const nuovaSquadra = new squadra({
         nomeSquadra: req.body.nomeSquadra,
+        capitano: req.body.capitano,
         idTorneo: req.body.idTorneo,
         giocatori: req.body.giocatori,
         partite: null, //no partite di default        
@@ -43,6 +44,7 @@ router.get('/:idSquadra', async (req, res) => {
         res.json({ 
             success: true,
             nomeSquadra: squadra.nomeSquadra,
+            capitano: squadra.capitano,
             nomeTorneo: torneo.nomeTorneo,
             argomento: torneo.argomento,
             organizzatore: torneo.organizzatore,
