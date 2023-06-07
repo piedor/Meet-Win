@@ -192,7 +192,10 @@ router.get('/nickname/:nickname', async (req, res) => {
     }
 });
 
+//idea per pubblica
+//router.put('/:idTorneo/pubblica'...)....
 
-
+//idea per terminato
+//router.put('/:idTorneo/terminato'...).... //aggiorna anche squadra vincitrice
 
 module.exports = router;
