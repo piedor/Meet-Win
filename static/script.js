@@ -224,6 +224,7 @@ function register()
       errors = "errori presenti: " + errors;
       errors = String(errors);
       alert(errors);
+      document.getElementById("confermaR").setAttribute("disabled", false);
       return;
   }
 
@@ -260,10 +261,10 @@ function register()
   })  .catch( function (error) {
           alert(error.message);
           console.error(error);
+          document.getElementById("confermaR").setAttribute("disabled", false);
           return;
       } );
         
-  document.getElementById("confermaR").setAttribute("disabled", false);
 };
 
 function creationTorneo(){
