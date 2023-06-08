@@ -84,12 +84,12 @@
             <button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px; margin-top: 5px;" type="button" onclick="location.href='home_aut.html'">	HomePage</button>
         </p></span>
       </div>
-        <button style="background-color:#30b5fc;" onclick="location.href='visualizzaSchedaTorneo.html?idTorneo='+idTorneo">INDIETRO</button> 
-        <p style="color: blue; font-size: 40px; position: absolute; left: 38%; margin-top:-10px;">Visualizza Scheda Torneo</p>
+        <button style="background-color:#30b5fc; margin-top: 5px;" onclick="location.href='visualizzaSchedaTorneo.html?idTorneo='+new URLSearchParams(window.location.search).get('idTorneo')">INDIETRO</button> 
+        <p style="color: blue; font-size: 40px; position: absolute; left: 38%; margin-top:-10px;">Iscrizione Torneo</p>
         <br><br><br>
         <div style="margin-left:15%"> 
         <p style="font-size: 30px; margin: auto;">Torneo: <span id="nomeTorneo"></span></p>
-        <p style="font-size: 18px;">Organizzatore: <span id="organizzatore"></span>
+        <p style="font-size: 18px;">Organizzatore: <span class="box2" id="organizzatore"></span>
         &nbspArgomento: <span class="box2" id="argomento"></span><span id="piattaformaHolder"hidden>
         &nbspPiattaforma: <span class="box2" id="piattaforma"></span></span>
         <span id="zonaHolder" hidden>&nbspZona: <span class="box2" id="zona"></span></span> </p>
@@ -115,7 +115,8 @@
             <br>
             <p class="box4" id="giocatori"></p>
         </div>
-        <div>
+        <div title="In questo box trovi tutti gli utenti che puoi inserire nella tua squadra,
+    se un utente non è presente, significa che è già iscritto al torneo con un'altra squadra">
             Utenti che puoi inserire: 
             <br>
             <p class="box3" id="utenti">
@@ -123,12 +124,12 @@
         </div>
         <br>
         <p style="right: 20%; position: absolute; bottom: 5px">
-            <button style="background-color:#30b5fc;" onclick="location.href='visualizzaSchedaTorneo.html?idTorneo='+idTorneo">Annulla</button>
+            <button style="background-color:#30b5fc;" onclick="location.href='visualizzaSchedaTorneo.html?idTorneo='+new URLSearchParams(window.location.search).get('idTorneo')">Annulla</button>
             <button style="background-color:#30b5fc;" id="iscrivi" onclick="iscriviSquadra()">Iscrivi squadra</button>
         </p> 
     </div>
         
         <script src="script.js"></script> 
-        <script>loadInfoUser(); getTorneo(); utentiPossibili(); var idTorneo;</script>
+        <script>loadInfoUser(); getTorneo(); utentiPossibili();</script>
   </body>
 </html>

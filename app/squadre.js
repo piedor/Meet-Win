@@ -3,9 +3,51 @@ const router = express.Router();
 // Modello di mongoose (stabilisce quali dati l'oggetto contiene)
 const squadra = require('./models/squadra');
 
-// Se app.js capta un POST verso /api/v1/partite allora procedi alla creazione della partita
-router.post('', async function(req, res) {   
-    // Crea nuovo partita
+// Se app.js capta un POST verso /api/v1/squadre allora procedi alla creazione della squadra
+router.post('', async function(req, res) {  
+    
+    //controlla se ci sono ancora posti nel torneo
+    //to do
+
+    //cerca se l'utente ha già iscritto una squadra
+    let squadraBycap = await squadra.findOne({
+        capitano: req.body.capitano,
+        idTorneo: req.body.idTorneo
+	}).exec();
+    // torneo esiste già
+	if (squadraBycap) {
+		res.json({ success: false, message: 'Hai già iscritto una squadra a questo torneo!' });        
+		return;
+	}
+    
+    //cerca se c'è già una squadra con quel nome
+    let squadraByName = await squadra.findOne({
+        nomeSquadra: req.body.nomeSquadra,
+        idTorneo: req.body.idTorneo
+	}).exec();
+    // torneo esiste già
+	if (squadraByName) {
+		res.json({ success: false, message: 'Al torneo è già iscritta una squadra con questo nome!' });        
+		return;
+	}
+    
+    //controlla se uno o più giocatori sono già iscritti al torneo
+    let squadre = await squadra.find({idTorneo: req.body.idTorneo}).exec();
+    var giocatoriIscritti=[];
+    var giocatoriDaIscrivere=req.body.giocatori;
+    if(squadre){
+        squadre.forEach(function(squadra) {
+            squadra.giocatori.forEach(function(giocatore){giocatoriIscritti.push(giocatore)});
+        });
+        giocatoriDaIscrivere.forEach(function(giocatore){
+            if(giocatoriIscritti.includes(giocatore)){
+                res.json({ success: false, message: 'Uno o più giocatori che hai selezionato sono iscritti già al torneo, ricontrolla dalla scheda torneo prima di riprovare.' });        
+		        return;
+            }
+        })
+    }
+    
+    // Crea nuova squadra
     const nuovaSquadra = new squadra({
         nomeSquadra: req.body.nomeSquadra,
         capitano: req.body.capitano,
@@ -14,7 +56,7 @@ router.post('', async function(req, res) {
         partite: null, //no partite di default        
     });
     
-    nuovopartita.save()
+    nuovaSquadra.save()
     .then(() => {
         console.log('Nuova Squadra creata con successo');
     })
@@ -30,32 +72,23 @@ router.post('', async function(req, res) {
 	});
 });
 
+//da errori
+
 // Se app.js capta una GET verso /api/v1/squadra/:idsquadra allora ritorna le info della squadra i membri della squadra
 router.get('/:idSquadra', async (req, res) => {
     // Ritorna i nickname dei membri della squadra
-	let squadra = await idSquadra.findOne({
+
+	let squad = await squadra.findOne({
 		_id: req.params.idSquadra
 	}).exec();
-
-   if(squadra){
-        let torneo = await idTorneo.findOne({idTorneo: squadra.idTorneo}).exec();
-        if(torneo){
+   if(squad){      
         res.json({ 
             success: true,
-            nomeSquadra: squadra.nomeSquadra,
-            capitano: squadra.capitano,
-            nomeTorneo: torneo.nomeTorneo,
-            argomento: torneo.argomento,
-            organizzatore: torneo.organizzatore,
-            partite: squadra.partite,
-            giocatori: squadra.giocatori,
+            nomeSquadra: squad.nomeSquadra,
+            capitano: squad.capitano,
+            nomeTorneo: squad.idTorneo,
+            giocatori: squad.giocatori,
         });
-        }else{
-            res.json({ 
-                success: false, 
-                message: "Torneo non trovato!"
-            });
-        }
     }
     else{
         res.json({ 
@@ -65,19 +98,26 @@ router.get('/:idSquadra', async (req, res) => {
     }
 });
 
-// Se app.js capta una GET verso /api/v1/squadre/list/:idTorneo allora ritorna tutte le squadre associate ad un torneo
+
+// Se app.js capta una GET verso /api/v1/squadre/list/:idTorneo allora ritorna tutte le squadre associate ad un torneo e una lista di giocatori
 router.get('/list/:idTorneo', async (req, res) => {
     //ritorna tutte le squadre associate al torneo
     let squadre = await squadra.find({idTorneo: req.params.idTorneo}).exec();
     var idSquadre = [];
+    var nomiSquadre = [];
+    var giocatoriIscritti=[];
 
-    if(squadre){
+    if(squadre!=undefined){
         squadre.forEach(function(squadra) {
+            squadra.giocatori.forEach(function(giocatore){giocatoriIscritti.push(giocatore)});
             idSquadre.push(squadra._id);
+            nomiSquadre.push(squadra.nomeSquadra);
         });
         res.json({ 
             success: true,
-            tornei: idSquadre
+            idSquadre: idSquadre,
+            nomiSquadre: nomiSquadre,
+            giocatori: giocatoriIscritti
         });
     }
     else{
@@ -87,6 +127,27 @@ router.get('/list/:idTorneo', async (req, res) => {
         });
     }
 });
+/*
+// Se app.js capta una GET verso /api/v1/squadre/check allora ritorna false se l'utente non è iscritto al torneo
+router.post('/check', async (req, res) => {
+    //ritorna tutte le squadre associate al torneo
+    let squadre = await squadra.find({idTorneo: req.body.idTorneo, giocatori: req.body.nickname}).exec();
+
+    if(squadre){
+        //esiste una squadra con quel utente    
+        res.json({ 
+            success: true,
+            message: "utente già iscritto"
+        });
+        return;
+    }
+    else{
+        res.json({ 
+            success: false, 
+            message: "utente non iscritto"
+        });
+    }
+});*/
 
 //idea-> cerca in giocatori il nickname -> se c'è passa gli id delle partite associate
 // Se app.js capta una GET verso /api/v1/squadre/nickname/:nickname
@@ -111,4 +172,23 @@ router.get('/nickname/:idSquadra', async (req, res) => {
         });
     }
 });
+
+//Se app.js capta una DELETE verso /api/v1/squadre/:id
+router.delete('/:idSquadra', async (req, res) => {
+    let squad = await squadra.findOne({_id: req.params.idSquadra}).exec();
+    if (!squad) {
+        res.status(404).json({ 
+            success: false, 
+            message: "Squadra non trovata"
+        });
+        return;
+    }
+    await squad.deleteOne()
+    console.log('Squadra rimossa')
+    res.status(204).json({ 
+        success: true, 
+        message: "Squadra rimossa con successo"
+    });
+});
+
 module.exports = router;

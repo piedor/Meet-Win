@@ -343,7 +343,7 @@ function creationTorneo(){
       location.href = "/creaTorneo.html?idTorneo="+data._id;
       }
       return;
-  })  .catch( function (error) {
+  }).catch( function (error) {
           alert(error.message);
           console.error(error);
           return;
@@ -941,7 +941,7 @@ function getProfile(){
   .catch( error => console.error(error) );
 }
 
-// Funzione usata da visualizzaSchedaUtente
+// Funzione usata da visualizzaSchedaTorneo
 function getTorneo(){
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
@@ -991,6 +991,104 @@ function getTorneo(){
     }
   })
   .catch( error => console.error(error) );
+  fetch('../api/v1/squadre/list/'+idTorneo)
+  .then((resp) => resp.json()) // Trasforma i dati in JSON
+  .then(function(data) { // Risposta
+    if(data.nomiSquadre==null){
+      document.getElementById("boxSquadre").textContent="Nessuna squadra iscritta";
+      return;
+    }
+    else{
+      // Carica squadre
+      data.nomiSquadre.map(function(squadra,index) {  
+        const idS=data.idSquadre[index];
+        var listSquadre=document.getElementById("boxSquadre");
+        let button = document.createElement('button');
+        button.type = 'button';
+        button.setAttribute("id", idS); // pensa come metterci l'id-> problema ho una lista di ID e non un id singolo
+        button.setAttribute("value", squadra);
+        button.setAttribute("style", "background-color:#30b5fc; width:350px; height: 30px; font-size:16px");
+        button.textContent=squadra;
+        let buttonX = document.createElement('button');
+        buttonX.type = 'button';
+        buttonX.setAttribute("id", idS);
+        buttonX.setAttribute("class", "removeSquadra");
+        buttonX.setAttribute("onclick", "removerSquadra(id)");
+        buttonX.textContent= "X";
+        let span=document.createElement('span');
+        span.setAttribute("id", idS);
+        span.appendChild(button);
+        span.appendChild(buttonX);
+        listSquadre.appendChild(span);      
+      });
+    }
+  })
+  .catch( error => console.error(error) );
+}
+
+
+//chiamata da visualizza scheda torneo
+function removerSquadra(x){
+  //controllo autenticato
+  if(globalNickname){
+    //cerca le info della squadra-> se l'utente non ne fa parte e non è l'organizzatore allora non può rimuovere la squadra
+    if(globalNickname!=document.getElementById("organizzatore").textContent){
+      fetch('../api/v1/squadre/'+x)
+      .then((resp) => resp.json()) // Trasforma i dati in JSON
+      .then(function(data) { // Risposta      
+      if(!data.success){
+      return;
+      }else{
+        if(!data.giocatori.includes(globalNickname)){
+          alert("non fai parte della squadra, non puoi rimuovere un'altra squadra dal torneo!")
+          return;
+        }else{
+          var conf=prompt("Sei sicuro di voler rimuovere la squadra dal torneo? Scrivi 'conferma' per confermare",);
+          if(conf!="conferma") return;
+          var listgiocatori=document.getElementById("boxSquadre");
+          while(document.getElementById(x))
+          listgiocatori.removeChild(document.getElementById(x));
+          //call the delete
+          fetch('../api/v1/squadre/' + x, {
+          method: 'DELETE',
+          })
+          .then((resp) => resp.json()) // Trasforma i dati in JSON
+          .then(function(data) { // Risposta      
+          if(!data.success){
+            alert("Errore nell'operazione, squadra non rimossa.")
+          return;
+          }else{        
+            alert("Squadra rimossa con successo.")
+          }
+          }).catch( error => console.error(error) ); 
+        }
+    }
+    }).catch( error => console.error(error) ); 
+    }else{
+      //è l'organizzatore      
+      var conf=prompt("Sei sicuro di voler rimuovere la squadra dal torneo? Scrivi 'conferma' per confermare",);
+      if(conf!="conferma") return;
+      var listgiocatori=document.getElementById("boxSquadre");
+      while(document.getElementById(x))
+      listgiocatori.removeChild(document.getElementById(x));
+      //call the delete
+      fetch('../api/v1/squadre/' + x, {
+      method: 'DELETE',
+      })
+      .then((resp) => resp.json()) // Trasforma i dati in JSON
+      .then(function(data) { // Risposta      
+      if(!data.success){
+        alert("Errore nell'operazione, squadra non rimossa.")
+      return;
+      }else{        
+        alert("Squadra rimossa con successo.")
+      }
+      }).catch( error => console.error(error) ); 
+    }    
+  }else{
+    alert("Per interagire con l'elenco delle squadre devi essere autenticato");
+    return;
+  }
 }
 
 
@@ -1149,7 +1247,10 @@ function remover(x){
 }
 
 function utentiPossibili(){
-  // Elenca tutti gli utenti iscritti
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  var torneo = urlParams.get("idTorneo");  
+  // Elenca tutti gli utenti iscritti => diventerà lista amici
   fetch('../api/v1/utenti/list')
   .then((resp) => resp.json()) // Trasforma i dati in JSON
   .then(function(data) { // Risposta
@@ -1159,7 +1260,7 @@ function utentiPossibili(){
       return;
     }
     else{
-      data.users.map(function(nickname) {
+      data.users.map(function(nickname) {  
         var listutenti=document.getElementById("utenti");
         let button = document.createElement('button');
         button.type = 'button';
@@ -1193,10 +1294,10 @@ function iscriviSquadra(){
   if(torneo == null){
     return;
   }
-  var nomeTorneo= document.getElementById("nomeTorneo").value;
-  var capitano = document.getElementById("nicknameUser2").value;
+  var capitano = document.getElementById("nicknameUser2").textContent;
   var nomeSquadra = document.getElementById("nomeSquadra").value;
-  var numeroGiocatori= document.getElementById("numeroGiocatori").value;
+  var numeroGiocatori= document.getElementById("numeroGiocatori").textContent;
+  var nomeTorneo= document.getElementById("nomeTorneo").textContent;
   var giocatori=[];
   var listaGiocatori=document.getElementById("giocatori");
   const childern = listaGiocatori.childNodes; 
@@ -1238,7 +1339,6 @@ function iscriviSquadra(){
       return;
   })  .catch( function (error) {
           alert(error.message);
-          alert("ciao");
           console.error(error);
           return;
       } );
