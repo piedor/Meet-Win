@@ -32,8 +32,9 @@ const MAPPA_PIATTAFORME = {
   101: "Playstation 4",
   102: "Playstation 5",
   103: "Xbox ONE",
+  104: "PC",
   105: "Switch",
-  104: "PC"
+  000: "Torneo fisico"
 };
 
 const MAPPA_AVATAR = {
@@ -52,7 +53,7 @@ const MAPPA_IMG_TORNEI = {
   102: "logoT2",
   103: "logoT3",
   104: "logoT4",
-  105: "logoT",
+  105: "logoT5",
   106: "logoT6",
   107: "logoT7",
   108: "logoT8"
@@ -71,6 +72,9 @@ const MAPPA_FORMATOP = {
 
 // Memorizza l'utente loggato
 var loggedUser = {};
+// Memorizza l'utente loggato
+var registeredUser = {};
+
 //memorizza il nickname dell'utente
 var globalNickname;
 
@@ -168,19 +172,32 @@ if(document.getElementById("regEmail")!=null){
       document.getElementById("confcode").setAttribute("disabled","true");
       document.getElementById("confebtn").setAttribute("disabled","true");
     }
-  };
+  }
 }
 
 function clearAll(){
+
+  document.getElementById("regNickname").value="";
+  document.getElementById("regEmail").value="";
+  document.getElementById("regPassword").value="";
+  document.getElementById("regC_Password").value="";
+  document.getElementById("zona").value="";
+  document.getElementById("bio").value="";
+  document.getElementById("privato").checked="";
+  document.getElementsByName('pref').checked="";  
+  document.getElementsByName('piatt').values="";
+  document.getElementById("confcode").value="";
+
   document.getElementById("regEmail").disabled = false;
   document.getElementById("confermaR").disabled = true;
-  document.getElementById("cmail").disabled = true;
-  document.getElementById("cmail").removeAttribute("style");
+  document.getElementById("cmail").disabled = false;
+  document.getElementById("confcode").removeAttribute("style");
   document.getElementById("confcode").disabled=false;
 }
 
 function register()
 {
+  document.getElementById("confermaR").setAttribute("disabled", true);
   // Questa funzione è chiamata durante la fase di registrazione
   var nickname = document.getElementById("regNickname").value;
   var email = document.getElementById("regEmail").value;
@@ -219,6 +236,7 @@ function register()
       errors = "errori presenti: " + errors;
       errors = String(errors);
       alert(errors);
+      document.getElementById("confermaR").removeAttribute("disabled");
       return;
   }
 
@@ -249,11 +267,13 @@ function register()
         // Registrazione ok
         // Invia mail 
         sendMails(email,"registrazionec", nickname);
+        location.href = "/";
       }
       return;
   })  .catch( function (error) {
           alert(error.message);
           console.error(error);
+          document.getElementById("confermaR").setAttribute("disabled", false);
           return;
       } );
         
@@ -274,7 +294,7 @@ function creationTorneo(){
     if (checkbox.checked) 
     tags.push(checkbox.value);
   }
-  var piattaforma = document.getElementById('piattaforma').value;
+  var piattaforma = document.querySelector('input[id = "piattaforma"]:checked').value;
   var numeroSquadre = document.getElementById('nsquadre').value;
   var numeroGiocatori = document.getElementById('ngiocatori').value;
   var dataInizio = document.getElementById('dataInizio').value;
@@ -284,7 +304,7 @@ function creationTorneo(){
   
   var errors = "";
   if(nomeTorneo == "") errors += "nome torneo mancante; ";
-  if(argomento == "") errors += "argomento mancante; ";
+  if(argomento == "") errors += "attivit&agrave;' mancante; ";
   if(numeroSquadre == "") errors += "numero di squadre è mancante; ";
   if(numeroGiocatori == "") errors += "numero di giocatori mancante; ";     
   
@@ -420,7 +440,7 @@ function pubblicaTorneo(){
   
   var errors = "";
   if(nomeTorneo == "") errors += "nome torneo mancante; ";
-  if(argomento == "") errors += "argomento mancante; ";
+  if(argomento == "") errors += "attivit&agrave; mancante; ";
   if(numeroSquadre == "") errors += "numero di squadre è mancante; ";
   if(numeroGiocatori == "") errors += "numero di giocatori mancante; ";     
   
@@ -573,17 +593,19 @@ function loadInfoTorneo(){
       }
     }  
     // select formatoT
-    var formatoTs = document.getElementsByName('formatoT');
+    var formatoTs = document.getElementById('formatoT').options;
     for (var formatoT of formatoTs) {  
       if(formatoT.value == data.formatoT){
-        formatoT.checked = "true";
+        formatoT.selected = "true";
       }
     }  
+    // Se gironi allora apri div
+    gironiDiv();
     // select formatop
-    var formatoPs = document.getElementsByName('formatoP');
+    var formatoPs = document.getElementById('formatoP').options;
     for (var formatoP of formatoPs) {  
       if(formatoP.value == data.formatoP){
-        formatoP.checked = "true";
+        formatoP.selected = "true";
       }
     }  
     }
@@ -829,7 +851,7 @@ function listTornei(){
           return;
         }else{
         // crea il contenuto del button
-        contenutoButton=data.nomeTorneo+" --> org: "+data.organizzatore+"; argomento: "+data.argomento;
+        contenutoButton=data.nomeTorneo+" --> org: "+data.organizzatore+"; attività: "+data.argomento;
         }
         button.textContent = contenutoButton;
         box.appendChild(button);
@@ -872,11 +894,11 @@ function listTorneiUtente(){
           fetch('../api/v1/tornei/'+idTorneo)
           .then((resp) => resp.json()) // Trasforma i dati in JSON
           .then(function(data) { // Risposta
-          if(!data.success){
+          if(!data.success){            
             return;
           }else{
             // crea il contenuto del button
-            contenutoButton=data.nomeTorneo+"; argomento: "+data.argomento;
+            contenutoButton=data.nomeTorneo+"; attività: "+data.argomento;
             if(data.pubblicato){              
             button.setAttribute("onclick", "location.href='visualizzaSchedaTorneo.html?idTorneo=" + idTorneo + "'");            
             }else{              
@@ -891,6 +913,10 @@ function listTorneiUtente(){
       .catch( error => console.error(error) );  
 
     }else{
+      let box = document.getElementById("boxTorneiUser");        
+      while (box.firstChild.nextSibling.nextSibling.nextSibling) {
+        box.removeChild(box.lastChild);
+      }
       //è visibile-> rendi invisibile      
       document.getElementById("boxTorneiUser").setAttribute("hidden","true");
       document.getElementById("boxTornei").removeAttribute("style");  
@@ -975,7 +1001,7 @@ function getTorneo(){
       if(document.getElementById("logoT")){
         document.getElementById("logoT").setAttribute("alt", MAPPA_IMG_TORNEI[data.id_img]);
         document.getElementById("logoT").setAttribute("src", "images/" + MAPPA_IMG_TORNEI[data.id_img] + ".png");
-      }    
+      } 
       document.getElementById("numeroGiocatori").innerHTML = data.numeroGiocatori;  
       document.getElementById("numeroSquadre").innerHTML = data.numeroSquadre;
       document.getElementById("formatoP").innerHTML = MAPPA_FORMATOP[data.formatoP];  

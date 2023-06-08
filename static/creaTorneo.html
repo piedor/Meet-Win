@@ -35,7 +35,7 @@
    <div>
         <p style="color: blue; font-size: 40px; position: absolute; left: 45%; margin-top:5px;">Crea Torneo</p>   
 <br><br><br>	
-<form action="api/v1/tornei" method="post" name="creationform" id="creationform" onchange="changes()">
+<form action="" onchange="changes()">
     <div>
         <label>Organizzatore: </label>
         <span id="nicknameUser2"></span>
@@ -63,9 +63,10 @@
         </div>
 <br>
     <div>
-        <label>Argomento:</label>
-        <span title="Inserisci l'argomento del torneo che vuoi organizzare, esempio: League of Legends/Calcetto/Pallavolo.">
-        <input type="text" placeholder="argomento" id="argomento" ></span>
+        <label>Attivit&agrave;:</label>
+        <span title="Inserisci quale attivit&agrave; è al centro del tuo torneo del torneo che vuoi organizzare, 
+esempio: League of Legends/Calcetto/Pallavolo.">
+        <input type="text" placeholder="attivit&agrave;" id="argomento" ></span>
         <label>Data Inizio:</label>
         <span title="Inserisci la data di inizio del torneo che vuoi organizzare" style="margin-left: 5px;">
         <input type="text" placeholder="data inizio" id="dataInizio" ></span>
@@ -122,8 +123,8 @@ best of 5: per vincere bisogna vincere 3 partite su ">
         <input type="radio" name="piattaforma" id="piattaforma" value="101"/> Playstation 4
         <input type="radio" name="piattaforma" id="piattaforma" value="102"/> Playstation 5
         <input type="radio" name="piattaforma" id="piattaforma" value="103"/> Xbox ONE
-        <input type="radio" name="piattaforma" id="piattaforma" value="104"/> Switch
-        <input type="radio" name="piattaforma" id="piattaforma" value="105"/> PC
+        <input type="radio" name="piattaforma" id="piattaforma" value="104"/> PC
+        <input type="radio" name="piattaforma" id="piattaforma" value="105"/> Switch
         <input type="radio" name="piattaforma" id="piattaforma" value="000" checked/> Torneo fisico
     </span>
 </div>
@@ -175,7 +176,8 @@ la tua esperienza e quella degli altri utenti per cercare il torneo.">Scegli i t
     <div>
         <label>Zona:</label>
         <span title="Inserisci la posizione del torneo; attenzione: opzionale solo nel caso di tornei digitali."><input type="text" class="form-control" placeholder="posizione (opz)" name="zona" id="zona"></span>
-        <span style="margin-right: 30%;"></span><input type="reset" value="cancella tutto"> 
+        <span style="margin-right: 30%;"></span>
+        <input type="reset" value="cancella tutto" onclick="function x(){document.getElementById('bio').value=null; document.getElementById('regolamento').value=null;}"> 
     </div>
 </form>
 <br>

@@ -15,7 +15,7 @@
       border: 2px solid #000000;
       font-style: Comic sans MS;
       color:blue;
-      height: 125px;
+      height: 135px;
       vertical-align: center;
       }
 	.box1{
@@ -61,12 +61,13 @@
         <span style="font-family: “Comic Sans MS”, “Comic Sans”, cursive; color:blue;">
           <p style="font-size:4rem; position: absolute; float: left; margin-top: 2px; margin-left: 40%; ">Meet&Win</p>
         <p>
-            <form action="api/v1/utenti" method="post" name="loginform" id="loginform" style="text-align:right;">            
-            <label>email o nickname</label>
-              <input name="nickname" placeholder="red.rocco@unitn.it" id="loginNickname"/><br>
-              <label>password</label>
-              <input type="password" name="password" placeholder="Password2" id="loginPassword"/><br>
-              <button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px" type="button" onclick="login()">	Login</button>            
+            <form action="api/v1/utenti" method="post" name="loginform" id="loginform" style="text-align:right;">
+                <label>email o nickname</label>
+                <input name="nickname" placeholder="RedRocco" id="loginNickname"/><br>
+                <label>password</label>
+                <input type="password" name="password" placeholder="Password2" id="loginPassword"/><br>
+				<a href="#" onclick="reimpostaPassword();">Ho dimenticato la password</a><br/>
+                <button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px; margin-top: 5px;" type="button" onclick="login()">	Login</button>
             </form>
             <span id="loggedInfo"  style="position:relative; float:right;" hidden>
             <label>Bentornato, </label>
@@ -84,7 +85,7 @@
     <p style="font-size: 30px; margin: auto;">Torneo: <span id="nomeTorneo"></span></p>
 	<p style="font-size: 18px;">Organizzatore: <span id="organizzatore"></span></p>
     <p id="zonaHolder" style=" float:right; margin-right: 30%;" hidden>Zona: <span class="box2" id="zona"></span></p>
-    <p>Argomento: <span class="box2" id="argomento"></span><span id="piattaformaHolder"hidden>&nbspPiattaforma: <span class="box2" id="piattaforma"></span></span> </p>
+    <p>Attivit&agrave;: <span class="box2" id="argomento"></span><span id="piattaformaHolder"hidden>&nbspPiattaforma: <span class="box2" id="piattaforma"></span></span> </p>
     <p>Formato Torneo: <span class="box2" id="formatoT"></span>
         <span id="gironiHolder" hidden>&nbspGironi: <span class="box2" id="gironi"></span></span> 
         &nbspFormato Partite: <span class="box2" id="formatoP"></span>
