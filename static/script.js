@@ -1031,14 +1031,15 @@ function getTorneo(){
       data.nomiSquadre.map(function(squadra,index) {  
         const idS=data.idSquadre[index];
         const giocatori=data.giocatori[index];
+        //const capitano= data.capitani[index]; //working progress: problema-> cant find capitani
         var listSquadre=document.getElementById("boxSquadre");
         let button = document.createElement('button');
         button.type = 'button';
         button.setAttribute("id", idS); 
         button.setAttribute("value", squadra);
         button.setAttribute("style", "background-color:#30b5fc; width:350px; height: 30px; font-size:16px");
-        button.setAttribute("onclick", "showGiocatori(id)");
-        button.textContent=squadra;
+        button.setAttribute("onclick", "showGiocatori(id)");        
+        button.textContent=squadra; //+" |capitano: "+capitano;
         let buttonX = document.createElement('button');
         buttonX.type = 'button';
         buttonX.setAttribute("id", idS);
