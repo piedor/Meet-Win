@@ -1,8 +1,7 @@
 const express = require('express');
 const router = express.Router();
 // Modello di mongoose (stabilisce quali dati l'oggetto contiene)
-const squadra = require('./models/partita'); 
-const squadra = require('./models/torneo'); 
+const squadra = require('./models/squadra');
 
 // Se app.js capta un POST verso /api/v1/partite allora procedi alla creazione della partita
 router.post('', async function(req, res) {   
@@ -88,6 +87,7 @@ router.get('/list/:idTorneo', async (req, res) => {
         });
     }
 });
+
 //idea-> cerca in giocatori il nickname -> se c'è passa gli id delle partite associate
 // Se app.js capta una GET verso /api/v1/squadre/nickname/:nickname
 router.get('/nickname/:idSquadra', async (req, res) => {
