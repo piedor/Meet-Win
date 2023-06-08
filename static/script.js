@@ -993,6 +993,8 @@ function getTorneo(){
       document.getElementById("bio").innerHTML = data.bio;
       if(document.getElementById("regolamento"))  
       document.getElementById("regolamento").innerHTML = data.regolamento;
+      if(document.getElementById("dataInizio"))  
+      document.getElementById("dataInizio").innerHTML = data.dataInizio;
       if(data.piattaforma!="000"){        
         document.getElementById("piattaforma").innerHTML = MAPPA_PIATTAFORME[data.piattaforma];
         document.getElementById("piattaformaHolder").removeAttribute("hidden");
@@ -1028,10 +1030,12 @@ function getTorneo(){
       // Carica squadre
       data.nomiSquadre.map(function(squadra,index) {  
         const idS=data.idSquadre[index];
+        const giocatori=data.giocatori[index];
+        giocatori.forEach(function (giocatore){alert(giocatore);});
         var listSquadre=document.getElementById("boxSquadre");
         let button = document.createElement('button');
         button.type = 'button';
-        button.setAttribute("id", idS); // pensa come metterci l'id-> problema ho una lista di ID e non un id singolo
+        button.setAttribute("id", idS); 
         button.setAttribute("value", squadra);
         button.setAttribute("style", "background-color:#30b5fc; width:350px; height: 30px; font-size:16px");
         button.textContent=squadra;
@@ -1041,24 +1045,47 @@ function getTorneo(){
         buttonX.setAttribute("class", "removeSquadra");
         buttonX.setAttribute("onclick", "removerSquadra(id)");
         buttonX.textContent= "X";
+        let boxGiocatori = document.createElement('div');
+        boxGiocatori.setAttribute("id", idS+"G");
+        boxGiocatori.setAttribute("class", "elencoGiocatori");
+        //boxGiocatori.setAttribute("hidden", "true");
+        alert("here");
+        giocatori.forEach(function (giocatore){         
+          let paragrafo = document.createElement('p');
+          paragrafo.setAttribute("class", "giocatore");
+          paragrafo.innerHTML=giocatore;
+          boxGiocatori.appendChild(paragrafo);
+        })
+
         let span=document.createElement('span');
         span.setAttribute("id", idS);
         span.appendChild(button);
         span.appendChild(buttonX);
-        listSquadre.appendChild(span);      
+        listSquadre.appendChild(span);
+        listSquadre.appendChild(boxGiocatori);      
       });
     }
   })
   .catch( error => console.error(error) );
 }
 
+function showGiocatori(x){
+  //change to-> lo creai prima hidden-> change status
+  if(globalNickname){
+    
+  }else{
+    alert("Per visualizzare i giocatori della squadra devi essere autenticato");
+  }
+}
 
-//chiamata da visualizza scheda torneo
+//chiamata da visualizza scheda torneo per rimuovere una squadra iscritta ad un torneo
+//per farlo bisogna essere l'organizzatore del torneo o un membro della squadra
 function removerSquadra(x){
   //controllo autenticato
   if(globalNickname){
     //cerca le info della squadra-> se l'utente non ne fa parte e non è l'organizzatore allora non può rimuovere la squadra
     if(globalNickname!=document.getElementById("organizzatore").textContent){
+      //call get squadre/:idSquadra per vedere se l'utente ne è parte
       fetch('../api/v1/squadre/'+x)
       .then((resp) => resp.json()) // Trasforma i dati in JSON
       .then(function(data) { // Risposta      

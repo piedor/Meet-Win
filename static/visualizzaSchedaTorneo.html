@@ -85,7 +85,7 @@
     <p style="font-size: 30px; margin: auto;">Torneo: <span id="nomeTorneo"></span></p>
 	<p style="font-size: 18px;">Organizzatore: <span id="organizzatore"></span></p>
     <p id="zonaHolder" style=" float:right; margin-right: 30%;" hidden>Zona: <span class="box2" id="zona"></span></p>
-    <p>Attivit&agrave;: <span class="box2" id="argomento"></span><span id="piattaformaHolder"hidden>&nbspPiattaforma: <span class="box2" id="piattaforma"></span></span> </p>
+    <p>Attivit&agrave;: <span class="box2" id="argomento"></span><span id="piattaformaHolder"hidden>&nbspPiattaforma: <span class="box2" id="piattaforma"></span></span>&nbspData inizio: <span class="box2" id="dataInizio"></span> </p>
     <p>Formato Torneo: <span class="box2" id="formatoT"></span>
         <span id="gironiHolder" hidden>&nbspGironi: <span class="box2" id="gironi"></span></span> 
         &nbspFormato Partite: <span class="box2" id="formatoP"></span>
@@ -97,7 +97,7 @@
     <div class="box3">
         <button style="background-color:#30b5fc; width:90px; height: 30px; font-size:16px; float:right; position: relative; margin-right: -10px; margin-top: -10px; float:right;" onclick="location.href='iscrizioneTorneo.html?idTorneo='+new URLSearchParams(window.location.search).get('idTorneo')">Iscritivi</button>        
         <p style="margin-top: -5px;">Squadre Iscritte:</p>
-        <div id="boxSquadre"></div>
+        <div style="overflow: auto;" id="boxSquadre"></div>
     
     
     </div>

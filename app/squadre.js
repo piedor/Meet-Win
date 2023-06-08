@@ -115,7 +115,9 @@ router.get('/list/:idTorneo', async (req, res) => {
 
     if(squadre!=undefined){
         squadre.forEach(function(squadra) {
-            squadra.giocatori.forEach(function(giocatore){giocatoriIscritti.push(giocatore)});
+            let temp= [];
+            squadra.giocatori.forEach(function(giocatore){temp.push(giocatore)});
+            giocatoriIscritti.push(temp);
             idSquadre.push(squadra._id);
             nomiSquadre.push(squadra.nomeSquadra);
         });
