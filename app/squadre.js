@@ -7,7 +7,13 @@ const squadra = require('./models/squadra');
 router.post('', async function(req, res) {  
     
     //controlla se ci sono ancora posti nel torneo
-    //to do
+    let squadreIscritte = await squadra.find({
+        idTorneo: req.body.idTorneo
+	}).exec();
+    if(squadreIscritte.length>=req.body.numeroSquadre){        
+		res.json({ success: false, message: 'Numero squadre massimo per questo torneo già raggiunto' });        
+		return;
+    };  
 
     //cerca se l'utente ha già iscritto una squadra
     let squadraBycap = await squadra.findOne({

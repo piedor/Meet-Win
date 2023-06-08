@@ -1294,10 +1294,11 @@ function iscriviSquadra(){
   if(torneo == null){
     return;
   }
+  var numeroSquadre = document.getElementById("numeroSquadre").textContent;
   var capitano = document.getElementById("nicknameUser2").textContent;
   var nomeSquadra = document.getElementById("nomeSquadra").value;
-  var numeroGiocatori= document.getElementById("numeroGiocatori").textContent;
-  var nomeTorneo= document.getElementById("nomeTorneo").textContent;
+  var numeroGiocatori = document.getElementById("numeroGiocatori").textContent;
+  var nomeTorneo = document.getElementById("nomeTorneo").textContent;
   var giocatori=[];
   var listaGiocatori=document.getElementById("giocatori");
   const childern = listaGiocatori.childNodes; 
@@ -1324,6 +1325,7 @@ function iscriviSquadra(){
         capitano: capitano,
         idTorneo: torneo,
         giocatori: giocatori,
+        numeroSquadre: numeroSquadre //used by the system to check the slot disponibility
       } ),
   })
   .then((resp) => resp.json()) // Trasforma i dati in JSON
