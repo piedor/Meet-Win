@@ -1031,13 +1031,13 @@ function getTorneo(){
       data.nomiSquadre.map(function(squadra,index) {  
         const idS=data.idSquadre[index];
         const giocatori=data.giocatori[index];
-        giocatori.forEach(function (giocatore){alert(giocatore);});
         var listSquadre=document.getElementById("boxSquadre");
         let button = document.createElement('button');
         button.type = 'button';
         button.setAttribute("id", idS); 
         button.setAttribute("value", squadra);
         button.setAttribute("style", "background-color:#30b5fc; width:350px; height: 30px; font-size:16px");
+        button.setAttribute("onclick", "showGiocatori(id)");
         button.textContent=squadra;
         let buttonX = document.createElement('button');
         buttonX.type = 'button';
@@ -1048,11 +1048,9 @@ function getTorneo(){
         let boxGiocatori = document.createElement('div');
         boxGiocatori.setAttribute("id", idS+"G");
         boxGiocatori.setAttribute("class", "elencoGiocatori");
-        //boxGiocatori.setAttribute("hidden", "true");
-        alert("here");
+        boxGiocatori.setAttribute("hidden", "true");
         giocatori.forEach(function (giocatore){         
           let paragrafo = document.createElement('p');
-          paragrafo.setAttribute("class", "giocatore");
           paragrafo.innerHTML=giocatore;
           boxGiocatori.appendChild(paragrafo);
         })
@@ -1072,7 +1070,12 @@ function getTorneo(){
 function showGiocatori(x){
   //change to-> lo creai prima hidden-> change status
   if(globalNickname){
-    
+    let boxG=document.getElementById(x+"G");
+    if(boxG.checkVisibility()){
+      boxG.setAttribute("hidden", true);
+      }else{
+      boxG.removeAttribute("hidden");
+    }
   }else{
     alert("Per visualizzare i giocatori della squadra devi essere autenticato");
   }
@@ -1271,7 +1274,6 @@ function adder(nickname){
   span.appendChild(buttonX);
   listgiocatori.appendChild(span);
 }
-
 
 function remover(x){
   var nickname=x;
