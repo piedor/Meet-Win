@@ -240,7 +240,7 @@ function register()
       return;
   }
 
-  // Richiama l'API registration
+  // Richiama l'API utenti/post
   fetch('../api/v1/utenti', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -363,7 +363,7 @@ function creationTorneo(){
       location.href = "/creaTorneo.html?idTorneo="+data._id;
       }
       return;
-  })  .catch( function (error) {
+  }).catch( function (error) {
           alert(error.message);
           console.error(error);
           return;
@@ -612,6 +612,77 @@ function loadInfoTorneo(){
   })
   .catch( error => console.error(error) );
 }
+
+function isUtenteLogged(){
+  // Viene usata dalle schermate registrazione e index per definire se l'utente è loggato
+  fetch('../api/v1/utenti/me')
+  .then((resp) => resp.json()) // Trasforma i dati in JSON
+  .then(function(data) { // Risposta
+      if(data.success == false){
+        //do nothing, l'utente non è loggato quindi non serve 
+      }else{
+        //redirect to home_aut
+        alert("Risulti già loggato");
+        location.href = "/home_aut.html";
+      }
+  })
+  .catch( error => console.error(error) );
+}
+
+//work in progress
+function loadInfoTorneo(){
+  // Viene usata dalla schermata creaTorneo per inserire i dati preesistenti
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  var torneo = urlParams.get("idTorneo");
+  if(torneo == null){
+    //sta creando un nuovo torneo
+  fetch('../api/v1/utenti/me')
+  .then((resp) => resp.json()) // Trasforma i dati in JSON
+  .then(function(data) { // Risposta
+    if(!data.success){
+      return;
+    }
+    else{
+      // Carica nickname organizzatore
+      document.getElementById("organizzatore").innerHTML = data.nickname;
+    }
+  })
+  .catch( error => console.error(error) );
+  }
+  
+  fetch('../api/v1/tornei/'+torneo)
+  .then((resp) => resp.json()) // Trasforma i dati in JSON
+  .then(function(data) { // Risposta
+    if(!data.success){
+      alert(data.message);
+      location.href = "cercaTornei.html";
+      return;
+    }
+    else{
+      document.getElementById("organizzatore").innerHTML = data.organizzatore;
+      // Carica campi
+      /*
+      document.getElementById("nickname").innerHTML = data.nickname;
+      document.getElementById("bio").innerHTML = data.bio;  
+      // Inserisci ogni preferenza in span
+      data.preferenze.map(function(preferenze) { 
+        let span = document.getElementById('preferenze');
+        span.innerHTML += " " + MAPPA_PREFERENZE[preferenze]; 
+      });
+      // Inserisci ogni piattaforma in span
+      data.piattaforme.map(function(piattaforme) {
+        let span = document.getElementById('piatt');
+        span.innerHTML += " " + MAPPA_PIATTAFORME[piattaforme]; 
+      });
+      // Carica foto avatar
+      document.getElementById("avatar").setAttribute("alt", MAPPA_AVATAR[data.avatar]);
+      document.getElementById("avatar").setAttribute("src", "images/" + MAPPA_AVATAR[data.avatar] + ".png");*/
+    }
+  })
+  .catch( error => console.error(error) );
+}
+
 
 function logout(){
   // Funzione per eseguire il logout dell'utente (in pratica rimuove il token dai cookie)
@@ -896,7 +967,7 @@ function getProfile(){
   .catch( error => console.error(error) );
 }
 
-// Funzione usata da visualizzaSchedaUtente
+// Funzione usata da visualizzaSchedaTorneo
 function getTorneo(){
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
@@ -918,15 +989,19 @@ function getTorneo(){
       document.getElementById("organizzatore").innerHTML = data.organizzatore;
       document.getElementById("nomeTorneo").innerHTML = data.nomeTorneo;
       document.getElementById("argomento").innerHTML = data.argomento;
-      document.getElementById("bio").innerHTML = data.bio;  
+      if(document.getElementById("bio"))
+      document.getElementById("bio").innerHTML = data.bio;
+      if(document.getElementById("regolamento"))  
       document.getElementById("regolamento").innerHTML = data.regolamento;
       if(data.piattaforma!="000"){        
         document.getElementById("piattaforma").innerHTML = MAPPA_PIATTAFORME[data.piattaforma];
         document.getElementById("piattaformaHolder").removeAttribute("hidden");
       }
       // Carica foto logoT
-      document.getElementById("logoT").setAttribute("alt", MAPPA_IMG_TORNEI[data.id_img]);
-      document.getElementById("logoT").setAttribute("src", "images/" + MAPPA_IMG_TORNEI[data.id_img] + ".png");
+      if(document.getElementById("logoT")){
+        document.getElementById("logoT").setAttribute("alt", MAPPA_IMG_TORNEI[data.id_img]);
+        document.getElementById("logoT").setAttribute("src", "images/" + MAPPA_IMG_TORNEI[data.id_img] + ".png");
+      } 
       document.getElementById("numeroGiocatori").innerHTML = data.numeroGiocatori;  
       document.getElementById("numeroSquadre").innerHTML = data.numeroSquadre;
       document.getElementById("formatoP").innerHTML = MAPPA_FORMATOP[data.formatoP];  
@@ -942,6 +1017,104 @@ function getTorneo(){
     }
   })
   .catch( error => console.error(error) );
+  fetch('../api/v1/squadre/list/'+idTorneo)
+  .then((resp) => resp.json()) // Trasforma i dati in JSON
+  .then(function(data) { // Risposta
+    if(data.nomiSquadre==null){
+      document.getElementById("boxSquadre").textContent="Nessuna squadra iscritta";
+      return;
+    }
+    else{
+      // Carica squadre
+      data.nomiSquadre.map(function(squadra,index) {  
+        const idS=data.idSquadre[index];
+        var listSquadre=document.getElementById("boxSquadre");
+        let button = document.createElement('button');
+        button.type = 'button';
+        button.setAttribute("id", idS); // pensa come metterci l'id-> problema ho una lista di ID e non un id singolo
+        button.setAttribute("value", squadra);
+        button.setAttribute("style", "background-color:#30b5fc; width:350px; height: 30px; font-size:16px");
+        button.textContent=squadra;
+        let buttonX = document.createElement('button');
+        buttonX.type = 'button';
+        buttonX.setAttribute("id", idS);
+        buttonX.setAttribute("class", "removeSquadra");
+        buttonX.setAttribute("onclick", "removerSquadra(id)");
+        buttonX.textContent= "X";
+        let span=document.createElement('span');
+        span.setAttribute("id", idS);
+        span.appendChild(button);
+        span.appendChild(buttonX);
+        listSquadre.appendChild(span);      
+      });
+    }
+  })
+  .catch( error => console.error(error) );
+}
+
+
+//chiamata da visualizza scheda torneo
+function removerSquadra(x){
+  //controllo autenticato
+  if(globalNickname){
+    //cerca le info della squadra-> se l'utente non ne fa parte e non è l'organizzatore allora non può rimuovere la squadra
+    if(globalNickname!=document.getElementById("organizzatore").textContent){
+      fetch('../api/v1/squadre/'+x)
+      .then((resp) => resp.json()) // Trasforma i dati in JSON
+      .then(function(data) { // Risposta      
+      if(!data.success){
+      return;
+      }else{
+        if(!data.giocatori.includes(globalNickname)){
+          alert("non fai parte della squadra, non puoi rimuovere un'altra squadra dal torneo!")
+          return;
+        }else{
+          var conf=prompt("Sei sicuro di voler rimuovere la squadra dal torneo? Scrivi 'conferma' per confermare",);
+          if(conf!="conferma") return;
+          var listgiocatori=document.getElementById("boxSquadre");
+          while(document.getElementById(x))
+          listgiocatori.removeChild(document.getElementById(x));
+          //call the delete
+          fetch('../api/v1/squadre/' + x, {
+          method: 'DELETE',
+          })
+          .then((resp) => resp.json()) // Trasforma i dati in JSON
+          .then(function(data) { // Risposta      
+          if(!data.success){
+            alert("Errore nell'operazione, squadra non rimossa.")
+          return;
+          }else{        
+            alert("Squadra rimossa con successo.")
+          }
+          }).catch( error => console.error(error) ); 
+        }
+    }
+    }).catch( error => console.error(error) ); 
+    }else{
+      //è l'organizzatore      
+      var conf=prompt("Sei sicuro di voler rimuovere la squadra dal torneo? Scrivi 'conferma' per confermare",);
+      if(conf!="conferma") return;
+      var listgiocatori=document.getElementById("boxSquadre");
+      while(document.getElementById(x))
+      listgiocatori.removeChild(document.getElementById(x));
+      //call the delete
+      fetch('../api/v1/squadre/' + x, {
+      method: 'DELETE',
+      })
+      .then((resp) => resp.json()) // Trasforma i dati in JSON
+      .then(function(data) { // Risposta      
+      if(!data.success){
+        alert("Errore nell'operazione, squadra non rimossa.")
+      return;
+      }else{        
+        alert("Squadra rimossa con successo.")
+      }
+      }).catch( error => console.error(error) ); 
+    }    
+  }else{
+    alert("Per interagire con l'elenco delle squadre devi essere autenticato");
+    return;
+  }
 }
 
 
@@ -1047,3 +1220,154 @@ function reimpostaPassword(){
     });
   }
 }
+
+function adder(nickname){
+  var listutenti=document.getElementById("utenti");
+  while(document.getElementById(nickname))
+    listutenti.removeChild(document.getElementById(nickname));
+  var listgiocatori=document.getElementById("giocatori");
+  let button = document.createElement('button');
+  button.type = 'button';
+  button.setAttribute("id", nickname);
+  button.setAttribute("value", nickname);
+  button.setAttribute("style", "background-color:#30b5fc; width:300px; height: 30px; font-size:16px");
+  button.textContent=nickname;  
+  let buttonX = document.createElement('button');
+  buttonX.type = 'button';
+  buttonX.setAttribute("id", nickname);
+  buttonX.setAttribute("class", "remover");
+  buttonX.setAttribute("onclick", "remover(id)");
+  buttonX.textContent= "X";
+  let span=document.createElement('span');
+  span.setAttribute("id", nickname);
+  span.appendChild(button);
+  span.appendChild(buttonX);
+  listgiocatori.appendChild(span);
+}
+
+
+function remover(x){
+  var nickname=x;
+  var listutenti=document.getElementById("utenti");
+  let button = document.createElement('button');
+  button.type = 'button';
+  button.setAttribute("id", nickname);
+  button.setAttribute("value", nickname);
+  button.setAttribute("style", "background-color:#30b5fc; width:300px; height: 30px; font-size:16px");
+  button.textContent=nickname;
+  let buttonX = document.createElement('button');
+  buttonX.type = 'button';
+  buttonX.setAttribute("id", nickname);
+  buttonX.setAttribute("class", "adder");
+  buttonX.setAttribute("onclick", "adder(id)");
+  buttonX.textContent= "+";
+  let span=document.createElement('span');
+  span.setAttribute("id", nickname);
+  span.appendChild(button);
+  span.appendChild(buttonX);
+  listutenti.appendChild(span);
+
+  var listgiocatori=document.getElementById("giocatori");
+  while(document.getElementById(nickname))
+    listgiocatori.removeChild(document.getElementById(nickname));
+}
+
+function utentiPossibili(){
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  var torneo = urlParams.get("idTorneo");  
+  // Elenca tutti gli utenti iscritti => diventerà lista amici
+  fetch('../api/v1/utenti/list')
+  .then((resp) => resp.json()) // Trasforma i dati in JSON
+  .then(function(data) { // Risposta
+    if(!data.success){
+      // Nessun utente iscritto alla piattaforma!
+      alert(data.message);
+      return;
+    }
+    else{
+      data.users.map(function(nickname) {  
+        var listutenti=document.getElementById("utenti");
+        let button = document.createElement('button');
+        button.type = 'button';
+        button.setAttribute("id", nickname);
+        button.setAttribute("value", nickname);
+        button.setAttribute("style", "background-color:#30b5fc; width:300px; height: 30px; font-size:16px");
+        button.textContent=nickname;
+        let buttonX = document.createElement('button');
+        buttonX.type = 'button';
+        buttonX.setAttribute("id", nickname);
+        buttonX.setAttribute("class", "adder");
+        buttonX.setAttribute("onclick", "adder(id)");
+        buttonX.textContent= "+";
+        let span=document.createElement('span');
+        span.setAttribute("id", nickname);
+        span.appendChild(button);
+        span.appendChild(buttonX);
+        listutenti.appendChild(span);
+      
+      });
+    }
+  })
+  .catch( error => console.error(error) );
+}
+
+function iscriviSquadra(){
+  // Questa funzione è chiamata durante la fase di iscrizione squadra
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  var torneo = urlParams.get("idTorneo");
+  if(torneo == null){
+    return;
+  }
+  var numeroSquadre = document.getElementById("numeroSquadre").textContent;
+  var capitano = document.getElementById("nicknameUser2").textContent;
+  var nomeSquadra = document.getElementById("nomeSquadra").value;
+  var numeroGiocatori = document.getElementById("numeroGiocatori").textContent;
+  var nomeTorneo = document.getElementById("nomeTorneo").textContent;
+  var giocatori=[];
+  var listaGiocatori=document.getElementById("giocatori");
+  const childern = listaGiocatori.childNodes; 
+  childern.forEach(li => {
+    giocatori.push(li.firstChild.value);
+  });
+  var errors = "";
+  if(nomeSquadra == "") errors += "nome squadra mancante; ";
+  if(giocatori.length>numeroGiocatori) errors +="hai inserito troppi giocatori; "
+  if(giocatori.length<numeroGiocatori) errors +="non hai inserito abbastanza giocatori; "
+
+  if(errors != ""){
+      errors = "errori presenti: " + errors;
+      errors = String(errors);
+      alert(errors);
+      return;
+  }
+  // Richiama l'API squadre
+  fetch('../api/v1/squadre', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify( { 
+        nomeSquadra: nomeSquadra,
+        capitano: capitano,
+        idTorneo: torneo,
+        giocatori: giocatori,
+        numeroSquadre: numeroSquadre //used by the system to check the slot disponibility
+      } ),
+  })
+  .then((resp) => resp.json()) // Trasforma i dati in JSON
+  .then(function(data) { // Risposta
+      // Popup messaggio API
+      alert(data.message);
+      if(data.success){
+        // iscrizione ok
+        //a tutti i giocatori manda 
+        
+        sendMails("tommasoguidolin01@gmail.com","iscrizioneTorneo", nomeTorneo);
+      }
+      return;
+  })  .catch( function (error) {
+          alert(error.message);
+          console.error(error);
+          return;
+      } );
+};

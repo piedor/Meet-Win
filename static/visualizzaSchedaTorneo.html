@@ -34,13 +34,16 @@
 	font-size: 15px;
     vertical-align: top;
 	}
+    .removeSquadra{
+        background-color:#ff0000;
+    }
     .box3{
     position: absolute;
-    bottom: 10px;
-	width: 600px;
-	max-height: 200px;
+    bottom: 120px;
+	width: 500px;
+	max-height: 250px;
 	padding: 10px;
-    right:100px;
+    right:10%;
     align-items: center;
 	background-color:rgb(117, 116, 116);
 	font-size: 15px;
@@ -48,8 +51,9 @@
     float:left;
     color: white; 
     font-size: 20px;
+    overflow: auto;
 	}
-        </style>
+</style>
 </head>
 <body>
     <div class="testata">
@@ -72,7 +76,7 @@
             </span>
         </p>
       </div>
-      <button style="background-color:#30b5fc;" onclick="location.href='cercaTorneo.html'">INDIETRO</button> 
+      <button style="background-color:#30b5fc; margin-top: 5px;" onclick="location.href='cercaTorneo.html'">INDIETRO</button> 
 	<p style="color: blue; font-size: 40px; position: absolute; left: 38%; margin-top:-10px;">Visualizza Scheda Torneo</p>
 	<br><br><br>
     <div style="margin-left:15%"> 
@@ -90,15 +94,13 @@
             &nbspNumero Giocatori: <span class="box2" id="numeroGiocatori"></span></p>
     <p style="max-width: 500px;">Bio: <span class="box2" id="bio" style="display: inline-block; word-wrap: break-word; overflow-wrap:break-word;"></span></p>
     <p style="max-width: 500px;">Regolamento: <span class="box2" id="regolamento" style="display: inline-block; word-wrap: break-word; overflow-wrap:break-word;"></span></p>   
-    <p class="box3">
-        <button style="background-color:#30b5fc; width:90px; height: 30px; font-size:16px; float:right; position: relative; margin-right: -10px; margin-top: -10px;" onClick="window.alert('coming soon')">Iscritivi</button>        
-        <span>Squadre Iscritte:</span><br>
-        <button style="background-color:#30b5fc; width:350px; height: 40px; font-size:16px"> Squadra1</button>
-        <button style="background-color:#30b5fc; width:350px; height: 40px; font-size:16px"> Squadra2</button>
-        <button style="background-color:#30b5fc; width:350px; height: 40px; font-size:16px"> Squadra3</button>
+    <div class="box3">
+        <button style="background-color:#30b5fc; width:90px; height: 30px; font-size:16px; float:right; position: relative; margin-right: -10px; margin-top: -10px; float:right;" onclick="location.href='iscrizioneTorneo.html?idTorneo='+new URLSearchParams(window.location.search).get('idTorneo')">Iscritivi</button>        
+        <p style="margin-top: -5px;">Squadre Iscritte:</p>
+        <div id="boxSquadre"></div>
     
     
-    </p>
+    </div>
     </div>
 
     <script src="script.js"></script> 
