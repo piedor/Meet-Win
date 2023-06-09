@@ -34,7 +34,7 @@ const MAPPA_PIATTAFORME = {
   103: "Xbox ONE",
   104: "PC",
   105: "Switch",
-  000: "Torneo fisico"
+  0: "Torneo fisico"
 };
 
 const MAPPA_AVATAR = {
@@ -995,7 +995,7 @@ function getTorneo(){
       document.getElementById("regolamento").innerHTML = data.regolamento;
       if(document.getElementById("dataInizio"))  
       document.getElementById("dataInizio").innerHTML = data.dataInizio;
-      if(data.piattaforma!="000"){        
+      if(data.piattaforma!="0"){        
         document.getElementById("piattaforma").innerHTML = MAPPA_PIATTAFORME[data.piattaforma];
         document.getElementById("piattaformaHolder").removeAttribute("hidden");
       }
