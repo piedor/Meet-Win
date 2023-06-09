@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 // Modello di mongoose (stabilisce quali dati l'oggetto contiene)
-const notifica = require('./models/notifiche');
+const notifica = require('./models/notifica');
 
 // Se app.js capta un POST verso /api/v1/notifiche allora procedi alla creazione della notifica
 router.post('', async function(req, res) {   
@@ -52,3 +52,5 @@ router.get('/list/:idDestinatario', async (req, res) => {
         });
     }
 });
+
+module.exports = router;

@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 // Crea modello mongoose
-module.exports = mongoose.model('Notifiche', new Schema({ 
+module.exports = mongoose.model('Notifica', new Schema({ 
     idMittente: String,
     idDestinatario: String,
     categoria: String,

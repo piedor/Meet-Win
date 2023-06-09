@@ -13,7 +13,7 @@ const mailInterface = require ('./mailInterface.js');
 const tornei = require('./tornei.js');
 const squadre = require('./squadre.js');
 const partite = require('./partite.js');
-const partite = require('./notifiche.js');
+const notifiche = require('./notifiche.js');
 
 // Configurazione Express.js per middleware
 app.use(express.json());
