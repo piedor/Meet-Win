@@ -23,9 +23,6 @@ module.exports = mongoose.model('Torneo', new Schema({
     fasi: Number,
     faseAttuale: Number,
     formatoP: String,
-    partite: [Number], //id delle partite associate al torneo
-    storicoPartite: [Number],
-    squadreIscritte: [Number], //id delle squadre iscritte
-    vincitrice: Number, //id squdra vincitrice
+    vincitrice: String, //id squadra vincitrice
     //password: String 
 }));

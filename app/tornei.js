@@ -49,9 +49,6 @@ router.post('', async function(req, res) {
         fasi: req.body.fasi,
         faseAttuale: 0,
         formatoP: req.body.formatoP,
-        partite: null, //id delle partite associate al torneo
-        storicoPartite: null,
-        squadreIscritte: null, //id delle squadre iscritte
         vincitrice: null, //id squdra vincitrice*/
         //password
     });
@@ -83,21 +80,22 @@ router.put('', async function(req, res) {
 		return;
 	}
     // Aggiorna le variabili
-        torneoById.organizzatore=torneoById.organizzatore;
-        torneoById.nomeTorneo = req.body.nomeTorneo;
-        torneoById.bio = req.body.bio;
-        torneoById.regolamento = req.body.regolamento;
-        torneoById.tags = req.body.tags;
-        torneoById.piattaforma = req.body.piattaforma;
-        torneoById.logoT = req.body.logoT;
-        torneoById.zona = req.body.zona;
-        torneoById.numeroSquadre = req.body.numeroSquadre;
-        torneoById.numeroGiocatori = req.body.numeroGiocatori;
-        torneoById.dataInizio = req.body.dataInizio;
-        torneoById.formatoT = req.body.formatoT;
-        torneoById.numeroGironi = req.body.numeroGironi;
-        torneoById.formatoP = req.body.formatoP;
-        torneoById.fasi = req.body.fasi;
+        
+    torneoById.argomento = req.body.argomento;
+    torneoById.nomeTorneo = req.body.nomeTorneo;
+    torneoById.bio = req.body.bio;
+    torneoById.regolamento = req.body.regolamento;
+    torneoById.tags = req.body.tags;
+    torneoById.piattaforma = req.body.piattaforma;
+    torneoById.id_img = req.body.logoT;
+    torneoById.zona = req.body.zona;
+    torneoById.numeroSquadre = req.body.numeroSquadre;
+    torneoById.numeroGiocatori = req.body.numeroGiocatori;
+    torneoById.dataInizio = req.body.dataInizio;
+    torneoById.formatoT = req.body.formatoT;
+    torneoById.numeroGironi = req.body.numeroGironi;
+    torneoById.formatoP = req.body.formatoP;
+    torneoById.fasi = req.body.fasi;
 
     // Salva
     torneoById.save();
@@ -108,15 +106,15 @@ router.put('', async function(req, res) {
     });
 });
 
-// Se app.js capta una GET verso /api/v1/tornei/list allora ritorna i nomi di tutti i tornei creati sulla piattaforma
+// Se app.js capta una GET verso /api/v1/tornei/list allora ritorna gli id di tutti i tornei creati sulla piattaforma
 router.get('/list', async (req, res) => {
-    // Ritorna nickname di tutti gli utenti
+    // Ritorna l'id di tutti i tornei
 	let tornei = await torneo.find({}).exec();
     var idTornei = [];
 
     if(tornei){
-        tornei.forEach(function(user) {
-            idTornei.push(user._id);
+        tornei.forEach(function(torneo) {
+            idTornei.push(torneo._id);
         });
         res.json({ 
             success: true,
@@ -146,6 +144,7 @@ router.get('/:idTorneo', async (req, res) => {
             nomeTorneo: torn.nomeTorneo,
             argomento: torn.argomento,
             id_img: torn.id_img,
+            zona: torn.zona,
             bio: torn.bio,
             regolamento: torn.regolamento,
             numeroSquadre: torn.numeroSquadre,
@@ -154,13 +153,13 @@ router.get('/:idTorneo', async (req, res) => {
             numeroGironi: torn.numeroGironi,
             formatoP: torn.formatoP,
             pubblicato: torn.pubblicato,
-            //tags: [String],
+            tags: torn.tags,
             piattaforma: torn.piattaforma,
             dataInizio: torn.dataInizio,
             terminato: torn.terminato,
             fasi: torn.fasi,
             faseAttuale: torn.faseAttuale,
-
+            zona:torn.zona,
         });
     }
     else{
@@ -170,5 +169,69 @@ router.get('/:idTorneo', async (req, res) => {
         });
     }
 });
+
+// Se app.js capta una GET verso /api/v1/tornei/:nickname allora ritorna gli id di tutti i tornei creati da quell'utente
+router.get('/nickname/:nickname', async (req, res) => {
+    // Ritorna gli id dei tornei di un utente
+	let tornei = await torneo.find({organizzatore: req.params.nickname}).exec();
+    var idTornei = [];
+
+    if(tornei){
+        tornei.forEach(function(torneo) {
+            idTornei.push(torneo._id);
+        });
+        res.json({ 
+            success: true,
+            tornei: idTornei
+        });
+    }
+    else{
+        res.json({ 
+            success: false, 
+            message: "Non hai ancora creato nessun torneo, creane uno ora!"
+        });
+    }
+});
+
+//idea per pubblica
+//router.put('/:idTorneo/pubblica'...)....
+// Se app.js capta una PUT verso /api/v1/tornei/:idTorneo/pubblica allora pubblicazione del torneo
+router.put('/:idTorneo/pubblica', async function(req, res) {
+    // Trova torneo via id
+    let torneoById = await torneo.findOne({
+		_id: req.body._id
+	}).exec();
+    // Torneo non trovato
+	if(!torneoById) {
+		res.json({ success: false, message: 'Torneo non trovato!' });
+		return;
+	}
+    torneoById.argomento = req.body.argomento;
+    torneoById.nomeTorneo = req.body.nomeTorneo;
+    torneoById.bio = req.body.bio;
+    torneoById.regolamento = req.body.regolamento;
+    torneoById.tags = req.body.tags;
+    torneoById.piattaforma = req.body.piattaforma;
+    torneoById.id_img = req.body.logoT;
+    torneoById.zona = req.body.zona;
+    torneoById.numeroSquadre = req.body.numeroSquadre;
+    torneoById.numeroGiocatori = req.body.numeroGiocatori;
+    torneoById.dataInizio = req.body.dataInizio;
+    torneoById.formatoT = req.body.formatoT;
+    torneoById.numeroGironi = req.body.numeroGironi;
+    torneoById.formatoP = req.body.formatoP;
+    torneoById.fasi = req.body.fasi;
+
+    // Salva
+    torneoById.save();
+    
+    res.json({
+        success: true,
+        message: 'Torneo modificato correttamente!',
+    });
+});
+
+//idea per terminato
+//router.put('/:idTorneo/terminato'...).... //aggiorna anche squadra vincitrice
 
 module.exports = router;

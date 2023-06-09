@@ -14,22 +14,37 @@
       border: 2px solid #000000;
       font-style: Comic sans MS;
       color:blue;
-      height: 125px;
+      height: 135px;
       vertical-align: center;
       }
-    .box3{
-  	width: 800px;
-	  height: 400px;
-	  padding: 10px;
-    align-content: center;
-    align-items: center;
-  	background-color:rgb(117, 116, 116);
-  	font-size: 15px;
-    text-align: center;
-    color: white; 
-    font-size: 20px;
-    margin: auto;
-	}
+      .box2{
+      width: 400px;
+      height: 400px;
+      padding: 10px;
+      align-content: center;
+      align-items: center;
+      background-color:rgb(117, 116, 116);
+      font-size: 15px;
+      text-align: center;
+      color: white; 
+      font-size: 20px;
+      margin-left:10%;
+      overflow: auto;
+      } 
+      .box3{
+      width: 700px;
+      height: 400px;
+      padding: 10px;
+      align-content: center;
+      align-items: center;
+      background-color:rgb(117, 116, 116);
+      font-size: 15px;
+      text-align: center;
+      color: white; 
+      font-size: 20px;
+      margin: auto;
+      overflow: auto;
+      }
   </style>
 </head>
 <body>
@@ -38,32 +53,39 @@
     <span style="font-family: “Comic Sans MS”, “Comic Sans”, cursive; color:blue;">
       <p style="font-size:4rem; position: absolute; float: left; margin-top: 2px; margin-left: 40%; ">Meet&Win</p>
       <p>
-        <form action="api/v1/utenti" method="post" name="loginform" id="loginform" style="text-align:right;">            
-        <label>email o nickname</label>
-          <input name="nickname" placeholder="red.rocco@unitn.it" id="loginNickname"/><br>
+        <form action="api/v1/utenti" method="post" name="loginform" id="loginform" style="text-align:right;">
+          <label>email o nickname</label>
+          <input name="nickname" placeholder="RedRocco" id="loginNickname"/><br>
           <label>password</label>
           <input type="password" name="password" placeholder="Password2" id="loginPassword"/><br>
-          <button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px; margin-top: 5px;" type="button" onclick="login()">	Login</button>            
-        </form>
-        <span id="loggedInfo"  style="position:relative; float:right;" hidden>
-        <label>Bentornato, </label>
+          <a href="#" onclick="reimpostaPassword();">Ho dimenticato la password</a><br/>
+          <button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px; margin-top: 5px;" type="button" onclick="login()">	Login</button>
+      </form>
+        <span id="loggedInfo"  style="position:relative; float:right; text-align: right;" hidden>
+        <span>Bentornato, </span>
           <span id="nicknameUser"></span>!<br>
-          <button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px; margin-top: 5px;" type="button" onclick="location.href='home_aut.html'">HomePage</button>
+          <button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px; margin-top: 5px;" type="button" onclick="location.href='home_aut.html'">HomePage</button><br>
+          <button style="background-color:#30b5fc; font-size:16px; margin-top: 5px;" onclick="logout()">Logout</button>
         </span>
     </p>
   </div>
-<p style="color: blue; font-size: 40px; position: absolute; left: 45%; margin-top:5px;">Cerca Tornei</p>   
-    <button style="background-color:#30b5fc; margin-top: 5px;" onclick="location.href='index.html'">INDIETRO</button>
-    <div style="float:right">
-    <button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px; margin-top: 5px;" onclick="location.href='creaTorneo.html'">Crea Torneo</button>
-    </div>
-<br><br><br>
+  <button style="background-color:#30b5fc; margin-top: 5px; position:absolute;" onclick="location.href='index.html'">INDIETRO</button>
+    <button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px; margin-top: 5px; position:absolute; right:0.5%;" onclick="location.href='creaTorneo.html'">Crea Torneo</button>
+  <p style="color: blue; font-size: 40px; text-align: center; margin-top:5px;">Cerca Tornei</p>  
+    <button style="background-color:#30b5fc; margin-top: 5px; margin-left: 10%;" onclick="listTorneiUtente()">I miei Tornei</button>
+<br>    
     <div class="box3" id="boxTornei">
       Elenco tornei per visualizzarne le schede torneo:
     <br><br>
     </div>
+    <div class="box2" id="boxTorneiUser" hidden>
+      Elenco di tornei che stai organizzando:
+    <br><br>
+    </div>
     <script src="script.js"></script> 
-    <script>listTornei();loadInfoUser();</script>
+    <script>loadInfoUser();
+    listTornei();
+    </script>
 </body>
 
 </html>

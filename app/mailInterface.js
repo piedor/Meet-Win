@@ -55,6 +55,11 @@ router.post('', async function (req){
                 subject = "Reset password";
                 testo = "Abbiamo ricevuto una richiesta di reimpostazione della password. La tua nuova password è la seguente: " + txt + ". Ti suggeriamo di cambiarla al più presto.";
             break;
+
+            case "iscrizioneTorneo":
+                subject = "Iscrizione al torneo";
+                testo = "Ciao sei stato iscritto al torneo: " + txt + ". Entra a visualizzare la pagina per rimanere aggiornato!";
+            break;
           
             default:
               //

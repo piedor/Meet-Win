@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Iscrizione</title>
+        <meta charset="UTF-8">
+        <style>
+        body {background-color: #b8b9ba;}
+        .center {
+        margin: auto;
+        width: 50%;
+        }
+        .testata {
+            padding: 1px;
+        background-color: #96eef2;
+        border: 2px solid #000000;
+        font-style: Comic sans MS;
+        color:blue;
+        height: 125px;
+        vertical-align: center;
+        }
+        h1   {color: blue;}
+        .box1{
+        width: 55px;
+        height: 55px;
+        padding-top: 5px;
+        margin-right:10%;
+        position: relative;
+        border: 2px solid black;
+        float: right;
+        }        
+        .box2{
+        max-height: 150px;
+        padding: 5px;
+        border: 2px solid rgb(98, 193, 249);
+        font-size: 15px;
+        vertical-align: top;
+        }
+        .box3{
+        width: 400px;
+        max-height: 150px;
+        padding: 10px;
+        align-items: center;
+        background-color:rgb(117, 116, 116);
+        font-size: 15px;
+        text-align: center;
+        color: white; 
+        font-size: 20px;
+        overflow: auto;
+        }
+        .box4{
+        width: 400px;
+        max-height: 150px;
+        padding: 10px;
+        align-items: center;
+        background-color:rgb(117, 116, 116);
+        font-size: 15px;
+        text-align: center;
+        color: white; 
+        font-size: 20px;
+        overflow: auto;
+        }
+        .remover{
+            background-color:#ff0000;
+        }
+        .adder{
+            background-color: rgb(44, 255, 44);
+        }
+        </style>
+</head>
+<body>
+    <div class="testata">
+        <img src="images/LOGO.png" style="position: absolute; left:150px;" width="100" height="120" />
+        <span style="font-family: “Comic Sans MS”, “Comic Sans”, cursive; color:blue;">
+          <p style="font-size:4rem; position: absolute; float: left; margin-top: 2px; margin-left: 40%; ">Meet&Win</p>
+        <p style="text-align: right;">
+            <label>Bentornato, </label>
+            <span id="nicknameUser"></span>!<br>
+            <button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px; margin-top: 5px;" type="button" onclick="location.href='home_aut.html'">	HomePage</button><br>
+            <button style="background-color:#30b5fc; font-size:16px; margin-top: 5px;" onclick="logout()">Logout</button>
+        </p></span>
+      </div>
+      <button style="background-color:#30b5fc; margin-top: 5px; position:absolute;" onclick="location.href='visualizzaSchedaTorneo.html?idTorneo='+new URLSearchParams(window.location.search).get('idTorneo')">INDIETRO</button>
+      <p style="color: blue; font-size: 40px; text-align: center; margin-top:5px;">Iscrizione Torneo</p>  
+        <div style="margin-left:15%; margin-top: -20px;"> 
+        <p style="font-size: 30px; margin: auto;">Torneo: <span id="nomeTorneo"></span></p>
+        <p style="font-size: 18px;">Organizzatore: <span class="box2" id="organizzatore"></span>
+        &nbspArgomento: <span class="box2" id="argomento"></span><span id="piattaformaHolder"hidden>
+        &nbspPiattaforma: <span class="box2" id="piattaforma"></span></span>
+        <span id="zonaHolder" hidden>&nbspZona: <span class="box2" id="zona"></span></span> </p>
+        <p>Formato Torneo: <span class="box2" id="formatoT"></span>
+            <span id="gironiHolder" hidden>&nbspGironi: <span class="box2" id="gironi"></span></span> 
+            &nbspFormato Partite: <span class="box2" id="formatoP"></span>
+            &nbspNumero Squadre: <span class="box2" id="numeroSquadre"></span>
+                &nbspNumero Giocatori: <span class="box2" id="numeroGiocatori"></span></p>        
+    
+        <div>
+            <label>Capitano: </label>
+            <span id="nicknameUser2"></span>            
+        </div>
+    <br>
+        <div>
+            <label>Nome squadra:</label>
+            <span title="Inserisci il nome della tua squadra.">
+            <input type="text" placeholder="nome squadra" id="nomeSquadra" ></span>
+            </div>
+    <br>
+        <div style="float: left;">
+            Giocatori della squadra: 
+            <br>
+            <p class="box4" id="giocatori"></p>
+        </div>
+        <div title="In questo box trovi tutti gli utenti che puoi inserire nella tua squadra,
+    se un utente non è presente, significa che è già iscritto al torneo con un'altra squadra">
+            Utenti che puoi inserire: 
+            <br>
+            <p class="box3" id="utenti">
+            </p>
+        </div>
+        <br>
+        <p style="right: 20%; position: absolute; bottom: 5px">
+            <button style="background-color:#30b5fc;" onclick="location.href='visualizzaSchedaTorneo.html?idTorneo='+new URLSearchParams(window.location.search).get('idTorneo')">Annulla</button>
+            <button style="background-color:#30b5fc;" id="iscrivi" onclick="iscriviSquadra()">Iscrivi squadra</button>
+        </p> 
+    </div>
+        
+        <script src="script.js"></script> 
+        <script>loadInfoUser(); getTorneo(); utentiPossibili();</script>
+  </body>
+</html>
