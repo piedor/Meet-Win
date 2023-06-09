@@ -13,6 +13,7 @@ const mailInterface = require ('./mailInterface.js');
 const tornei = require('./tornei.js');
 const squadre = require('./squadre.js');
 const partite = require('./partite.js');
+const partite = require('./notifiche.js');
 
 // Configurazione Express.js per middleware
 app.use(express.json());
@@ -58,6 +59,9 @@ app.use('/api/v1/squadre', squadre);
 
 // Vedi partite.js
 app.use('/api/v1/partite', partite);
+
+// Vedi notifiche
+app.use('/api/v1/notifiche', notifiche);
 
 // Se viene richiesta una risorsa non gestita allora ritorna 404 NOT FOUND
 app.use((req, res) => {

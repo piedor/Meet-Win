@@ -3,5 +3,9 @@ var Schema = mongoose.Schema;
 
 // Crea modello mongoose
 module.exports = mongoose.model('NotificaInterna', new Schema({ 
-    id_notificann: int
+    idMittente: String,
+    idDestinatario: String,
+    categoria: String,
+    accettato: Boolean,
+    data: String
 }));
