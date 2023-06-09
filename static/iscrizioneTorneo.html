@@ -46,9 +46,6 @@
         color: white; 
         font-size: 20px;
         overflow: auto;
-        scrollbar-base-color: #000000;
-        scrollbar-arrow-color: #CCCCCC;
-        scrollbar-track-color: #CCCCCC;
         }
         .box4{
         width: 400px;
@@ -61,9 +58,6 @@
         color: white; 
         font-size: 20px;
         overflow: auto;
-        scrollbar-base-color: #000000;
-        scrollbar-arrow-color: #CCCCCC;
-        scrollbar-track-color: #CCCCCC;
         }
         .remover{
             background-color:#ff0000;
@@ -81,13 +75,13 @@
         <p style="text-align: right;">
             <label>Bentornato, </label>
             <span id="nicknameUser"></span>!<br>
-            <button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px; margin-top: 5px;" type="button" onclick="location.href='home_aut.html'">	HomePage</button>
+            <button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px; margin-top: 5px;" type="button" onclick="location.href='home_aut.html'">	HomePage</button><br>
+            <button style="background-color:#30b5fc; font-size:16px; margin-top: 5px;" onclick="logout()">Logout</button>
         </p></span>
       </div>
-        <button style="background-color:#30b5fc; margin-top: 5px;" onclick="location.href='visualizzaSchedaTorneo.html?idTorneo='+new URLSearchParams(window.location.search).get('idTorneo')">INDIETRO</button> 
-        <p style="color: blue; font-size: 40px; position: absolute; left: 38%; margin-top:-10px;">Iscrizione Torneo</p>
-        <br><br><br>
-        <div style="margin-left:15%"> 
+      <button style="background-color:#30b5fc; margin-top: 5px; position:absolute;" onclick="location.href='visualizzaSchedaTorneo.html?idTorneo='+new URLSearchParams(window.location.search).get('idTorneo')">INDIETRO</button>
+      <p style="color: blue; font-size: 40px; text-align: center; margin-top:5px;">Iscrizione Torneo</p>  
+        <div style="margin-left:15%; margin-top: -20px;"> 
         <p style="font-size: 30px; margin: auto;">Torneo: <span id="nomeTorneo"></span></p>
         <p style="font-size: 18px;">Organizzatore: <span class="box2" id="organizzatore"></span>
         &nbspArgomento: <span class="box2" id="argomento"></span><span id="piattaformaHolder"hidden>

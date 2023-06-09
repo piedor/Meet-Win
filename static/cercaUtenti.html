@@ -19,12 +19,11 @@
       }       
     .box3{
   	width: 800px;
-	  height: 180px;
+	  height: 200px;
 	  padding: 10px;
     align-content: center;
     align-items: center;
   	background-color:rgb(117, 116, 116);
-  	font-size: 15px;
     text-align: center;
     color: white; 
     font-size: 20px;
@@ -47,19 +46,18 @@
           <a href="#" onclick="reimpostaPassword();">Ho dimenticato la password</a><br/>
           <button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px; margin-top: 5px;" type="button" onclick="login()">	Login</button>
       </form>
-        <span id="loggedInfo"  style="position:relative; float:right;" hidden>
+        <span id="loggedInfo"  style="position:relative; float:right; text-align: right;" hidden>
         <label>Bentornato, </label>
           <span id="nicknameUser"></span>!<br>
-          <button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px; margin-top: 5px;" type="button" onclick="location.href='home_aut.html'">HomePage</button>
+          <button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px; margin-top: 5px;" type="button" onclick="location.href='home_aut.html'">HomePage</button><br>
+          <button style="background-color:#30b5fc; font-size:16px; margin-top: 5px;" onclick="logout()">Logout</button>
         </span>
     </p>
   </div>
-<p style="color: blue; font-size: 40px; position: absolute; left: 45%; margin-top:5px;">Cerca Utenti</p>   
-    <button style="background-color:#30b5fc; margin-top: 5px;" onclick="location.href='index.html'">INDIETRO</button>
-<br><br><br>
+  <button style="background-color:#30b5fc; margin-top: 5px; position:absolute;" onclick="location.href='index.html'">INDIETRO</button>
+<p style="color: blue; font-size: 40px; text-align: center; margin-top:5px;">Cerca Utenti</p>   
+  <p style="text-align: center; font-size: 20px; margin: auto;">Elenco utenti per visualizzarne le schede profilo:</p>
   <div class="box3" id="boxUtenti">
-    Elenco utenti per visualizzarne le schede profilo:
-<br><br>
   </div>
   <script src="script.js"></script> 
   <script> loadInfoUser(); listUtenti();</script>

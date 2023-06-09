@@ -64,20 +64,20 @@
 				<a href="#" onclick="reimpostaPassword();">Ho dimenticato la password</a><br/>
                 <button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px; margin-top: 5px;" type="button" onclick="login()">	Login</button>
             </form>
-            <span id="loggedInfo"  style="position:relative; float:right;" hidden>
+            <span id="loggedInfo"  style="position:relative; float:right; text-align: right;" hidden>
             <label>Bentornato, </label>
               <span id="nicknameUser"></span>!<br>
-              <button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px" type="button" onclick="location.href='home_aut.html'">HomePage</button>
+              <button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px" type="button" onclick="location.href='home_aut.html'">HomePage</button><br>
+              <button style="background-color:#30b5fc; font-size:16px; margin-top: 5px;" onclick="logout()">Logout</button>
             </span>
         </p>
       </div>
-      <button style="background-color:#30b5fc;" onclick="location.href='cercaUtenti.html'">INDIETRO</button> 
-	<p style="color: blue; font-size: 40px; position: absolute; left: 35%; margin-top:5px;">Visualizza Scheda Utente</p>   
-	<br><br>
-	<div class="box1"> 
+      <button style="background-color:#30b5fc; margin-top: 5px; position:absolute;" onclick="location.href='cercaUtenti.html'">INDIETRO</button>
+      <p style="color: blue; font-size: 40px; text-align: center; margin-top:5px;">Visualizza Scheda Utente</p>
+	<div class="box1"  style="margin-top: -20px;"> 
         <img src="" alt="" id="avatar" width="125px" height="125px" />
     </div>
-    <div style="margin-left:15%"> 
+    <div style="margin-left:15%; margin-top: -20px;"> 
 	<p style="font-size: 18px;">Nickname: <span id="nickname"></span></p>
     <p>Tornei Vinti: <span id="torneiVinti"></span>&nbsp;&nbsp;<img src="images/trofeo.jpg" width="20" height="20" />
     </p>
