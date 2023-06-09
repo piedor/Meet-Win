@@ -103,12 +103,12 @@
         <p style="max-width: 500px;">Bio: <span class="box2" id="bio" style="display: inline-block; word-wrap: break-word; overflow-wrap:break-word;"></span></p>
         <p style="max-width: 500px;">Regolamento: <span class="box2" id="regolamento" style="display: inline-block; word-wrap: break-word; overflow-wrap:break-word;"></span></p>   
         <div class="box3">
+            <button style="background-color:#30b5fc; width:100px; height: 30px; font-size:14px; float:left; margin-left: -10px; margin-top: -10px; " id="avviaTorneo" onclick="avviaTorneo()" >Avvia Torneo</button>
             <button style="background-color:#30b5fc; width:90px; height: 30px; font-size:16px; float:right; position: relative; margin-right: -10px; margin-top: -10px; float:right;" onclick="location.href='iscrizioneTorneo.html?idTorneo='+new URLSearchParams(window.location.search).get('idTorneo')">Iscritivi</button>        
             <p style="margin-top: -5px;">Squadre Iscritte:</p>
             <div style="overflow: auto;" id="boxSquadre"></div>
         </div>        
     </div>
-    <button style="position:absolute; bottom: 20px; margin:auto;" id="avviaTorneo" hidden></button>
     <script src="script.js"></script> 
     <script>loadInfoUser(); getTorneo(); </script>
 </body>
