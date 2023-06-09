@@ -900,6 +900,7 @@ function getProfile(){
       // Carica nickname e bio
       document.getElementById("nickname").innerHTML = data.nickname;
       document.getElementById("bio").innerHTML = data.bio;  
+      //aggiunge numero tornei vinti-> per qualche ragione da undefiend document.getElementById("torneiVinti").innerHTML = data.torneiVinti.containsNumbers;  
       // Inserisci ogni preferenza in span
       data.preferenze.map(function(preferenze) { 
         let span = document.getElementById('preferenze');
