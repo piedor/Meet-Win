@@ -517,7 +517,6 @@ function isUtenteLogged(){
   .catch( error => console.error(error) );
 }
 
-//work in progress
 function loadInfoTorneo(){
   // Viene usata dalla schermata creaTorneo per inserire i dati preesistenti
   const queryString = window.location.search;
@@ -622,67 +621,11 @@ function isUtenteLogged(){
         //do nothing, l'utente non è loggato quindi non serve 
       }else{
         //redirect to home_aut
-        alert("Risulti già loggato");
         location.href = "/home_aut.html";
       }
   })
   .catch( error => console.error(error) );
 }
-
-//work in progress
-function loadInfoTorneo(){
-  // Viene usata dalla schermata creaTorneo per inserire i dati preesistenti
-  const queryString = window.location.search;
-  const urlParams = new URLSearchParams(queryString);
-  var torneo = urlParams.get("idTorneo");
-  if(torneo == null){
-    //sta creando un nuovo torneo
-  fetch('../api/v1/utenti/me')
-  .then((resp) => resp.json()) // Trasforma i dati in JSON
-  .then(function(data) { // Risposta
-    if(!data.success){
-      return;
-    }
-    else{
-      // Carica nickname organizzatore
-      document.getElementById("organizzatore").innerHTML = data.nickname;
-    }
-  })
-  .catch( error => console.error(error) );
-  }
-  
-  fetch('../api/v1/tornei/'+torneo)
-  .then((resp) => resp.json()) // Trasforma i dati in JSON
-  .then(function(data) { // Risposta
-    if(!data.success){
-      alert(data.message);
-      location.href = "cercaTornei.html";
-      return;
-    }
-    else{
-      document.getElementById("organizzatore").innerHTML = data.organizzatore;
-      // Carica campi
-      /*
-      document.getElementById("nickname").innerHTML = data.nickname;
-      document.getElementById("bio").innerHTML = data.bio;  
-      // Inserisci ogni preferenza in span
-      data.preferenze.map(function(preferenze) { 
-        let span = document.getElementById('preferenze');
-        span.innerHTML += " " + MAPPA_PREFERENZE[preferenze]; 
-      });
-      // Inserisci ogni piattaforma in span
-      data.piattaforme.map(function(piattaforme) {
-        let span = document.getElementById('piatt');
-        span.innerHTML += " " + MAPPA_PIATTAFORME[piattaforme]; 
-      });
-      // Carica foto avatar
-      document.getElementById("avatar").setAttribute("alt", MAPPA_AVATAR[data.avatar]);
-      document.getElementById("avatar").setAttribute("src", "images/" + MAPPA_AVATAR[data.avatar] + ".png");*/
-    }
-  })
-  .catch( error => console.error(error) );
-}
-
 
 function logout(){
   // Funzione per eseguire il logout dell'utente (in pratica rimuove il token dai cookie)
@@ -1016,6 +959,10 @@ function getTorneo(){
         document.getElementById("zonaHolder").removeAttribute("hidden");
         document.getElementById("zona").innerHTML = data.zona;
       }
+      if(data.organizzatore==globalNickname){
+        alert(document.getElementById("avviaTorneo").removeAttribute("hidden"));
+        document.getElementById("avviaTorneo").removeAttribute("hidden");        
+    }
     }
   })
   .catch( error => console.error(error) );
