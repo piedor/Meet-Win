@@ -3,7 +3,7 @@ const app      = require('./app');
 const jwt     = require('jsonwebtoken');
 const mongoose = require('mongoose');
 
-describe('POST /api/v1/authentications', () => {
+describe('POST /api/v1/authentications', () => {      //POST per l'autenticazione
 
   let connection;
 
@@ -53,7 +53,7 @@ describe('POST /api/v1/authentications', () => {
   
   // crea un token valido
   var payload = {
-    email: "nikmen01@gmail.com",
+    email: "redroccoalpha@gmail.com",
     id: "RedRocco"
 }
   var options = {
@@ -61,22 +61,22 @@ describe('POST /api/v1/authentications', () => {
   }
   var token = jwt.sign(payload, process.env.SUPER_SECRET, options);
 
-/*   test('POST /api/v1/authentications con nickname e password validi', () => {
+  test('POST /api/v1/authentications con nickname e password validi', () => {
     return request(app)
       .post('/api/v1/authentications')
       .set('Accept', 'application/json')
       .send({nickname: "RedRocco", password: "Password2"})
-      .expect(200, { 
-        success: true, 
-        message: "Login avvenuto con successo!", 
-        token:  expect., 
-        email: "nikmen01@gmail.com", 
-        id: "64674993a06fea90b9243cf1", 
-        nickname: "RedRocco"
-    });
-  }); */
+      .expect(200, {
+        success: true,
+        message: 'Login avvenuto con successo!',
+        token: token,     // Il token cambia quando eseguo il test, come faccio?
+        email: 'redroccoalpha@gmail.com',
+        id: '6482f1f9631e9982b691f781',
+        nickname: 'RedRocco'
+      });
+  }); 
 
-  // Da implementare ban account
+  // Da implementare ban account            ?Lo facciamo alla fine?
   /* test('POST /api/v1/authentications con account bannato', () => {
     return request(app)
       .post('/api/v1/authentications')
@@ -84,4 +84,4 @@ describe('POST /api/v1/authentications', () => {
       .send({nickname: "BannedRocco", password: "Password2"})
       .expect(200, { success: false });
   }); */
-});
+}); //NOTOK
