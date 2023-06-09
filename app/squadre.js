@@ -112,18 +112,23 @@ router.get('/list/:idTorneo', async (req, res) => {
     var idSquadre = [];
     var nomiSquadre = [];
     var giocatoriIscritti=[];
+    var capitani=[];
 
     if(squadre!=undefined){
         squadre.forEach(function(squadra) {
-            squadra.giocatori.forEach(function(giocatore){giocatoriIscritti.push(giocatore)});
+            let temp= [];
+            squadra.giocatori.forEach(function(giocatore){temp.push(giocatore)});
+            giocatoriIscritti.push(temp);
             idSquadre.push(squadra._id);
             nomiSquadre.push(squadra.nomeSquadra);
+            capitani.push(squadra.capitano);
         });
         res.json({ 
             success: true,
             idSquadre: idSquadre,
             nomiSquadre: nomiSquadre,
-            giocatori: giocatoriIscritti
+            giocatori: giocatoriIscritti,
+            capitani: capitani
         });
     }
     else{

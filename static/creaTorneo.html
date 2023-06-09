@@ -29,13 +29,13 @@
         <p style="text-align: right;">
             <label>Bentornato, </label>
             <span id="nicknameUser"></span>!<br>
-            <button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px; margin-top: 5px;" type="button" onclick="location.href='home_aut.html'">	HomePage</button>
+            <button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px; margin-top: 5px;" type="button" onclick="location.href='home_aut.html'">	HomePage</button><br>
+            <button style="background-color:#30b5fc; font-size:16px; margin-top: 5px;" onclick="logout()">Logout</button>
         </p></span>
       </div>
    <div>
-        <p style="color: blue; font-size: 40px; position: absolute; left: 45%; margin-top:5px;">Crea Torneo</p>   
-<br><br><br>	
-<form action="" onchange="changes()">
+    <p style="color: blue; font-size: 40px; text-align: center; margin-top:5px;">Crea Torneo</p> 
+<form action="" onchange="changes()" style="margin-top: -40px;">
     <div>
         <label>Organizzatore: </label>
         <span id="nicknameUser2"></span>
@@ -125,7 +125,7 @@ best of 5: per vincere bisogna vincere 3 partite su ">
         <input type="radio" name="piattaforma" id="piattaforma" value="103"/> Xbox ONE
         <input type="radio" name="piattaforma" id="piattaforma" value="104"/> PC
         <input type="radio" name="piattaforma" id="piattaforma" value="105"/> Switch
-        <input type="radio" name="piattaforma" id="piattaforma" value="000" checked/> Torneo fisico
+        <input type="radio" name="piattaforma" id="piattaforma" value="0" checked/> Torneo fisico
     </span>
 </div>
 <br>
@@ -184,7 +184,7 @@ la tua esperienza e quella degli altri utenti per cercare il torneo.">Scegli i t
     <div style="text-align: center;">
             <button style="background-color:#30b5fc;" onclick="location.href='cercaTorneo.html'">Annulla</button>
             <button style="background-color:#30b5fc;" id="salvaModifiche" onclick="creationTorneo()">Salva modifiche</button>
-            <button style="background-color:#30b5fc;" id="pubblica" onclick="publica()" disabled>Pubblica</button>
+            <button style="background-color:#30b5fc;" id="pubblica" onclick="pubblicaTorneo()" disabled>Pubblica</button>
         </div> 
     <script src="script.js"></script>
     <script>
