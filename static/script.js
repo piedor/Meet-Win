@@ -282,12 +282,17 @@ function register()
 function creationTorneo(){
   // Questa funzione è chiamata durante la fase di creazione torneo
   var organizzatore = globalNickname;
+  if(document.getElementById("nomeTorneo").value!="")
   var nomeTorneo = document.getElementById("nomeTorneo").value;
   var logoT = document.querySelector('input[type = radio]:checked').value;
-  var argomento = document.getElementById("argomento").value;
-  var zona = document.getElementById("zona").value;
-  var bio = document.getElementById("bio").value;
-  var regolamento = document.getElementById("regolamento").value;
+  if(document.getElementById("argomento").value!="")
+    var argomento = document.getElementById("argomento").value;
+  if(document.getElementById("zona").value!="")
+    var zona = document.getElementById("zona").value;  
+  if(document.getElementById("bio").value!="")  
+    var bio = document.getElementById("bio").value;
+  if(document.getElementById("regolamento").value!="")
+    var regolamento = document.getElementById("regolamento").value;
   var tags = [];
   var markedCheckbox = document.getElementsByName('tags');  
   for (var checkbox of markedCheckbox) {  
@@ -295,30 +300,16 @@ function creationTorneo(){
     tags.push(checkbox.value);
   }
   var piattaforma = document.querySelector('input[id = "piattaforma"]:checked').value;
-  var numeroSquadre = document.getElementById('nsquadre').value;
-  var numeroGiocatori = document.getElementById('ngiocatori').value;
-  var dataInizio = document.getElementById('dataInizio').value;
+  if(document.getElementById("nsquadre").value!="")
+    var numeroSquadre = document.getElementById('nsquadre').value;
+  if(document.getElementById("ngiocatori").value!="")
+    var numeroGiocatori = document.getElementById('ngiocatori').value;
+  if(document.getElementById("dataInizio").value!="")
+    var dataInizio = document.getElementById('dataInizio').value;
   var formatoT = document.getElementById('formatoT').value;
-  var numeroGironi = document.getElementById('ngironi').value;
+  if(document.getElementById("ngironi").value!="")
+    var numeroGironi = document.getElementById('ngironi').value;
   var formatoP = document.getElementById('formatoP').value;
-  
-  var errors = "";
-  if(nomeTorneo == "") errors += "nome torneo mancante; ";
-  if(argomento == "") errors += "attivit&agrave;' mancante; ";
-  if(numeroSquadre == "") errors += "numero di squadre è mancante; ";
-  if(numeroGiocatori == "") errors += "numero di giocatori mancante; ";     
-  
-  if(dataInizio == "") errors += "data inizio mancante; ";
-  if(bio == "") errors += "bio mancante; ";
-  if(regolamento == "") errors += "regolamento mancante; ";
-  if(numeroGironi == "" && formatoT=="gironi") errors += "numero gironi mancante; ";
-  if(formatoT=="eliminazione" && numeroSquadre!="4" && numeroSquadre!="8" && numeroSquadre!="16") errors+="hai selezionato eliminazione diretta, puoi inserire 4/8/16 squadre; "
-  if(errors != ""){
-      errors = "errori presenti: " + errors;
-      errors = String(errors);
-      alert(errors);
-      return;
-  }  
   var fasi=1;
   if(formatoT=="gironi"){
     fasi=2;
@@ -414,14 +405,12 @@ function creationTorneo(){
   }
 };
 
-//working on
+//funzione usata da creaTorneo.html
 function pubblicaTorneo(){
   //funzione richiamata dalla schermata creaTorneo per pubblicare il torneo
   //controlla la completezza e correttezza delle info
   var nomeTorneo = document.getElementById("nomeTorneo").value;
-  var logoT = document.querySelector('input[type = radio]:checked').value;
   var argomento = document.getElementById("argomento").value;
-  var zona = document.getElementById("zona").value;
   var bio = document.getElementById("bio").value;
   var regolamento = document.getElementById("regolamento").value;
   var tags = [];
@@ -430,14 +419,11 @@ function pubblicaTorneo(){
     if (checkbox.checked) 
     tags.push(checkbox.value);
   }
-  var piattaforma = document.getElementById('piattaforma').value;
   var numeroSquadre = document.getElementById('nsquadre').value;
   var numeroGiocatori = document.getElementById('ngiocatori').value;
   var dataInizio = document.getElementById('dataInizio').value;
   var formatoT = document.getElementById('formatoT').value;
   var numeroGironi = document.getElementById('ngironi').value;
-  var formatoP = document.getElementById('formatoP').value;
-  
   var errors = "";
   if(nomeTorneo == "") errors += "nome torneo mancante; ";
   if(argomento == "") errors += "attivit&agrave; mancante; ";
@@ -454,8 +440,34 @@ function pubblicaTorneo(){
       errors = String(errors);
       alert(errors);
       return;
-  }
+  }  
 
+  alert("qui");
+  //controllo per vedere se l'utente è l'organizzatore
+  if(document.getElementById("nicknameUser2").textContent==globalNickname){
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    var torneo = urlParams.get("idTorneo");  
+    alert("here");
+    fetch('../api/v1/tornei/'+torneo+'/pubblica', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+      })
+    })
+    .then((resp) => resp.json()) // Trasforma i dati in json
+    .then(function(data) {
+      if(data.success){
+        alert("Torneo pubblicato correttamente!");
+        return;
+      }else{        
+        alert("Errore, torneo non pubblicato!");
+        return;
+      }
+    }).catch( error => console.error(error) );
+  }else{
+    alert("punto2");
+  }
 }
 
 function changes() {
@@ -816,7 +828,7 @@ function listTorneiUtente(){
       .then(function(data) { // Risposta
     
       if(data.tornei==""){
-        // Nessun torneo dell'utente presente sulla piattaformalet box = document.getElementById("boxTorneiUser");          
+        // Nessun torneo dell'utente presente sulla piattaforma
         let box = document.getElementById("boxTorneiUser");
         let button = document.createElement('button');
         button.type = 'button';
@@ -959,8 +971,7 @@ function getTorneo(){
         document.getElementById("zonaHolder").removeAttribute("hidden");
         document.getElementById("zona").innerHTML = data.zona;
       }
-      if(data.organizzatore==globalNickname){
-        alert(document.getElementById("avviaTorneo").removeAttribute("hidden"));
+      if(data.organizzatore==globalNickname){//not working (only some times) due to delay-> search solution      //set hidden default avvia torneo
         document.getElementById("avviaTorneo").removeAttribute("hidden");        
     }
     }
@@ -1095,13 +1106,32 @@ function removerSquadra(x){
   }
 }
 
-
-//funzione usata da creaTorneo
-function gironiDiv(){
-  if(document.getElementById("formatoT").value=="gironi"){
-    document.getElementById("ngir").removeAttribute("hidden");
-  }else{
-    document.getElementById("ngir").setAttribute("hidden",true);
+//funzione usata da visualizzaSchedaTorneo.html
+function avviaTorneo(){
+  //controllo per vedere se l'utente è l'organizzatore
+  if(document.getElementById("organizzatore").textContent==globalNickname){
+    // crea partite 
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    var torneo = urlParams.get("idTorneo");  
+    fetch('../api/v1/tornei/'+torneo+'/avvia', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        pubblica: true
+      })
+    })
+    .then((resp) => resp.json()) // Trasforma i dati in json
+    .then(function(data) {
+      if(data.success){
+        alert("Torneo avviato correttamente! Verrai reidirizzato alla pagina relativa all'andamento del torneo");        
+        location.href = "andamentoTorneo.html?idTorneo="+torneo;
+        return;
+      }else{        
+        alert("Errore, torneo non avviato!");
+        return;
+      }
+    });
   }
 }
 
@@ -1250,9 +1280,6 @@ function remover(x){
 }
 
 function utentiPossibili(){
-  const queryString = window.location.search;
-  const urlParams = new URLSearchParams(queryString);
-  var torneo = urlParams.get("idTorneo");  
   // Elenca tutti gli utenti iscritti => diventerà lista amici
   fetch('../api/v1/utenti/list')
   .then((resp) => resp.json()) // Trasforma i dati in JSON
