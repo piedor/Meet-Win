@@ -1348,3 +1348,39 @@ function iscriviSquadra(){
           return;
       } );
 };
+
+function richiestaAmicizia(){
+  // Funzione utilizzata da visualizzaSchedaUtente
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  var nickDestinatario = urlParams.get("nickname");
+  // Data di adesso in millisecondi
+  const data = Date.now();
+  // Richiama l'API notifiche
+  // Nuova notifica amicizia
+  fetch('../api/v1/notifiche', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify( { 
+      nickMittente: globalNickname,
+      nickDestinatario: nickDestinatario,
+      categoria: "amicizia",
+      data: data
+    } ),
+  })
+  .then((resp) => resp.json()) // Trasforma i dati in JSON
+  .then(function(data) { // Risposta
+    // Popup messaggio API
+    if(data.success){
+      alert("Richiesta amicizia inviata");
+    }
+    else{
+      alert(data.message);
+    }
+    return;
+  }).catch( function (error) {
+    alert(error.message);
+    console.error(error);
+    return;
+  } );
+}

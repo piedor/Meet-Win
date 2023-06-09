@@ -7,10 +7,10 @@ const notifica = require('./models/notifica');
 router.post('', async function(req, res) {   
     // Crea nuovo partita
     const nuovaNotifica = new notifica({
-        idMittente: req.body.idMittente,
-        idDestinatario: req.body.idDestinatario,
+        nickMittente: req.body.nickMittente,
+        nickDestinatario: req.body.nickDestinatario,
         categoria: req.body.categoria,
-        accettato: req.body.accettato,
+        visualizzato: false,
         data: req.body.data
     });
     
@@ -33,7 +33,7 @@ router.post('', async function(req, res) {
 // Se app.js capta una GET verso /api/v1/notifiche/list/:idDestinatario allora ritorna tutte le notifiche associate all'utente 
 router.get('/list/:idDestinatario', async (req, res) => {
     //ritorna tutte le partite associate al torneo
-    let notifiche = await notifica.find({idDestinatario: req.params.idDestinatario}).exec();
+    let notifiche = await notifica.find({nickDestinatario: req.params.nickDestinatario}).exec();
     var categorie = [];
 
     if(notifiche){
