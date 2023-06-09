@@ -442,13 +442,11 @@ function pubblicaTorneo(){
       return;
   }  
 
-  alert("qui");
   //controllo per vedere se l'utente è l'organizzatore
   if(document.getElementById("nicknameUser2").textContent==globalNickname){
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     var torneo = urlParams.get("idTorneo");  
-    alert("here");
     fetch('../api/v1/tornei/'+torneo+'/pubblica', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -465,8 +463,6 @@ function pubblicaTorneo(){
         return;
       }
     }).catch( error => console.error(error) );
-  }else{
-    alert("punto2");
   }
 }
 
