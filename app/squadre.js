@@ -59,7 +59,8 @@ router.post('', async function(req, res) {
         capitano: req.body.capitano,
         idTorneo: req.body.idTorneo,
         giocatori: req.body.giocatori,
-        partite: null, //no partite di default        
+        partite: null, //no partite di default     
+        punteggio: 0   
     });
     
     nuovaSquadra.save()
@@ -94,6 +95,7 @@ router.get('/:idSquadra', async (req, res) => {
             capitano: squad.capitano,
             nomeTorneo: squad.idTorneo,
             giocatori: squad.giocatori,
+            punteggio: squad.punteggio
         });
     }
     else{
@@ -108,11 +110,12 @@ router.get('/:idSquadra', async (req, res) => {
 // Se app.js capta una GET verso /api/v1/squadre/list/:idTorneo allora ritorna tutte le squadre associate ad un torneo e una lista di giocatori
 router.get('/list/:idTorneo', async (req, res) => {
     //ritorna tutte le squadre associate al torneo
-    let squadre = await squadra.find({idTorneo: req.params.idTorneo}).exec();
+    let squadre = await squadra.find({idTorneo: req.params.idTorneo}).exec();    
     var idSquadre = [];
     var nomiSquadre = [];
     var giocatoriIscritti=[];
     var capitani=[];
+    var punteggi=[];
 
     if(squadre!=undefined){
         squadre.forEach(function(squadra) {
@@ -121,6 +124,7 @@ router.get('/list/:idTorneo', async (req, res) => {
             giocatoriIscritti.push(temp);
             idSquadre.push(squadra._id);
             nomiSquadre.push(squadra.nomeSquadra);
+            punteggi.push(squadra.punteggio);
             capitani.push(squadra.capitano);
         });
         res.json({ 
@@ -128,6 +132,7 @@ router.get('/list/:idTorneo', async (req, res) => {
             idSquadre: idSquadre,
             nomiSquadre: nomiSquadre,
             giocatori: giocatoriIscritti,
+            punteggi: punteggi,
             capitani: capitani
         });
     }
@@ -138,27 +143,6 @@ router.get('/list/:idTorneo', async (req, res) => {
         });
     }
 });
-/*
-// Se app.js capta una GET verso /api/v1/squadre/check allora ritorna false se l'utente non è iscritto al torneo
-router.post('/check', async (req, res) => {
-    //ritorna tutte le squadre associate al torneo
-    let squadre = await squadra.find({idTorneo: req.body.idTorneo, giocatori: req.body.nickname}).exec();
-
-    if(squadre){
-        //esiste una squadra con quel utente    
-        res.json({ 
-            success: true,
-            message: "utente già iscritto"
-        });
-        return;
-    }
-    else{
-        res.json({ 
-            success: false, 
-            message: "utente non iscritto"
-        });
-    }
-});*/
 
 //idea-> cerca in giocatori il nickname -> se c'è passa gli id delle partite associate
 // Se app.js capta una GET verso /api/v1/squadre/nickname/:nickname
@@ -199,6 +183,29 @@ router.delete('/:idSquadra', async (req, res) => {
     res.status(204).json({ 
         success: true, 
         message: "Squadra rimossa con successo"
+    });
+});
+
+// Se app.js capta una PUT verso /api/v1/squadre/partite/addScore/:idPartita allora pubblicazione del torneo
+router.put('/avanzamento/:idSquadra', async function(req, res) {
+    // Trova torneo via id
+    let squad = await squadra.findOne({
+		_id: req.params.idSquadra
+	}).exec();
+    // Torneo non trovato
+	if(!squad) {
+		res.json({ success: false, message: 'Squadra non trovato!' });
+		return;
+	}
+    console.log(squad.punteggio);
+    squad.punteggio++;
+    console.log(squad.punteggio);
+    // Salva
+    squad.save();
+    
+    res.json({
+        success: true,
+        message: 'avanzamento inserito correttamente!',
     });
 });
 
