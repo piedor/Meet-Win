@@ -2,22 +2,24 @@ const express = require('express');
 const router = express.Router();
 // Modello di mongoose (stabilisce quali dati l'oggetto contiene)
 const partita = require('./models/partita');
+const torneo = require('./models/torneo');
+const squadra = require('./models/squadra');
 
 // Se app.js capta un POST verso /api/v1/partite allora procedi alla creazione della partita
 router.post('', async function(req, res) {   
     // Crea nuovo partita
     const nuovaPartita = new partita({
         idTorneo: req.body.idTorneo,
-        data: req.body.data,
-        ora: req.body.ora,
+        data: null,
+        ora: null,
         idSquadra1: req.body.idSquadra1,
         idSquadra2: req.body.idSquadra2,
-        risultato1: 0,
-        risultato2: 0,
-        vincitrice: NULL,
+        risultato1: req.body.tipoRisultato,
+        risultato2: req.body.tipoRisultato,
+        fase: req.body.fase,
     });
     
-    nuovopartita.save()
+    nuovaPartita.save()
     .then(() => {
         console.log('Nuova partita creata con successo');
     })
@@ -36,16 +38,15 @@ router.post('', async function(req, res) {
 
 // Se app.js capta una GET verso /api/v1/partite/:idPartita allora ritorna le info della partita
 router.get('/:idPartita', async (req, res) => {
-    // Ritorna i nickname dei membri della squadra
-	let partita = await idPartita.findOne({
-		_id: req.params.partita
+	let part = await partita.findOne({
+		_id: req.params.idPartita
 	}).exec();
 
-   if(partita){
-        let torneo = await idTorneo.findOne({_id: partita.idTorneo}).exec();
-        if(torneo){
-            let squadra1 = await idSquadra1.findOne({_id: partita.idSquadra1}).exec();
-            let squadra2 = await idSquadra2.findOne({_id: partita.idSquadra2}).exec();
+   if(part){
+        let torn = await torneo.findOne({_id: part.idTorneo}).exec();
+        if(torn){
+            let squadra1 = await squadra.findOne({_id: part.idSquadra1}).exec();
+            let squadra2 = await squadra.findOne({_id: part.idSquadra2}).exec();
             if(squadra1 && squadra2){               
             res.json({ 
                 success: true,
@@ -53,14 +54,15 @@ router.get('/:idPartita', async (req, res) => {
                 capitano1: squadra1.capitano,
                 nomeSquadra2: squadra2.nomeSquadra,
                 capitano2: squadra2.capitano,
-                nomeTorneo: torneo.nomeTorneo,
-                organizzatore: torneo.organizzatore,
-                argomento: torneo.argomento,
-                zona: torneo.zona,
-                risultato1: partita.risultato1,
-                risultato2: partita.risultato2,
-                data: partita.data,
-                ora: partita.ora,
+                nomeTorneo: torn.nomeTorneo,
+                organizzatore: torn.organizzatore,
+                argomento: torn.argomento,
+                zona: torn.zona,
+                risultato1: part.risultato1,
+                risultato2: part.risultato2,
+                data: part.data,
+                ora: part.ora,
+                fase: part.fase
         }); 
             }
         }else{
@@ -86,11 +88,11 @@ router.get('/list/:idTorneo', async (req, res) => {
 
     if(partite){
         partite.forEach(function(partita) {
-            idPartite.push(partita._id);
+            idPartite.push(partita._id.toString());
         });
         res.json({ 
             success: true,
-            tornei: idPartite
+            idPartite: idPartite,
         });
     }
     else{
@@ -124,5 +126,57 @@ router.get('/nickname/:nickname', async (req, res) => {
     }
 });
 
+// Se app.js capta una PUT verso /api/v1/partite/addData/:idPartita allora aggiunge la data della partita
+router.put('/addData/:idPartita', async function(req, res) {
+    // Trova torneo via id
+    let part = await partita.findOne({
+		_id: req.params.idPartita
+	}).exec();
+    // Torneo non trovato
+	if(!part) {
+		res.json({ success: false, message: 'Partita non trovata!' });
+		return;
+	}
+    part.data=req.body.data;
+    part.ora=req.body.ora;
+    
+    // Salva
+    part.save();
+    
+    res.json({
+        success: true,
+        message: 'Data inserita correttamente!',
+    });
+});
+
+
+// Se app.js capta una PUT verso /api/v1/partite/partite/addScore/:idPartita allora aggiunge i risultati
+router.put('/addScore/:idPartita', async function(req, res) {
+    // Trova torneo via id
+    let part = await partita.findOne({
+		_id: req.params.idPartita
+	}).exec();
+    // Torneo non trovato
+	if(!part) {
+		res.json({ success: false, message: 'Partita non trovato!' });
+		return;
+	}
+    part.risultato1=req.body.risultato1;
+    part.risultato2=req.body.risultato2;
+    var idWinner;    
+    if(part.risultato1>part.risultato2){
+        idWinner=part.idSquadra1;
+    }else{
+        idWinner=part.idSquadra2;
+    }
+    // Salva
+    part.save();
+    
+    res.json({
+        success: true,
+        winner: idWinner,
+        message: 'Risultato inserito correttamente!',
+    });
+});
 
 module.exports = router;

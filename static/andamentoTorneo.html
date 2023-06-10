@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>schedaUtente</title>
+    <title>andamentoTorneo</title>
     <meta charset="UTF-8">
       <style>
       body {background-color: #b8b9ba;}
@@ -9,6 +9,14 @@
       margin: auto;
       width: 50%;
       }
+      .elencoGiocatori{
+        background-color:#b8b9ba;
+        margin:auto;
+        width: 200px;
+        max-width: 150px;
+        font-size: 15px;
+        overflow: auto;
+    }
       .testata {
       padding: 2px;
       background-color: #96eef2;
@@ -34,14 +42,39 @@
 	font-size: 15px;
     vertical-align: top;
 	}
-    .removeSquadra{
-        background-color:#ff0000;
-    }
-    .elencoGiocatori{
-        background-color:#b8b9ba;
-        margin:auto;
+    .squadra{
+        border:2px solid #2b93fc;
+        margin:5px;
         width: 200px;
-        max-width: 150px;
+        max-height: 80px;
+        color: rgb(0, 0, 0); 
+        font-size: 15px;
+        overflow: auto;
+    }
+    .data{        
+        height: 20px;
+        color: rgb(0, 0, 0); 
+        font-size: 15px;
+        overflow: auto;
+    }
+    .dataInput{
+        width: 25px;
+        height: 20px;
+        overflow: auto;
+    }
+    .risultato{
+        float: right;
+        width: 15px;
+        height: 15px;
+        margin-right: 8px;
+    }
+    .partita{
+        border: 3px solid rgb(117, 116, 116);
+        background-color:#b8b9ba;
+        margin: auto;
+        padding-top: 5px;
+        width: 250px;
+        max-height: 300px;
         font-size: 15px;
         overflow: auto;
     }
@@ -49,6 +82,20 @@
     position: absolute;
     bottom: 20px;
 	width: 500px;
+	max-height: 250px;
+	padding: 10px;
+    right:10%;
+    align-items: center;
+	background-color:rgb(117, 116, 116);
+	font-size: 15px;
+    text-align: center;
+    float:left;
+    color: white; 
+    font-size: 20px;
+    overflow: auto;
+	}
+    .box4{
+	width: 400px;
 	max-height: 250px;
 	padding: 10px;
     right:10%;
@@ -86,14 +133,17 @@
         </p>
       </div>
       <button style="background-color:#30b5fc; margin-top: 5px; position:absolute;" onclick="location.href='cercaTorneo.html'">INDIETRO</button>
-      <p style="color: blue; font-size: 40px; text-align: center; margin-top:5px;">Visualizza Scheda Torneo</p>  
+      <p style="color: blue; font-size: 40px; text-align: center; margin-top:5px;">Andamento Torneo</p>  
     <div style="margin-left:15%"> 
         <div class="box1"> 
             <img src="" alt="" id="logoT" width="125px" height="125px" />    </div>
         <p style="font-size: 30px; margin: auto;">Torneo: <span id="nomeTorneo"></span></p>
-        <p style="font-size: 18px;">Organizzatore: <span id="organizzatore"></span></p>
-        <p id="zonaHolder" style=" float:right; margin-right: 30%;" hidden>Zona: <span class="box2" id="zona"></span></p>
-        <p>Attivit&agrave;: <span class="box2" id="argomento"></span><span id="piattaformaHolder"hidden>&nbspPiattaforma: <span class="box2" id="piattaforma"></span></span>&nbspData inizio: <span class="box2" id="dataInizio"></span> </p>
+        <p style="font-size: 18px;">Organizzatore: <span id="organizzatore"></span>
+            &nbsp&nbsp&nbspAttivit&agrave;: <span id="argomento"></span>&nbsp&nbsp&nbsp
+            <button style="background-color:#30b5fc;" onclick="showMore('moreInfo')">More info</button></p>
+        <div id="moreInfoG" hidden>
+        <p id="zonaHolder" style=" float:right; margin-right: 10%; margin-top: -80px;" hidden>Zona: <span class="box2" id="zona"></span></p>
+        <p><span id="piattaformaHolder"hidden>Piattaforma: <span class="box2" id="piattaforma"></span></span>&nbspData inizio: <span class="box2" id="dataInizio"></span> </p>
         <p>Formato Torneo: <span class="box2" id="formatoT"></span>
             <span id="gironiHolder" hidden>&nbspGironi: <span class="box2" id="gironi"></span></span> 
             &nbspFormato Partite: <span class="box2" id="formatoP"></span>
@@ -102,15 +152,24 @@
                 &nbspNumero Giocatori: <span class="box2" id="numeroGiocatori"></span></p>
         <p style="max-width: 500px;">Bio: <span class="box2" id="bio" style="display: inline-block; word-wrap: break-word; overflow-wrap:break-word;"></span></p>
         <p style="max-width: 500px;">Regolamento: <span class="box2" id="regolamento" style="display: inline-block; word-wrap: break-word; overflow-wrap:break-word;"></span></p>   
-        <div class="box3">
-            <button style="background-color:#30b5fc; width:100px; height: 30px; font-size:14px; float:left; margin-left: -10px; margin-top: -10px; " id="avviaTorneo" onclick="avviaTorneo()" hidden>Avvia Torneo</button>
-            <button style="background-color:#30b5fc; width:90px; height: 30px; font-size:16px; float:right; position: relative; margin-right: -10px; margin-top: -10px; float:right;" onclick="location.href='iscrizioneTorneo.html?idTorneo='+new URLSearchParams(window.location.search).get('idTorneo')">Iscritivi</button>        
+        </div>
+        <br><br>
+        <span style="margin-top: -5px; font-size: 20px;">Tabellone partite:</span><br>
+        <div class="box4">
+            <button id="inserisciRisultati" style="background-color:#30b5fc; width:90px; height: 40px; font-size:14px; float:right; position: relative; margin-right: -10px; margin-top: -10px; float:right;" title="Se questo pulsante è disabilitato vuol dire che o mancano le date di almeno 
+una partita oppure sono state completate tutte le partite di questa fase" onclick="inserisciRisultati()">Inserisci Punteggio</button>            
+            <button id="generaPartite" style="background-color:#30b5fc; width:90px; height: 40px; font-size:14px; float:right; position: relative; margin-right: -90px; margin-top: 50px; float:right;" onclick="avviaMatchmakingTorneo(new URLSearchParams(window.location.search).get('idTorneo'))">Genera Partite</button> 
+            <div style="overflow: auto;" id="tabellone">  
+            </div>                   
+        </div>
+    </div>
+        <div class="box3">     
             <span id="nsquadreIscritte"></span>&nbsp<span style="margin-top: -5px;">Squadre Iscritte:</span>
             <div style="overflow: auto;" id="boxSquadre"></div>
-        </div>        
+        </div>      
     </div>
     <script src="script.js"></script> 
-    <script>getTorneo(); </script>
+    <script>getAndamentoTorneo();</script>
 </body>
 
 </html>

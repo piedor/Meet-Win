@@ -5,10 +5,10 @@ var Schema = mongoose.Schema;
 module.exports = mongoose.model('Partita', new Schema({ 
     idTorneo: String,
     data: String,
-    ora: Number,
+    ora: String,
     idSquadra1: String,
     idSquadra2: String,
     risultato1: Number,
     risultato2: Number,
-    vincitrice: String,
+    fase: String
 }));

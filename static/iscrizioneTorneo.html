@@ -63,6 +63,7 @@
             background-color:#ff0000;
         }
         .adder{
+            margin-left: -30px;
             background-color: rgb(44, 255, 44);
         }
         </style>
@@ -91,8 +92,7 @@
             <span id="gironiHolder" hidden>&nbspGironi: <span class="box2" id="gironi"></span></span> 
             &nbspFormato Partite: <span class="box2" id="formatoP"></span>
             &nbspNumero Squadre: <span class="box2" id="numeroSquadre"></span>
-                &nbspNumero Giocatori: <span class="box2" id="numeroGiocatori"></span></p>        
-    
+                &nbspNumero Giocatori: <span class="box2" id="numeroGiocatori"></span></p>            
         <div>
             <label>Capitano: </label>
             <span id="nicknameUser2"></span>            
@@ -120,8 +120,7 @@
             <button style="background-color:#30b5fc;" onclick="location.href='visualizzaSchedaTorneo.html?idTorneo='+new URLSearchParams(window.location.search).get('idTorneo')">Annulla</button>
             <button style="background-color:#30b5fc;" id="iscrivi" onclick="iscriviSquadra()">Iscrivi squadra</button>
         </p> 
-    </div>
-        
+    </div>        
         <script src="script.js"></script> 
         <script>loadInfoUser(); getTorneo(); utentiPossibili();</script>
   </body>
