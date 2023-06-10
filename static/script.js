@@ -557,24 +557,34 @@ function accettaAmicizia(idNotifica){
   // Rimuovi notifica
   fetch('../api/v1/notifiche/' + idNotifica, {
     method: 'DELETE',
-    headers: { 'Content-Type': 'application/json' }
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify( { accetta: true } ),
+  })
+  .then((resp) => resp.json()) // Trasforma i dati in json
+  .then(function(data) { // Ricevi la risposta
+    if (data.success){
+    }
+  }).then(function(){
+    let box = document.getElementById("box2").innerHTML = "";
+    loadHome();
   });
-
-  let box = document.getElementById("box2").innerHTML = "";
-
-  loadHome();
 }
 
 function rifiutaAmicizia(idNotifica){
   // Rimuovi notifica
   fetch('../api/v1/notifiche/' + idNotifica, {
     method: 'DELETE',
-    headers: { 'Content-Type': 'application/json' }
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify( { accetta: false } )
+  })
+  .then((resp) => resp.json()) // Trasforma i dati in json
+  .then(function(data) { // Ricevi la risposta
+    if (data.success){
+    }
+  }).then(function(){
+    let box = document.getElementById("box2").innerHTML = "";
+    loadHome();
   });
-
-  let box = document.getElementById("box2").innerHTML = "";
-
-  loadHome();
 }
 
 function isUtenteLogged(){
