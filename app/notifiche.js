@@ -104,8 +104,8 @@ router.delete('/:idNotifica', async (req, res) => {
     
         if (userMittente && userDestinatario) {
             // Aggiungi i 2 utenti alla lista amici rispettiva
-            userMittente.amici.push(userDestinatario._id);
-            userDestinatario.amici.push(userMittente._id);
+            userMittente.amici.push(userDestinatario.nickname);
+            userDestinatario.amici.push(userMittente.nickname);
             userMittente.save();
             userDestinatario.save();
         }

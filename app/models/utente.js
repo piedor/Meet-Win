@@ -17,7 +17,7 @@ module.exports = mongoose.model('Utente', new Schema({
     piattaforme: [String],
     zona: String,
     tornei_vinti: Number, // 0
-    amici: [{type: Schema.Types.ObjectId, ref:'Utente'}]
+    amici: [{type: String, ref:'Utente'}]
     
     //work in progress
     //feedback: Tipo_feedback, 
