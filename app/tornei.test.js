@@ -50,5 +50,43 @@ describe('PUT /api/v1/tornei', () => {         //PUT per la modifica dei dati di
       .send({nomeTorneo: "Torneo"})
       .expect(200, {success: true, message: 'Torneo salvato correttamente!', _id: '647de69fca346186e39935e0' });
   })
+
+  test('GET /api/v1/tornei should respond with an array of tornei', async () => {
+    return request(app)
+      .get('/api/v1/tornei/list')
+      .expect('Content-Type', /json/)
+      .expect(res.body[0]).toEqual({
+        success: true,
+        idTorneo: '647cbe409722939a7a15cee6'
+      }); // Risultato atteso      
+  });
+  
+  test('GET /api/v1/tornei/:id should respond with json', async () => {
+    return request(app)
+      .get('/api/v1/tornei/647cbe409722939a7a15cee6')
+      .expect('Content-Type', /json/)
+      .expect(200, {
+        success: true, 
+        organizzatore:'Tmao',
+        nomeTorneo: 'Winners here',
+        argomento: 'Magic',
+        id_img: 104,
+        zona: 'Pove del Grappa',
+        bio: 'Ciao a tutti, sto organizzando un torneo di Magic a Pove del Grappa, vi aspetto tutti!!',
+        regolamento: 'Regolamento legacy standard ',
+        numeroSquadre: 8,
+        numeroGiocatori: 1,
+        formatoT: 'eliminazione',
+        numeroGironi: null,
+        formatoP: 'bo1',
+        pubblicato: true,
+        tags: [307],
+        piattaforma: '0',
+        dataInizio: '10/07/2023',
+        terminato: false,
+        fasi: 1,
+        faseAttuale: 0,
+        });
+  });
       //ff pls i'm done
 }); //NOTOK
