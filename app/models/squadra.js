@@ -7,5 +7,6 @@ module.exports = mongoose.model('Squadra', new Schema({
     idTorneo: String,
     capitano: String, //nickname capitano
     giocatori: [String], //nickname giocatori squadra
-    partite: [String] //id partite associate alla squadra
+    partite: [String], //id partite associate alla squadra
+    punteggio: Number
 }));
