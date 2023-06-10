@@ -5,6 +5,20 @@ const notifica = require('./models/notifica');
 
 // Se app.js capta un POST verso /api/v1/notifiche allora procedi alla creazione della notifica
 router.post('', async function(req, res) {   
+    // Vedi se l'utente ha già creato la stessa notifica (stessa categoria)
+    let notificaByUser = await notifica.findOne({
+		nickMittente: req.body.nickMittente,
+        categoria: req.body.categoria
+	}).exec();
+
+    // Se esiste già la stessa notifica esci
+    if(notificaByUser){
+        if(notificaByUser.categoria == "amicizia"){
+            res.json({ success: false, message: "Hai già richiesto l'amicizia attendi la risposta!" });
+        }
+        return;
+    }
+
     // Crea nuovo partita
     const nuovaNotifica = new notifica({
         nickMittente: req.body.nickMittente,
