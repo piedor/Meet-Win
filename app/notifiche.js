@@ -8,6 +8,7 @@ router.post('', async function(req, res) {
     // Vedi se l'utente ha già creato la stessa notifica (stessa categoria)
     let notificaByUser = await notifica.findOne({
 		nickMittente: req.body.nickMittente,
+        nickDestinatario: req.body.nickDestinatario,
         categoria: req.body.categoria
 	}).exec();
 
