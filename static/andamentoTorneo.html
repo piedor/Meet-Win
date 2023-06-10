@@ -158,7 +158,7 @@
         <div class="box4">
             <button id="inserisciRisultati" style="background-color:#30b5fc; width:90px; height: 40px; font-size:14px; float:right; position: relative; margin-right: -10px; margin-top: -10px; float:right;" title="Se questo pulsante è disabilitato vuol dire che o mancano le date di almeno 
 una partita oppure sono state completate tutte le partite di questa fase" onclick="inserisciRisultati()">Inserisci Punteggio</button>            
-            <button id="generaPartite" style="background-color:#30b5fc; width:90px; height: 40px; font-size:14px; float:right; position: relative; margin-right: -90px; margin-top: 50px; float:right;">Genera Partite</button> 
+            <button id="generaPartite" style="background-color:#30b5fc; width:90px; height: 40px; font-size:14px; float:right; position: relative; margin-right: -90px; margin-top: 50px; float:right;" onclick="avviaMatchmakingTorneo(new URLSearchParams(window.location.search).get('idTorneo'))">Genera Partite</button> 
             <div style="overflow: auto;" id="tabellone">  
             </div>                   
         </div>
@@ -169,7 +169,7 @@ una partita oppure sono state completate tutte le partite di questa fase" onclic
         </div>      
     </div>
     <script src="script.js"></script> 
-    <script>getAndamentoTorneo(); </script>
+    <script>getAndamentoTorneo();</script>
 </body>
 
 </html>

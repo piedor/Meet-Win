@@ -197,9 +197,7 @@ router.put('/avanzamento/:idSquadra', async function(req, res) {
 		res.json({ success: false, message: 'Squadra non trovato!' });
 		return;
 	}
-    console.log(squad.punteggio);
     squad.punteggio++;
-    console.log(squad.punteggio);
     // Salva
     squad.save();
     

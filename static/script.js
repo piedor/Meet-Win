@@ -1033,7 +1033,7 @@ function getTorneo(){
           button.setAttribute("value", squadra);
           button.setAttribute("style", "background-color:#30b5fc; width:350px; height: 30px; font-size:16px");
           button.setAttribute("onclick", "showMore(id)");        
-          button.textContent=squadra+" |capitano: "+capitano;
+          button.textContent=squadra+" | capitano: "+capitano;
           let buttonX = document.createElement('button');
           buttonX.type = 'button';
           buttonX.setAttribute("id", idS);
@@ -1076,7 +1076,6 @@ function getAndamentoTorneo(){
       location.href = "cercaUtenti.html";
       return;
     }
-  document.getElementById("generaPartite").setAttribute("onclick", "avviaMatchmakingTorneo("+idTorneo+")");
   }).then(function(){
     fetch('../api/v1/tornei/'+idTorneo)
     .then((resp) => resp.json()) // Trasforma i dati in JSON
@@ -1758,87 +1757,102 @@ function avviaMatchmakingTorneo(id){
       data.idSquadre.map(function(squadra,index){
         if(formatoT=="eliminazione" && data.punteggi[index]!=faseAttuale) return;
         idSquadre.push(squadra);});        
-    }).then(function(){
-  var tipoRisultato=[];
-  switch(formatoP){
-    //coming soon
-    /*case "bo3": tipoRisultato.push(0);tipoRisultato.push(0);tipoRisultato.push(0);
-      break;
+        }).then(function(){
+        var tipoRisultato=[];
+        switch(formatoP){
+          //coming soon
+          /*case "bo3": tipoRisultato.push(0);tipoRisultato.push(0);tipoRisultato.push(0);
+          break;
 
-    case "bo5": tipoRisultato.push(0);tipoRisultato.push(0);tipoRisultato.push(0);tipoRisultato.push(0);tipoRisultato.push(0);
-      break;*/
+          case "bo5": tipoRisultato.push(0);tipoRisultato.push(0);tipoRisultato.push(0);tipoRisultato.push(0);tipoRisultato.push(0);
+          break;*/
 
-    default:
-      tipoRisultato=0;
-  }
-  var numeroPartiteTotali;
-  switch(formatoT) {
-    case "campionato":
-      //coming soon
-        /*for(var n=numeroSquadre-1; n>0; n--)
-          numeroPartiteTotali+=n;
+        default:
+          tipoRisultato=0;
+        }
+        var numeroPartiteTotali;
+        switch(formatoT) {
+        case "campionato":
+          //coming soon
+            /*for(var n=numeroSquadre-1; n>0; n--)
+              numeroPartiteTotali+=n;
+              while(numeroPartiteTotali>0){
+                var idSquadra1 = idSquadre[(Math.random() * idSquadre.length) | 0];
+                var idSquadra2 = idSquadre[(Math.random() * idSquadre.length) | 0];
+                idSquadre.remove(idSquadre.findIndex(idSquadra1));
+                idSquadre.remove(idSquadre.findIndex(idSquadra2));
+                numeroPartiteTotali--;
+              }*/
+        break;
+        case "eliminazione":
+          var idSquadra1=[];    
+          var idSquadra2=[];  
+          numeroPartiteTotali=idSquadre.length/2;
           while(numeroPartiteTotali>0){
-            var idSquadra1 = idSquadre[(Math.random() * idSquadre.length) | 0];
-            var idSquadra2 = idSquadre[(Math.random() * idSquadre.length) | 0];
-            idSquadre.remove(idSquadre.findIndex(idSquadra1));
-            idSquadre.remove(idSquadre.findIndex(idSquadra2));
-            numeroPartiteTotali--;
-          }*/
-    break;
-    case "eliminazione":
-      var idSquadra1=[];    
-      var idSquadra2=[];  
-      numeroPartiteTotali=idSquadre.length/2;
-      while(numeroPartiteTotali>0){
-          idSquadra1.push(idSquadre[getRandomInt(idSquadre.length)]);
-          var index1 = idSquadre.indexOf(idSquadra1[idSquadra1.length-1]);
-          if(index1 > -1) {
-            idSquadre.splice(index1, 1); 
-          }
-          idSquadra2.push(idSquadre[getRandomInt(idSquadre.length)]);
-          var index2 = idSquadre.indexOf(idSquadra2[idSquadra2.length-1]);
-          if(index2 > -1) { // only splice array when item is found
-            idSquadre.splice(index2, 1); // 2nd parameter means remove one item only
-          }
-          numeroPartiteTotali--;
-        }                                         
-        idSquadra1.map(function(squadra1,index){
-          var squadra2=idSquadra2[index];
-          fetch('../api/v1/partite', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify( {                
-              idTorneo: id,
-              //data: req.body.data,
-              //ora: req.body.ora,
-              idSquadra1: squadra1,
-              idSquadra2: squadra2,
-              risultato1: tipoRisultato,
-              risultato2: tipoRisultato,
-              fase: faseAttuale
-            }),
-            })
-            .then((resp) => resp.json()) // Trasforma i dati in json
-            .then(function(data) { // Ricevi la risposta
-              if (data.success){           
-              }else{                    
+              idSquadra1.push(idSquadre[getRandomInt(idSquadre.length)]);
+              var index1 = idSquadre.indexOf(idSquadra1[idSquadra1.length-1]);
+              if(index1 > -1) {
+                idSquadre.splice(index1, 1); 
               }
-              return;
-            })
-            .catch( function (error) {
-              alert(error.message);
-              return;
-            } );
-        });
-    break;
-    case "gironi":
-      //to be defined
-    break;
-    default:
-      //
-    }
+              idSquadra2.push(idSquadre[getRandomInt(idSquadre.length)]);
+              var index2 = idSquadre.indexOf(idSquadra2[idSquadra2.length-1]);
+              if(index2 > -1) { // only splice array when item is found
+                idSquadre.splice(index2, 1); // 2nd parameter means remove one item only
+              }
+              numeroPartiteTotali--;
+            }                                         
+            idSquadra1.map(function(squadra1,index){
+              var squadra2=idSquadra2[index];
+              fetch('../api/v1/partite', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify( {                
+                  idTorneo: id,
+                  //data: req.body.data,
+                  //ora: req.body.ora,
+                  idSquadra1: squadra1,
+                  idSquadra2: squadra2,
+                  risultato1: tipoRisultato,
+                  risultato2: tipoRisultato,
+                  fase: faseAttuale
+                }),
+                })
+                .then((resp) => resp.json()) // Trasforma i dati in json
+                .then(function(data) { // Ricevi la risposta
+                  if (data.success){           
+                  }else{                    
+                  }
+                  return;
+                })
+                .catch( function (error) {
+                  alert(error.message);
+                  return;
+                } );
+            });
+        break;
+        case "gironi":
+          //to be defined
+        break;
+        default:
+          //
+        }
 
+        })
+  }).then(function(){
+    fetch('../api/v1/torneo/avanzamento/'+id, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
     })
+  })
+  .then((resp) => resp.json()) // Trasforma i dati in JSON
+  .then(function(data) {// Risposta
+      if(!data.success)  //nessun torneo trovato
+      {alert("ciao");return;}alert("fanculo");
+    }).catch( function (error) {
+        console.log(error.message);
+        return;
+    });
   })
 }
 
