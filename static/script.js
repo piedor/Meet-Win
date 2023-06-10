@@ -521,6 +521,7 @@ function loadHome(){
         let button = document.createElement('button');
         let br = document.createElement('br');
         button.type = 'button';
+        button.setAttribute("onclick", "location.href='visualizzaSchedaUtente.html?nickname=" + amico + "'")
         button.setAttribute("style", "background-color:#30b5fc; width:300px; height: 30px; font-size:16px");
         button.textContent = amico;
         boxAmici.appendChild(br);

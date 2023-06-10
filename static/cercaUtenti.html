@@ -29,8 +29,39 @@
     font-size: 20px;
     margin: auto;
     overflow: auto;
-	}
-        </style>
+    }
+    .multipleSelection {
+        width: 300px;
+        background-color: #BCC2C1;
+        margin-right: 50px;
+    }
+    .selectBox {
+        position: relative;
+    }
+    .selectBox select {
+        width: 100%;
+        font-weight: bold;
+    }
+    .overSelect {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+    }
+    #checkBoxes {
+        display: block;
+        border: 1px #8DF5E4 solid;
+        position: absolute;
+        width: 300px;
+    }
+    #checkBoxes label {
+        display: block;
+    }
+    #checkBoxes label:hover {
+        background-color: #4F615E;
+    }
+  </style>
 </head>
 <body>
   <div class="testata">
@@ -56,11 +87,69 @@
   </div>
   <button style="background-color:#30b5fc; margin-top: 5px; position:absolute;" onclick="location.href='index.html'">INDIETRO</button>
 <p style="color: blue; font-size: 40px; text-align: center; margin-top:5px;">Cerca Utenti</p>   
-  <p style="text-align: center; font-size: 20px; margin: auto;">Elenco utenti per visualizzarne le schede profilo:</p>
+  <p style="text-align: center; font-size: 20px; margin: auto;">Elenco utenti per visualizzarne le schede profilo:
+  <br/>
+  <form>
+    <p style="text-align: center; font-size: 20px; margin: auto;">
+  <label>Trova:</label>
+  <input type="text" id="cercaUtenti" style="width: 700px;"/>
+  <button style="width:50px" onclick="">></button>
+  </p>
+  <span style="float:right;">
+    <div class="multipleSelection">
+        <div class="selectBox" 
+            onclick="showCheckboxes()">
+            <select>
+                <option>Filtra</option>
+            </select>
+            <div class="overSelect"></div>
+        </div>
+
+        <div id="checkBoxes">
+            <label for="first">
+                <input type="checkbox" id="first" />
+                checkBox1
+            </label>
+              
+            <label for="second">
+                <input type="checkbox" id="second" />
+                checkBox2
+            </label>
+            <label for="third">
+                <input type="checkbox" id="third" />
+                checkBox3
+            </label>
+            <label for="fourth">
+                <input type="checkbox" id="fourth" />
+                checkBox4
+            </label>
+        </div>
+    </div>
+  </span>
+  
+  </form>
+  </p>
+  <br/>
   <div class="box3" id="boxUtenti">
   </div>
   <script src="script.js"></script> 
-  <script> loadInfoUser(); listUtenti();</script>
+  <script> 
+  loadInfoUser(); listUtenti();
+  var show = true;
+  
+  function showCheckboxes() {
+      var checkboxes = 
+          document.getElementById("checkBoxes");
+
+      if (show) {
+          checkboxes.style.display = "block";
+          show = false;
+      } else {
+          checkboxes.style.display = "none";
+          show = true;
+      }
+  }
+  </script>
 </body>
 
 </html>
