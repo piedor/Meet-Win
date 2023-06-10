@@ -478,12 +478,12 @@ function sendMails(toMail, oggetto, txt){
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ "reciever": toMail, "subject": oggetto, "text": txt}),
-    })
+    });
 }
 
 function loadInfoUser(){
   // Viene usata dalle schermate per mostrare definire se l'utente è loggato o meno
-  fetch('../api/v1/utenti/me')
+  return fetch('../api/v1/utenti/me')
   .then((resp) => resp.json()) // Trasforma i dati in JSON
   .then(function(data) { // Risposta
     if(data.success == false){
@@ -508,6 +508,81 @@ function loadInfoUser(){
     }
   })
   .catch( error => console.error(error) );
+}
+
+function loadHome(){
+  // Esegui loadInfoUser
+  loadInfoUser().then(function(){
+    // Prendi lista notifiche
+    fetch('../api/v1/notifiche/list/me')
+    .then((resp) => resp.json()) // Trasforma i dati in JSON
+    .then(function(data) { // Risposta
+        if(data.success){
+          if(data.listaNotifiche.length > 0){
+            data.listaNotifiche.map(function(notifica) {  
+              let box = document.getElementById("box2");
+              let button = document.createElement('button');
+              let br = document.createElement('br');
+              let buttonOk = document.createElement('button');
+              buttonOk.type = 'button';
+              buttonOk.setAttribute("id", notifica.id);
+              buttonOk.setAttribute("class", "adder");
+              buttonOk.setAttribute("onclick", "accettaAmicizia(id);");
+              buttonOk.textContent= "+";
+              let buttonX = document.createElement('button');
+              buttonX.type = 'button';
+              buttonX.setAttribute("id", notifica.id);
+              buttonX.setAttribute("class", "remover");
+              buttonX.setAttribute("onclick", "rifiutaAmicizia(id)");
+              buttonX.textContent= "X";
+              button.type = 'button';
+              button.setAttribute("style", "background-color:#30b5fc; width:300px; height: 30px; font-size:16px");
+              if(notifica.categoria == "amicizia"){
+                button.textContent = "Richiesta d'amicizia da " + notifica.nickMittente;
+              }
+              let span=document.createElement('span');
+              span.setAttribute("id", notifica.id);
+              span.appendChild(button);
+              span.appendChild(buttonOk);
+              span.appendChild(buttonX);
+              box.appendChild(br);
+              box.appendChild(span);
+            });
+          }
+          else{
+            let box = document.getElementById("box2");
+            let h2 = document.createElement("h2");
+            h2.innerHTML = "Nessuna notifica presente!";
+            box.appendChild(h2);
+          }
+        }
+    })
+    .catch( error => console.error(error) );
+  });
+}
+
+function accettaAmicizia(idNotifica){
+  // Rimuovi notifica
+  fetch('../api/v1/notifiche/' + idNotifica, {
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/json' }
+  });
+
+  let box = document.getElementById("box2").innerHTML = "";
+
+  loadHome();
+}
+
+function rifiutaAmicizia(idNotifica){
+  // Rimuovi notifica
+  fetch('../api/v1/notifiche/' + idNotifica, {
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/json' }
+  });
+
+  let box = document.getElementById("box2").innerHTML = "";
+
+  loadHome();
 }
 
 function isUtenteLogged(){
@@ -1372,3 +1447,39 @@ function iscriviSquadra(){
           return;
       } );
 };
+
+function richiestaAmicizia(){
+  // Funzione utilizzata da visualizzaSchedaUtente
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  var nickDestinatario = urlParams.get("nickname");
+  // Data di adesso in millisecondi
+  const data = Date.now();
+  // Richiama l'API notifiche
+  // Nuova notifica amicizia
+  fetch('../api/v1/notifiche', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify( { 
+      nickMittente: globalNickname,
+      nickDestinatario: nickDestinatario,
+      categoria: "amicizia",
+      data: data
+    } ),
+  })
+  .then((resp) => resp.json()) // Trasforma i dati in JSON
+  .then(function(data) { // Risposta
+    // Popup messaggio API
+    if(data.success){
+      alert("Richiesta amicizia inviata");
+    }
+    else{
+      alert(data.message);
+    }
+    return;
+  }).catch( function (error) {
+    alert(error.message);
+    console.error(error);
+    return;
+  } );
+}
