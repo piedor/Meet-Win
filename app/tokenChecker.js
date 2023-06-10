@@ -23,6 +23,7 @@ const tokenChecker = function(req, res, next) {
 			});		
 		} else {
 			// Memorizza lo stato autenticato per altre route
+			res.app.set('user', decoded);
 			req.loggedUser = decoded;
 			next();
 		}

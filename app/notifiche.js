@@ -30,19 +30,27 @@ router.post('', async function(req, res) {
 	});
 });
 
-// Se app.js capta una GET verso /api/v1/notifiche/list/:idDestinatario allora ritorna tutte le notifiche associate all'utente 
-router.get('/list/:idDestinatario', async (req, res) => {
-    //ritorna tutte le partite associate al torneo
-    let notifiche = await notifica.find({nickDestinatario: req.params.nickDestinatario}).exec();
-    var categorie = [];
+// Se app.js capta una GET verso /api/v1/notifiche/list/me allora ritorna tutte le notifiche associate all'utente 
+router.get('/list/me', async (req, res) => {
+    if(!res.app.get('user')){
+        return;
+    }
+
+    //ritorna tutte le notifiche associate all'utente
+    let notifiche = await notifica.find({nickDestinatario: res.app.get('user').id}).exec();
+    var listaNotifiche = [];
 
     if(notifiche){
-        notifica.forEach(function(notifica) {
-            categorie.push(notifica.categoria);
+        notifiche.forEach(function(notifica) {
+            listaNotifiche.push({
+                "categoria": notifica.categoria,
+                "nickMittente": notifica.nickMittente,
+                "id": notifica._id
+            })
         });
         res.json({ 
             success: true,
-            categorie: categorie
+            listaNotifiche: listaNotifiche
         });
     }
     else{
@@ -51,6 +59,27 @@ router.get('/list/:idDestinatario', async (req, res) => {
             message: "Nessuna notifica presente!"
         });
     }
+});
+
+// Se app.js capta una DELETE verso /api/v1/notifiche/:idNotifica allora elimina la notifica
+router.delete('/:idNotifica', async (req, res) => {
+    // Trova la notifica via id
+    let notificaById = await notifica.findOne({
+		_id: req.params.idNotifica
+	}).exec();
+
+    if (!notificaById) {
+        res.status(404).send();
+        console.log('Nessuna notifica trovata!');
+        return;
+    }
+
+    await notificaById.deleteOne();
+    
+    res.json({
+        success: true,
+        message: 'Notifica eliminata!',
+    });
 });
 
 module.exports = router;

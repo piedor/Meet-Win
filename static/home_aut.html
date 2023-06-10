@@ -63,6 +63,12 @@
     margin-top: -25px;
     overflow: auto;
 	}
+  .remover{
+      background-color:#ff0000;
+  }
+  .adder{
+      background-color: rgb(44, 255, 44);
+  }
         </style>
 </head>
 <body>
@@ -92,10 +98,10 @@
   </div> 
     <div class="box2">
     Notifiche Interne:
-<br><br>
-    <button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px" onclick=""> Notifica1</button><br>
-    <button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px" onclick=""> Notifica2</button><br>
-    <button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px" onclick=""> Notifica3</button>
+    <div id="box2">
+      
+    </div>
+<br/>
     </div>
 <br>
 <div style="align-content: center; align-items: center; text-align: center; margin:auto;">
@@ -105,7 +111,7 @@
 </div>
    <script src="script.js"></script> 
     <script>
-        loadInfoUser();
+        loadHome();
     </script>
 </body>
 
