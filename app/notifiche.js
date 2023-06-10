@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 // Modello di mongoose (stabilisce quali dati l'oggetto contiene)
 const notifica = require('./models/notifica');
+const utente = require('./models/utente');
 
 // Se app.js capta un POST verso /api/v1/notifiche allora procedi alla creazione della notifica
 router.post('', async function(req, res) {   
@@ -20,7 +21,7 @@ router.post('', async function(req, res) {
         return;
     }
 
-    // Crea nuovo partita
+    // Crea nuova notifica
     const nuovaNotifica = new notifica({
         nickMittente: req.body.nickMittente,
         nickDestinatario: req.body.nickDestinatario,
@@ -87,6 +88,31 @@ router.delete('/:idNotifica', async (req, res) => {
         res.status(404).send();
         console.log('Nessuna notifica trovata!');
         return;
+    }
+
+    if(notificaById.categoria == "amicizia" && req.body.accetta){
+        // Aggiungi a lista amici
+        // Utente mittente
+        let userMittente = await utente.findOne({
+            nickname: notificaById.nickMittente
+        }).exec();
+
+        // Utente destinatario
+        let userDestinatario = await utente.findOne({
+            nickname: notificaById.nickDestinatario
+        }).exec();
+    
+        if (userMittente && userDestinatario) {
+            // Aggiungi i 2 utenti alla lista amici rispettiva
+            userMittente.amici.push(userDestinatario.nickname);
+            userDestinatario.amici.push(userMittente.nickname);
+            userMittente.save();
+            userDestinatario.save();
+        }
+        else{
+            res.json({ success: false });
+            return;
+        }
     }
 
     await notificaById.deleteOne();

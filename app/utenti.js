@@ -123,7 +123,8 @@ router.get('/me', async (req, res) => {
         piattaforme: user.piattaforme,
         zona: user.zona,
         avatar: user.id_img,
-        privato: user.privato
+        privato: user.privato,
+        amici: user.amici
     });
 });
 

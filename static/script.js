@@ -506,21 +506,45 @@ function loadInfoUser(){
       document.getElementById("loginform").setAttribute("hidden", true);
     }
     }
+    return(data);
   })
   .catch( error => console.error(error) );
 }
 
+function onlyUnique(value, index, array) {
+  // Funzione usata per prendere dati univoci da un array (Lista amici)
+  return array.indexOf(value) === index;
+}
+
 function loadHome(){
   // Esegui loadInfoUser
-  loadInfoUser().then(function(){
+  loadInfoUser()
+  .then(function(data){
+    // Aggiungi lista amici al modal
+    if(data.amici.length > 0){
+      let boxAmici = document.getElementById("box4");
+      // Cancella contenuto boxAmici
+      boxAmici.innerHTML = "";
+      data.amici.filter(onlyUnique).map(function(amico) {  
+        let button = document.createElement('button');
+        let br = document.createElement('br');
+        button.type = 'button';
+        button.setAttribute("style", "background-color:#30b5fc; width:300px; height: 30px; font-size:16px");
+        button.textContent = amico;
+        boxAmici.appendChild(br);
+        boxAmici.appendChild(button);
+      });
+    }
+  })
+  .then(function(){
     // Prendi lista notifiche
     fetch('../api/v1/notifiche/list/me')
     .then((resp) => resp.json()) // Trasforma i dati in JSON
     .then(function(data) { // Risposta
         if(data.success){
           if(data.listaNotifiche.length > 0){
+            let box = document.getElementById("box2");
             data.listaNotifiche.map(function(notifica) {  
-              let box = document.getElementById("box2");
               let button = document.createElement('button');
               let br = document.createElement('br');
               let buttonOk = document.createElement('button');
@@ -565,24 +589,34 @@ function accettaAmicizia(idNotifica){
   // Rimuovi notifica
   fetch('../api/v1/notifiche/' + idNotifica, {
     method: 'DELETE',
-    headers: { 'Content-Type': 'application/json' }
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify( { accetta: true } ),
+  })
+  .then((resp) => resp.json()) // Trasforma i dati in json
+  .then(function(data) { // Ricevi la risposta
+    if (data.success){
+    }
+  }).then(function(){
+    let box = document.getElementById("box2").innerHTML = "";
+    loadHome();
   });
-
-  let box = document.getElementById("box2").innerHTML = "";
-
-  loadHome();
 }
 
 function rifiutaAmicizia(idNotifica){
   // Rimuovi notifica
   fetch('../api/v1/notifiche/' + idNotifica, {
     method: 'DELETE',
-    headers: { 'Content-Type': 'application/json' }
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify( { accetta: false } )
+  })
+  .then((resp) => resp.json()) // Trasforma i dati in json
+  .then(function(data) { // Ricevi la risposta
+    if (data.success){
+    }
+  }).then(function(){
+    let box = document.getElementById("box2").innerHTML = "";
+    loadHome();
   });
-
-  let box = document.getElementById("box2").innerHTML = "";
-
-  loadHome();
 }
 
 function isUtenteLogged(){
