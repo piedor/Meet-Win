@@ -694,7 +694,7 @@ function accettaAmicizia(idNotifica){
     }
   }).then(function(){
     let box = document.getElementById("box2").innerHTML = "";
-    loadHome();
+    location.reload();
   });
 }
 
@@ -711,7 +711,7 @@ function rifiutaAmicizia(idNotifica){
     }
   }).then(function(){
     let box = document.getElementById("box2").innerHTML = "";
-    loadHome();
+    location.reload();
   });
 }
 
