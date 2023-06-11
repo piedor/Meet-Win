@@ -44,6 +44,7 @@ router.post('', async function(req, res) {
         zona: req.body.zona,
         pubblicato: false,
         terminato: false,
+        avviato: false,
         formatoT: req.body.formatoT,
         numeroGironi: req.body.numeroGironi,
         fasi: req.body.fasi,
@@ -106,19 +107,21 @@ router.put('', async function(req, res) {
     });
 });
 
-// Se app.js capta una GET verso /api/v1/tornei/list allora ritorna gli id di tutti i tornei creati sulla piattaforma
+// Se app.js capta una GET verso /api/v1/tornei/list allora ritorna gli id di tutti i tornei pubblici non terminati sulla piattaforma
 router.get('/list', async (req, res) => {
     // Ritorna l'id di tutti i tornei
-	let tornei = await torneo.find({}).exec();
+	let tornei = await torneo.find({pubblicato: true, terminato: false}).exec();
     var idTornei = [];
-
+    var avviati=[]; //used to redirect to the correct page when interacting with the torneo
     if(tornei){
         tornei.forEach(function(torneo) {
             idTornei.push(torneo._id);
+            avviati.push(torneo.avviato);
         });
         res.json({ 
             success: true,
-            tornei: idTornei
+            tornei: idTornei,
+            avviati: avviati
         });
     }
     else{
@@ -153,6 +156,7 @@ router.get('/:idTorneo', async (req, res) => {
             numeroGironi: torn.numeroGironi,
             formatoP: torn.formatoP,
             pubblicato: torn.pubblicato,
+            avviato: torn.avviato,
             tags: torn.tags,
             piattaforma: torn.piattaforma,
             dataInizio: torn.dataInizio,
@@ -193,45 +197,106 @@ router.get('/nickname/:nickname', async (req, res) => {
     }
 });
 
-//idea per pubblica
-//router.put('/:idTorneo/pubblica'...)....
 // Se app.js capta una PUT verso /api/v1/tornei/:idTorneo/pubblica allora pubblicazione del torneo
 router.put('/:idTorneo/pubblica', async function(req, res) {
     // Trova torneo via id
     let torneoById = await torneo.findOne({
-		_id: req.body._id
+		_id: req.params.idTorneo
 	}).exec();
     // Torneo non trovato
 	if(!torneoById) {
 		res.json({ success: false, message: 'Torneo non trovato!' });
 		return;
 	}
-    torneoById.argomento = req.body.argomento;
-    torneoById.nomeTorneo = req.body.nomeTorneo;
-    torneoById.bio = req.body.bio;
-    torneoById.regolamento = req.body.regolamento;
-    torneoById.tags = req.body.tags;
-    torneoById.piattaforma = req.body.piattaforma;
-    torneoById.id_img = req.body.logoT;
-    torneoById.zona = req.body.zona;
-    torneoById.numeroSquadre = req.body.numeroSquadre;
-    torneoById.numeroGiocatori = req.body.numeroGiocatori;
-    torneoById.dataInizio = req.body.dataInizio;
-    torneoById.formatoT = req.body.formatoT;
-    torneoById.numeroGironi = req.body.numeroGironi;
-    torneoById.formatoP = req.body.formatoP;
-    torneoById.fasi = req.body.fasi;
+    torneoById.pubblicato=true;
+    // Salva
+    torneoById.save();
+    
+    res.json({
+        success: true,
+        message: 'Torneo pubblicato correttamente!',
+    });
+});
+
+router.put('/:idTorneo/avvia', async function(req, res) {
+    // Trova torneo via id
+    let torneoById = await torneo.findOne({
+		_id: req.params.idTorneo
+	}).exec();
+    // Torneo non trovato
+	if(!torneoById) {
+		res.json({ success: false, message: 'Torneo non trovato!' });
+		return;
+	}
+    torneoById.avviato=true;
+    // Salva
+    torneoById.save();
+    
+    res.json({
+        success: true,
+        message: 'Torneo pubblicato correttamente!',
+    });
+});
+
+// Se app.js capta una PUT verso /api/v1/tornei/:idTorneo/termina allora termina il torneo e aggiorna i risultati sugli utenti
+router.put('/:idTorneo/termina', async function(req, res) {
+    // Trova torneo via id
+    let torneoById = await torneo.findOne({
+		_id: req.params.idTorneo
+	}).exec();
+    // Torneo non trovato
+	if(!torneoById) {
+		res.json({ success: false, message: 'Torneo non trovato!' });
+		return;
+	}
+    torneoById.terminato=req.body.terminato;
+    //inserisci vincitore
 
     // Salva
     torneoById.save();
     
     res.json({
         success: true,
-        message: 'Torneo modificato correttamente!',
+        message: 'Torneo terminato correttamente!',
     });
 });
 
-//idea per terminato
-//router.put('/:idTorneo/terminato'...).... //aggiorna anche squadra vincitrice
+//Se app.js capta una DELETE verso /api/v1/tornei/:id
+router.delete('/:idTorneo', async (req, res) => {
+    let torn = await torneo.findOne({_id: req.params.idTorneo}).exec();
+    if (!torn) {
+        res.status(404).json({ 
+            success: false, 
+            message: "Torneo non trovato"
+        });
+        return;
+    }
+    await torn.deleteOne()
+    console.log('Torneo rimosso')
+    res.json({ 
+        success: true, 
+        message: "Torneo rimosso con successo"
+    });
+});
+
+// Se app.js capta una PUT verso /api/v1/tornei/avanzamento/:idTorneo allora avanza la fase del torneo
+router.put('/avanzamento/:idTorneo', async function(req, res) {
+    // Trova torneo via id
+    let torn = await torneo.findOne({_id: req.params.idTorneo}).exec();
+    // Torneo non trovato
+	if(!torn) {
+		res.json({ success: false, message: 'Torneo non trovato!' });
+		return;
+	}
+    torn.faseAttuale++;
+    
+    // Salva
+    torn.save();
+    
+    res.json({
+        success: true,
+        message: 'avanzamento inserito correttamente!',
+    });
+});
 
 module.exports = router;

@@ -183,7 +183,8 @@ router.get('/:nickname', async (req, res) => {
             bio: user.bio,
             preferenze: user.preferenze,
             piattaforme: user.piattaforme,
-            avatar: user.id_img
+            avatar: user.id_img,
+            torneiVinti: user.tornei_vinti
         });
     }
     else{
