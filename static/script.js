@@ -1276,7 +1276,10 @@ function getAndamentoTorneo(){
             let partita = document.createElement('p');
             partita.setAttribute("class", "partita");
             partita.setAttribute("id", idPartita);
-            
+            let faseText=document.createElement('span');
+            faseText.setAttribute("style", "float:left; margin-left:5px;");
+            faseText.textContent="fase: "+fase;
+            partita.appendChild(faseText);
             if(giorno!=undefined && ora!=undefined){
               //show the day of the game
               let dataBox = document.createElement('p');
@@ -1292,7 +1295,7 @@ function getAndamentoTorneo(){
               dataInput.setAttribute("id", idPartita+"data");
               dataInput.placeholder="data";      
               let oraInput = document.createElement('input');
-              oraInput.setAttribute("class", "data");
+              oraInput.setAttribute("class", "dataInput");
               oraInput.setAttribute("id", idPartita+"ora");
               oraInput.placeholder="ora";
               dataBox.appendChild(dataInput); 
@@ -1310,12 +1313,14 @@ function getAndamentoTorneo(){
             squadra1Box.setAttribute("class", "squadra");          
             squadra1Box.textContent=squadra1+" | score: ";
             let risultato1Box;
+            var up=false; //usato per definire se è una partita nuova o vecchia, se è nuova viene aggiunta in cima alle altre
             if(risultato1==undefined) {
               if(globalNickname==document.getElementById("organizzatore").textContent){
                 risultato1Box=document.createElement('input');
                 risultato1Box.setAttribute("id", idPartita+"r1");
                 document.getElementById("generaPartite").setAttribute("disabled",true);            
               }
+              up=true;
             }else{
               risultato1Box=document.createElement('span');
               risultato1Box.textContent=risultato1;
@@ -1343,18 +1348,25 @@ function getAndamentoTorneo(){
             squadra2Box.appendChild(risultato2Box);}
             partita.appendChild(squadra2Box);            
             
-            if(document.getElementById(fase)){
+            if(document.getElementById(fase)){  //non c'è bisogno di controllare se è una partita nuova perché se ha trovato il paragrafo significa che è già in alto
               let div=document.getElementById(fase);
               div.appendChild(partita);
             }else{
-              let giornata=document.createElement('div');
-              giornata.setAttribute("id", fase);
-              giornata.appendChild(partita);
-              listPartite.appendChild(giornata);
-              }
-              if(document.getElementById("generaPartite").getAttribute("disabled")){//vuol dire che uno o più risultati sono mancanti
-                document.getElementById("inserisciRisultati").removeAttribute("disabled");
-              }else{  document.getElementById("inserisciRisultati").setAttribute("disabled", true);}
+              if(up){//means that it's a new game so it has to be added up
+                let giornata=document.createElement('div');
+                giornata.setAttribute("id", fase);
+                giornata.appendChild(partita);
+                listPartite.prepend(giornata);
+              }else{
+                let giornata=document.createElement('div');
+                giornata.setAttribute("id", fase);
+                giornata.appendChild(partita);
+                listPartite.appendChild(giornata);
+              }            
+            }
+            if(document.getElementById("generaPartite").getAttribute("disabled")){//vuol dire che uno o più risultati sono mancanti
+              document.getElementById("inserisciRisultati").removeAttribute("disabled");
+            }else{  document.getElementById("inserisciRisultati").setAttribute("disabled", true);}
             }
           })   
         });
@@ -1999,7 +2011,7 @@ function avviaMatchmakingTorneo(id){
 
         })
   }).then(function(){
-    fetch('../api/v1/torneo/avanzamento/'+id, {
+    fetch('../api/v1/tornei/avanzamento/'+id, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -2008,7 +2020,7 @@ function avviaMatchmakingTorneo(id){
   .then((resp) => resp.json()) // Trasforma i dati in JSON
   .then(function(data) {// Risposta
       if(!data.success)  //nessun torneo trovato
-      {alert("ciao");return;}alert("fanculo");
+      return;
     }).catch( function (error) {
         console.log(error.message);
         return;
@@ -2040,7 +2052,7 @@ function setDataPartita(idPartita){
       alert("errore, nessuna partita trovata")
     return;
     }else{ 
-      alert("done");
+      location.reload();
     }
   })
 }
@@ -2051,7 +2063,7 @@ function inserisciRisultati(){
   let partite=document.getElementsByClassName('partita');
   for(var i=0; i<partite.length; i++){
     var idPartita=partite[i].id;
-    if(document.getElementById(idPartita+"r1")!="[object HTMLInputElement]") //significa che i risultati sono già inseriti
+    if(document.getElementById(idPartita+"r1")!="[object HTMLInputElement]") //debug; significa che i risultati sono già inseriti
       continue;
     var r1=document.getElementById(idPartita+"r1").value;
     var r2=document.getElementById(idPartita+"r2").value;
@@ -2069,7 +2081,8 @@ function inserisciRisultati(){
       if(!data.success){  //nessuna partita trovata
         alert("errore, nessuna partita trovata")
       return;
-      }else{
+      }else{        
+      location.reload();
       fetch('../api/v1/squadre/avanzamento/'+data.winner, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },

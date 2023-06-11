@@ -282,18 +282,14 @@ router.delete('/:idTorneo', async (req, res) => {
 // Se app.js capta una PUT verso /api/v1/tornei/avanzamento/:idTorneo allora avanza la fase del torneo
 router.put('/avanzamento/:idTorneo', async function(req, res) {
     // Trova torneo via id
-    let torn = await torneo.findOne({
-		_id: req.params.idTorneo
-	}).exec();
+    let torn = await torneo.findOne({_id: req.params.idTorneo}).exec();
     // Torneo non trovato
 	if(!torn) {
 		res.json({ success: false, message: 'Torneo non trovato!' });
 		return;
 	}
-    //per qualche motivo non trova il torneo
-    console.log(torn.faseAttuale);
     torn.faseAttuale++;
-    console.log(torn.faseAttuale);
+    
     // Salva
     torn.save();
     
