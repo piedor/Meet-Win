@@ -1901,7 +1901,7 @@ function utentiPossibili(){
         let span=document.createElement('span');
         span.setAttribute("id", nickname);
         span.appendChild(button);
-        span.appendChild(buttonX);
+        if(nickname!=globalNickname) span.appendChild(buttonX); // se è il proprio profilo non bisogna mettere il pulsante
         if(nickname==globalNickname){
           listgiocatori=document.getElementById("giocatori");
           listgiocatori.appendChild(span)
