@@ -1,8 +1,9 @@
+/*
 const request  = require('supertest');    // utile per richiamare le api con metodi GET SET PUT ecc...
 const app      = require('./app');        // Questo fa partire l'app principale altrimenti non funziona nulla
 const jwt     = require('jsonwebtoken');  // Per creare i token
 const mongoose = require('mongoose');     // libreria per collegarsi al db
-const torneo = require('./models/torneo');
+const torneo = require('./models/torneo');  */
 
 /*
 describe('POST /api/v1/tornei', () => {         //POST per la creazione e il salvataggio di un torneo

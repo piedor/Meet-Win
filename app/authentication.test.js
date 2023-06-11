@@ -1,7 +1,7 @@
-const request  = require('supertest');
+/*const request  = require('supertest');
 const app      = require('./app');
 const jwt     = require('jsonwebtoken');
-const mongoose = require('mongoose');
+const mongoose = require('mongoose'); */
 /*
 describe('POST /api/v1/authentications', () => {      //POST per l'autenticazione (login)
 

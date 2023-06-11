@@ -1,6 +1,7 @@
+/*
 const request = require('supertest');
 const jwt     = require('jsonwebtoken');
-const app     = require('./app');
+const app     = require('./app'); */
 /*
 test('Modulo app definito', () => {
   expect(app).toBeDefined();
