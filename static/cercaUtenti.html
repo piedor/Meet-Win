@@ -50,7 +50,7 @@
         bottom: 0;
     }
     #checkBoxes {
-        display: block;
+        display: none;
         border: 1px #8DF5E4 solid;
         position: absolute;
         width: 300px;
@@ -89,11 +89,10 @@
 <p style="color: blue; font-size: 40px; text-align: center; margin-top:5px;">Cerca Utenti</p>   
   <p style="text-align: center; font-size: 20px; margin: auto;">Elenco utenti per visualizzarne le schede profilo:
   <br/>
-  <form>
     <p style="text-align: center; font-size: 20px; margin: auto;">
   <label>Trova:</label>
-  <input type="text" id="cercaUtenti" style="width: 700px;"/>
-  <button style="width:50px" onclick="">></button>
+  <input type="text" id="cercaUtenti" style="width: 700px;" placeholder="nickname" onkeyup="filtraUtenti()"/>
+  <button style="width:50px" onclick="filtraUtenti();">></button>
   </p>
   <span style="float:right;">
     <div class="multipleSelection">
@@ -106,28 +105,44 @@
         </div>
 
         <div id="checkBoxes">
-            <label for="first">
-                <input type="checkbox" id="first" />
-                checkBox1
-            </label>
-              
-            <label for="second">
-                <input type="checkbox" id="second" />
-                checkBox2
-            </label>
-            <label for="third">
-                <input type="checkbox" id="third" />
-                checkBox3
-            </label>
-            <label for="fourth">
-                <input type="checkbox" id="fourth" />
-                checkBox4
-            </label>
+            <div style="text-align: center;">Sport</div>
+            <input type="checkbox" name="pref" id="pref" value="100"/> sport di squadra <br/>
+            <input type="checkbox" name="pref" id="pref" value="101"/> calcio <br/>
+            <input type="checkbox" name="pref" id="pref" value="102"/> calcetto <br/>
+            <input type="checkbox" name="pref" id="pref" value="103"/> basket <br/>
+            <input type="checkbox" name="pref" id="pref" value="104"/> freccette <br/>
+            <input type="checkbox" name="pref" id="pref" value="105"/> hockey <br/>
+            <input type="checkbox" name="pref" id="pref" value="106"/> tennis <br/>
+            <input type="checkbox" name="pref" id="pref" value="107"/> ping pong <br/>
+            <input type="checkbox" name="pref" id="pref" value="108"/> paddel <br/>
+            <input type="checkbox" name="pref" id="pref" value="109"/> pallavolo <br/>
+            <input type="checkbox" name="pref" id="pref" value="110"/> beach volley <br/>
+            <div style="text-align: center;">Videogiochi</div>
+            <input type="checkbox" name="pref" id="pref" value="201"/> Fifa <br/>
+            <input type="checkbox" name="pref" id="pref" value="202"/> League of Legends <br/>
+            <input type="checkbox" name="pref" id="pref" value="203"/> Valorant <br/>
+            <input type="checkbox" name="pref" id="pref" value="204"/> CS:GO <br/>
+            <input type="checkbox" name="pref" id="pref" value="205"/> Rainbow Six Siege <br/>
+            <input type="checkbox" name="pref" id="pref" value="206"/> Fortnite <br/>
+            <input type="checkbox" name="pref" id="pref" value="207"/> Super Smash Bros <br/>
+            <input type="checkbox" name="pref" id="pref" value="208"/> Rocket League <br/>
+            <div style="text-align: center;">Giochi da tavolo</div>
+            <input type="checkbox" name="pref" id="pref" value="301"/> Scacchi <br/>
+            <input type="checkbox" name="pref" id="pref" value="302"/> Catan <br/>
+            <input type="checkbox" name="pref" id="pref" value="303"/> Ticket To Ride <br/>
+            <input type="checkbox" name="pref" id="pref" value="304"/> Dominion <br/>
+            <input type="checkbox" name="pref" id="pref" value="305"/> giochi di carte <br/>
+            <input type="checkbox" name="pref" id="pref" value="306"/> Yu-Gi-Oh! <br/>
+            <input type="checkbox" name="pref" id="pref" value="307"/> Magic <br/>
+            <div style="text-align: center;">Piattaforme</div>
+            <input type="checkbox" name="piatt" id="piatt" value="100"/> Playstation 5 <br/>
+            <input type="checkbox" name="piatt" id="piatt" value="101"/> Playstation 4 <br/>
+            <input type="checkbox" name="piatt" id="piatt" value="102"/> Xbox ONE <br/>
+            <input type="checkbox" name="piatt" id="piatt" value="103"/> Switch <br/>
+            <input type="checkbox" name="piatt" id="piatt" value="104"/> PC <br/>
         </div>
     </div>
   </span>
-  
-  </form>
   </p>
   <br/>
   <div class="box3" id="boxUtenti">
