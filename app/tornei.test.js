@@ -21,20 +21,20 @@ describe('POST /api/v1/tornei', () => {         //POST per la creazione e il sal
     return request(app)
       .post('/api/v1/tornei')
       .set('Accept', 'application/json')
-      .send({})
-      .expect(200, {success: true, message: 'Torneo salvato correttamente!', _id: '64844c37c3f62738cf7dd3f9' });
+      .send({nomeTorneo: 'Torneo dei test'})
+      .expect(200, {success: true, message: 'Torneo salvato correttamente!', _id: '6485951c8e42dc216932a92a'});
   })
 
 }); //NOTOK
 
-describe('PUT /api/v1/tornei', () => {         //PUT per la modifica dei dati di un torneo - mock function! che non funzia
+describe('PUT /api/v1/tornei', () => {         //PUT per la modifica dei dati di un torneo - mock function da sistemare!
 
   // Moking del metodo torneo.findOne
   let torneoSpy;
     
   beforeAll( async () => {
-    const Torneo = require('./models/torneo');    //torneo o Torneo?
-    torneoSpy = jest.spyOn(Torneo,'findOne.exe()').mockImplementation((criterias) => {
+    const Torneo = require('./models/torneo');
+    torneoSpy = jest.spyOn(Torneo,'find').mockImplementation((criterias) => {  //Mi da un errore che non capisco come risolvere!
       return {_id:'647de69fca346186e39935e0'};  //Torneo "Patronato school" di RedRocco
     });
   });
@@ -43,25 +43,55 @@ describe('PUT /api/v1/tornei', () => {         //PUT per la modifica dei dati di
     torneoSpy.mockRestore();
   });
   
-  test('PUT /api/v1/tornei Modifica a torneo salvato', () => {  //Questo test si può fare solo una volta e poi va modificato..!
+  test('PUT /api/v1/tornei Modifica a torneo salvato', () => {  //Questo test scritto così è valido solo una volta e poi va modificato!
     return request(app)
       .put('/api/v1/tornei')
       .set('Accept', 'application/json')
-      .send({nomeTorneo: "Torneo"})
+      .send({nomeTorneo: "TorneoX"})
       .expect(200, {success: true, message: 'Torneo salvato correttamente!', _id: '647de69fca346186e39935e0' });
   })
 
-  test('GET /api/v1/tornei should respond with an array of tornei', async () => {
+}); //NOTOK
+
+describe('GET /api/v1/tornei/list', () => {         //GET per ottenere l'elenco dei tornei
+
+  beforeAll( async () => {
+    jest.unmock('mongoose');
+    connection = await  mongoose.connect(process.env.DB_URL, {useNewUrlParser: true, useUnifiedTopology: true});
+    console.log('Database connected!');
+  });
+  
+  afterAll( () => {
+    mongoose.connection.close(true);
+    console.log("Database connection closed");
+  });
+  
+  test('GET /api/v1/tornei/list Restituisce un array di tornei', async () => {
     return request(app)
       .get('/api/v1/tornei/list')
       .expect('Content-Type', /json/)
       .expect(res.body[0]).toEqual({
         success: true,
         idTorneo: '647cbe409722939a7a15cee6'
-      }); // Risultato atteso      
+      });     
+  });
+
+}); //NOTOK
+
+describe('GET /api/v1/tornei/:id', () => {         //GET restituisce json
+
+  beforeAll( async () => {
+    jest.unmock('mongoose');
+    connection = await  mongoose.connect(process.env.DB_URL, {useNewUrlParser: true, useUnifiedTopology: true});
+    console.log('Database connected!');
   });
   
-  test('GET /api/v1/tornei/:id should respond with json', async () => {
+  afterAll( () => {
+    mongoose.connection.close(true);
+    console.log("Database connection closed");
+  });
+  
+  test('GET /api/v1/tornei/:id Restituisce json', async () => {
     return request(app)
       .get('/api/v1/tornei/647cbe409722939a7a15cee6')
       .expect('Content-Type', /json/)
@@ -88,5 +118,28 @@ describe('PUT /api/v1/tornei', () => {         //PUT per la modifica dei dati di
         faseAttuale: 0,
         });
   });
-      //ff pls i'm done
+
+}); //NOTOK
+
+describe('GET verso /api/v1/tornei/:idTorneo', () => {         //GET per ottenere i dati di un torneo
+
+  beforeAll( async () => {
+    jest.unmock('mongoose');
+    connection = await  mongoose.connect(process.env.DB_URL, {useNewUrlParser: true, useUnifiedTopology: true});
+    console.log('Database connected!');
+  });
+  
+  afterAll( () => {
+    mongoose.connection.close(true);
+    console.log("Database connection closed");
+  });
+  
+  test('GET /api/v1/tornei/:idTorneo Restituisce i dati di un torneo', () => { 
+    return request(app)
+      .get('/api/v1/:idTorneo')
+      .set('Accept', 'application/json')
+      .send({_id: '647de69fca346186e39935e0'})
+      .expect(200, {  });
+  })
+
 }); //NOTOK

@@ -3,7 +3,7 @@ const app      = require('./app');
 const jwt     = require('jsonwebtoken');
 const mongoose = require('mongoose');
 
-describe('POST /api/v1/authentications', () => {      //POST per l'autenticazione
+describe('POST /api/v1/authentications', () => {      //POST per l'autenticazione (login)
 
   let connection;
 
@@ -51,11 +51,12 @@ describe('POST /api/v1/authentications', () => {      //POST per l'autenticazion
       .expect(200, { success: false, message: "Password errata!" });
   });
   
+
   // crea un token valido
   var payload = {
     email: "redroccoalpha@gmail.com",
     id: "RedRocco"
-}
+  }
   var options = {
     expiresIn: 86400 // Scade in 24 ore
   }
@@ -69,19 +70,11 @@ describe('POST /api/v1/authentications', () => {      //POST per l'autenticazion
       .expect(200, {
         success: true,
         message: 'Login avvenuto con successo!',
-        token: token,     // Il token cambia quando eseguo il test, come faccio?
+        token: token,     //Come far combaciare il token?
         email: 'redroccoalpha@gmail.com',
         id: '6482f1f9631e9982b691f781',
         nickname: 'RedRocco'
       });
   }); 
 
-  // Da implementare ban account            ?Lo facciamo alla fine?
-  /* test('POST /api/v1/authentications con account bannato', () => {
-    return request(app)
-      .post('/api/v1/authentications')
-      .set('Accept', 'application/json')
-      .send({nickname: "BannedRocco", password: "Password2"})
-      .expect(200, { success: false });
-  }); */
 }); //NOTOK
