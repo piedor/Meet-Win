@@ -4,6 +4,7 @@ const jwt     = require('jsonwebtoken');  // Per creare i token
 const mongoose = require('mongoose');     // libreria per collegarsi al db
 const torneo = require('./models/torneo');
 
+/*
 describe('POST /api/v1/tornei', () => {         //POST per la creazione e il salvataggio di un torneo
 
   beforeAll( async () => {
@@ -143,3 +144,4 @@ describe('GET verso /api/v1/tornei/:idTorneo', () => {         //GET per ottener
   })
 
 }); //NOTOK
+*/

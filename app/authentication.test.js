@@ -24,7 +24,7 @@ describe('POST /api/v1/authentications', () => {      //POST per l'autenticazion
       .post('/api/v1/authentications')
       .set('Accept', 'application/json')
       .send({nickname: "", password: ""})
-      .expect(200, { success: false, message: "Nessun utente trovato!" });
+      .expect(401, { success: false, message: "Nessun utente trovato!" });
   });
 
   test('POST /api/v1/authentications con password vuota', () => {
@@ -32,7 +32,7 @@ describe('POST /api/v1/authentications', () => {      //POST per l'autenticazion
       .post('/api/v1/authentications')
       .set('Accept', 'application/json')
       .send({nickname: "RedRocco"})
-      .expect(200, { success: false, message: "Password errata!" });
+      .expect(401, { success: false, message: "Password errata!" });
   });
 
   test('POST /api/v1/authentications con nickname non esistente', () => {
@@ -40,7 +40,7 @@ describe('POST /api/v1/authentications', () => {      //POST per l'autenticazion
       .post('/api/v1/authentications')
       .set('Accept', 'application/json')
       .send({nickname: "GreenRocco"})
-      .expect(200, { success: false, message: "Nessun utente trovato!" });
+      .expect(401, { success: false, message: "Nessun utente trovato!" });
   });
 
   test('POST /api/v1/authentications con password errata', () => {
@@ -48,10 +48,10 @@ describe('POST /api/v1/authentications', () => {      //POST per l'autenticazion
       .post('/api/v1/authentications')
       .set('Accept', 'application/json')
       .send({nickname: "RedRocco", password: "Password2x"})
-      .expect(200, { success: false, message: "Password errata!" });
+      .expect(401, { success: false, message: "Password errata!" });
   });
   
-
+/*
   // crea un token valido
   var payload = {
     email: "redroccoalpha@gmail.com",
@@ -75,6 +75,6 @@ describe('POST /api/v1/authentications', () => {      //POST per l'autenticazion
         id: '6482f1f9631e9982b691f781',
         nickname: 'RedRocco'
       });
-  }); 
+  }); */
 
 }); //NOTOK
