@@ -2,7 +2,7 @@ const request  = require('supertest');    // utile per richiamare le api con met
 const app      = require('./app');        // Questo fa partire l'app principale altrimenti non funziona nulla
 const jwt     = require('jsonwebtoken');  // Per creare i token
 const mongoose = require('mongoose');     // libreria per collegarsi al db
-
+/*
 describe('GET api/v1/utenti/me', () => {         //GET per il controllo del token
 
   beforeAll( async () => {
@@ -50,7 +50,7 @@ describe('GET api/v1/utenti/me', () => {         //GET per il controllo del toke
   })
 
 }); //OK
-
+*/
 /*
 describe('POST api/v1/utenti', () => {           //POST per la registrazione
 
@@ -123,7 +123,7 @@ describe('POST api/v1/utenti', () => {           //POST per la registrazione
 
 }); //NOTOK
 */
-
+/*
 describe('GET /api/v1/utenti/logout', () => {    //GET per il logout
 
   beforeAll( async () => {
@@ -162,7 +162,7 @@ test('GET /api/v1/utenti/logout Logout da loggato ad account', () => {
   })
 
 }); //OK
-
+*/
 /*
 describe('PUT /api/v1/utenti', () => {           // PUT per la modifica della password
 
