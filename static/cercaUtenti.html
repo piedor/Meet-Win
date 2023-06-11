@@ -19,9 +19,10 @@
       }       
     .box3{
   	width: 800px;
-	  height: 200px;
+	  height: 300px;
 	  padding: 10px;
     margin-top: 5px;
+    margin-left: 25%;
     align-content: center;
     align-items: center;
   	background-color:rgb(117, 116, 116);
@@ -35,16 +36,17 @@
       font-size: 20px; 
     }
     .multipleSelection {
-      float:right;
+      float: right;
       width: 200px;
-      background-color: #b8b9ba;;
-      margin-right: 50px;
+      background-color: #b8b9ba;
+      margin-right: 21%;
     }
     .selectBox {
       position: relative;
     }
     .selectBox select {
-      width: 100%;
+      width: 200px;
+      height: 25px;
       font-weight: bold;
     }
     .overSelect {
@@ -57,6 +59,7 @@
     #checkBoxes {
       display: none;
       border: 1px #8DF5E4 solid;
+      background-color: #b8b9ba;
       position: absolute;
       width: 200px;
       height: 300px;
@@ -96,10 +99,6 @@
   <button style="background-color:#30b5fc; margin-top: 5px; position:absolute;" onclick="location.href='index.html'">INDIETRO</button>
 <p style="color: blue; font-size: 40px; text-align: center; margin-top:5px;">Cerca Utenti</p>   
   <p class="titolo">Elenco utenti per visualizzarne le schede profilo:</p>
-  <p class="titolo" style="margin-left: 10%">
-  <label>Trova:</label>
-  <input type="text" id="cercaUtenti" style="width: 500px;" placeholder="nickname" onkeyup="filtraUtenti()"/>
-  </p>
     <div class="multipleSelection">
         <div class="selectBox" onclick="showCheckboxes()">
             <select>
@@ -148,6 +147,10 @@
             <input type="checkbox" name="piatt" id="piatt" value="104"/> PC <br/>
         </div>
     </div>
+  <span style="font-size: 20px; margin-left: 25%;">
+  <label>Trova:</label>
+  <input type="text" id="cercaUtenti" style="width: 500px;" placeholder="nickname" onkeyup="filtraUtenti()"/>
+  </span>
   <div class="box3" id="boxUtenti">
   </div>
   <script src="script.js"></script> 

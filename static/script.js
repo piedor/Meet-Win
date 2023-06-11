@@ -1902,7 +1902,11 @@ function utentiPossibili(){
         span.setAttribute("id", nickname);
         span.appendChild(button);
         span.appendChild(buttonX);
-        listutenti.appendChild(span);
+        if(nickname==globalNickname){
+          listgiocatori=document.getElementById("giocatori");
+          listgiocatori.appendChild(span)
+        }else{
+        listutenti.appendChild(span);}
       });
     }
   })
