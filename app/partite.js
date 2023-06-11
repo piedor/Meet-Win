@@ -55,6 +55,7 @@ router.get('/:idPartita', async (req, res) => {
                 nomeSquadra2: squadra2.nomeSquadra,
                 capitano2: squadra2.capitano,
                 nomeTorneo: torn.nomeTorneo,
+                idTorneo:part.idTorneo,
                 organizzatore: torn.organizzatore,
                 argomento: torn.argomento,
                 zona: torn.zona,
@@ -103,25 +104,33 @@ router.get('/list/:idTorneo', async (req, res) => {
     }
 });
 
-// Se app.js capta una GET verso /api/v1/partite/nickname/:nickname allora ritorna tutte le partite associate ad un utente
-router.get('/nickname/:nickname', async (req, res) => {
+// Se app.js capta una GET verso /api/v1/partite/squadra/:idSquadra allora ritorna tutte le partite associate ad una squadra
+router.get('/squadra/:idSquadra', async (req, res) => {
     //ritorna tutte le partite associate all'utente
-    let partite = await partita.find({idTorneo: req.params.nickname}).exec();
+    let partite = await partita.find({idSquadra1: req.params.idSquadra}).exec();
     var idPartite = [];
 
     if(partite){
         partite.forEach(function(partita) {
             idPartite.push(partita._id);
-        });
-        res.json({ 
-            success: true,
-            tornei: idPartite
+        }); 
+    }
+    partite = await partita.find({idSquadra2: req.params.idSquadra}).exec();
+    if(partite){
+        partite.forEach(function(partita) {
+            idPartite.push(partita._id);
         });
     }
-    else{
+
+    if(idPartite==null){//partite not found
         res.json({ 
             success: false, 
             message: "Non hai partite"
+        });
+    }else{
+        res.json({ 
+            success: true,
+            partite: idPartite
         });
     }
 });

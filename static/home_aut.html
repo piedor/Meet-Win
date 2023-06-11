@@ -100,6 +100,45 @@
     text-decoration: none;
     cursor: pointer;
   }
+  /*css per la visualizzazione delle partite dell'utente*/
+    .squadra{
+        border:2px solid #2b93fc;
+        margin:5px;
+        width: 200px;
+        max-height: 80px;
+        color: rgb(0, 0, 0); 
+        font-size: 15px;
+        overflow: auto;
+    }
+    .data{        
+        margin: 0;
+        color: rgb(0, 0, 0); 
+        font-size: 15px;
+        overflow: auto;
+    }
+    .risultato{
+        float: right;
+        width: 15px;
+        height: 15px;
+        margin-right: 8px;
+    }
+    .nomeTorneo{
+      color: #000000;
+      margin: 5px;
+      font-size:20px;
+
+    }
+    .partita{
+      text-align: center;
+      border: 3px solid rgb(117, 116, 116);
+      padding-top: 5px;
+      width: 250px;
+      align-items: center;
+      background-color:#b8b9ba;
+      margin: auto;
+      max-height: 300px;
+      font-size: 15px;float:left
+    }
   </style>
 </head>
 <body>
@@ -119,11 +158,13 @@
   <p style="color: blue; font-size: 40px; text-align: center; margin-top:5px;">Home autenticato</p>  
 	<div class="box3">
     Prossime partite:
-<br><br>
-    <button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px" onclick=""> Partita1</button>
-    <button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px" onclick=""> Partita2</button>
-    <button style="background-color:#30b5fc; width:150px; height: 40px; font-size:16px" onclick=""> Partita3</button>
+    <div style="overflow: auto;" id="partiteUtente">  
+    </div>                   
   </div>
+
+  <div class="box4">
+</div>
+
 <div class="box1">
   Chat box:
 <br><br> coming soon...

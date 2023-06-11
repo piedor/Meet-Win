@@ -144,11 +144,9 @@ router.get('/list/:idTorneo', async (req, res) => {
     }
 });
 
-//idea-> cerca in giocatori il nickname -> se c'è passa gli id delle partite associate
-// Se app.js capta una GET verso /api/v1/squadre/nickname/:nickname
-router.get('/nickname/:idSquadra', async (req, res) => {
-    //
-    let squadra = await squadra.findOne({idTorneo: req.params.idTorneo}).exec();
+// Se app.js capta una GET verso /api/v1/squadre/nickname/:nickname restituisce tutte gli id delle squadre in cui è presente il giocatore
+router.get('/nickname/:nickname', async (req, res) => {
+    let squadre = await squadra.find({giocatori: req.params.nickname}).exec();
     var idSquadre = [];
 
     if(squadre){
@@ -157,13 +155,13 @@ router.get('/nickname/:idSquadra', async (req, res) => {
         });
         res.json({ 
             success: true,
-            tornei: idSquadre
+            squadre: idSquadre
         });
     }
     else{
         res.json({ 
             success: false, 
-            message: "Non ci sono ancora squadre iscritte"
+            message: "Non sei iscritto a nessuna squadra"
         });
     }
 });

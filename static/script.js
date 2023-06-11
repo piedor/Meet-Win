@@ -583,9 +583,95 @@ function loadHome(){
             box.appendChild(h2);
           }
         }
-    })
-    .catch( error => console.error(error) );
-  });
+    })    
+  }).then(function(){
+    //mostra tutte le partite dell'utente
+    fetch('../api/v1/squadre/nickname/'+globalNickname)
+    .then((resp) => resp.json()) // Trasforma i dati in JSON
+    .then(function(data1) { // Risposta     
+      data1.squadre.map(function(idSquadra){
+        fetch('../api/v1/partite/squadra/'+idSquadra)
+        .then((resp) => resp.json()) // Trasforma i dati in JSON
+        .then(function(data2) { // Risposta
+          if(data2.success){
+          data2.partite.map(function(idPartita){
+            fetch('../api/v1/partite/'+idPartita)
+            .then((resp) => resp.json()) // Trasforma i dati in JSON
+            .then(function(data3) { // Risposta   
+              const nomeTorneo=data3.nomeTorneo;
+              const idTorneo=data3.idTorneo;
+              const argomento=data3.argomento;
+              const squadra1=data3.nomeSquadra1;
+              const squadra2=data3.nomeSquadra2;
+              const risultato1=data3.risultato1;
+              const risultato2=data3.risultato2;
+              const giorno= data3.data;
+              const ora= data3.ora;
+              var listPartite=document.getElementById("partiteUtente");
+              let partita = document.createElement('p');
+              partita.setAttribute("class", "partita");
+              partita.setAttribute("id", idPartita);
+              partita.setAttribute("onclick", "location.href='andamentoTorneo.html?idTorneo="+idTorneo+"'");              
+              let nomeTorneoText=document.createElement('p');
+              nomeTorneoText.setAttribute("class", "nomeTorneo");
+              nomeTorneoText.textContent="Torneo: "+nomeTorneo+" | attività: "+argomento;
+              partita.appendChild(nomeTorneoText);
+              if(giorno!=undefined && ora!=undefined){
+                //show the day of the game
+                let dataBox = document.createElement('p');
+                dataBox.setAttribute("class", "data");
+                dataBox.textContent=giorno+" ora: "+ora;
+                partita.appendChild(dataBox);
+              }else{
+                let dataBox = document.createElement('p');
+                dataBox.setAttribute("class", "data");
+                dataBox.setAttribute("title", "l'organizzatore deve ancora inserire la data della partita");
+                dataBox.textContent="data da definire";
+                partita.appendChild(dataBox);
+              }
+              let squadra1Box = document.createElement('p');
+              squadra1Box.setAttribute("class", "squadra");          
+              squadra1Box.textContent=squadra1+" | score: ";
+              let risultato1Box;
+              var up=false; //significa che è una partita nuova
+              if(risultato1!=undefined) {
+                risultato1Box=document.createElement('span');
+                risultato1Box.textContent=risultato1;
+              }else{up=true;}
+              if(risultato1Box){
+                risultato1Box.setAttribute("class", "risultato");
+                squadra1Box.appendChild(risultato1Box);}
+              partita.appendChild(squadra1Box);
+              let squadra2Box = document.createElement('p');
+              squadra2Box.setAttribute("class", "squadra");
+              squadra2Box.textContent=squadra2+" | score: ";
+              let risultato2Box;
+              if(risultato2!=undefined) {
+                risultato2Box=document.createElement('span');
+                risultato2Box.textContent=risultato2;
+              }else{up=true;}
+              if(risultato2Box){
+                risultato2Box.setAttribute("class", "risultato");
+                squadra2Box.appendChild(risultato2Box);}
+              partita.appendChild(squadra2Box);              
+              if(up){//means that it's a new game so it has to be added up
+                listPartite.prepend(partita);
+              }else{
+                listPartite.appendChild(partita);              
+              }
+            });
+          });
+        }else{
+          var listPartite=document.getElementById("partiteUtente");
+          let testo = document.createElement('p');
+          testo.setAttribute("class","nomeTorneo")
+          testo.textContent="Non hai ancora nessuna partita";
+          listPartite.appendChild(testo);
+        }
+        });
+      });
+    });
+  }).catch( error => console.error(error));
 }
 
 function accettaAmicizia(idNotifica){
@@ -1308,6 +1394,12 @@ function getAndamentoTorneo(){
               button.textContent="SET";
               dataBox.appendChild(button);
               partita.appendChild(dataBox);     
+            }else{
+              let dataBox = document.createElement('p');
+              dataBox.setAttribute("class", "data");
+              dataBox.setAttribute("title", "l'organizzatore deve ancora inserire la data della partita");
+              dataBox.textContent="data da definire";
+              partita.appendChild(dataBox);
             }
             let squadra1Box = document.createElement('p');
             squadra1Box.setAttribute("class", "squadra");          
