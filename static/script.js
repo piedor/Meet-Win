@@ -1544,7 +1544,7 @@ function removerSquadra(x){
       if(!data.success){
       return;
       }else{
-        if(!data.giocatori.includes(globalNickname)){
+        if(!data.giocatori.includes(globalNickname)&& data.capitano!=globalNickname){
           alert("non fai parte della squadra, non puoi rimuovere un'altra squadra dal torneo!")
           return;
         }else{
