@@ -78,6 +78,12 @@ var registeredUser = {};
 //memorizza il nickname dell'utente
 var globalNickname;
 
+// Memorizza la lista utenti (usata da cercaUtenti e filtraggio)
+var listaUtenti;
+
+// Memorizza la lista preferenze e piattaforme degli utenti (usata da cercaUtenti e filtraggio) {nickname, preferenze[], piattaforme[]}
+var tagUtenti = [];
+
 function login(){
   // Questa funzione è chiamata quando si preme il pulsante login
   // Prendi i valori del form html
@@ -532,6 +538,7 @@ function loadHome(){
         let button = document.createElement('button');
         let br = document.createElement('br');
         button.type = 'button';
+        button.setAttribute("onclick", "location.href='visualizzaSchedaUtente.html?nickname=" + amico + "'")
         button.setAttribute("style", "background-color:#30b5fc; width:300px; height: 30px; font-size:16px");
         button.textContent = amico;
         boxAmici.appendChild(br);
@@ -873,6 +880,8 @@ function listUtenti(){
       return;
     }
     else{
+      // Variabile globale listaUtenti
+      listaUtenti = data.users;
       data.users.map(function(nickname) { 
         let box = document.getElementById("boxUtenti");
         let button = document.createElement('button');
@@ -881,6 +890,20 @@ function listUtenti(){
         button.setAttribute("style", "background-color:#30b5fc; width:150px; height: 40px; font-size:16px");
         button.textContent = nickname;
         box.appendChild(button);
+        // Prendi piattaforme e preferenze e memorizzale nella variabile tagUtenti
+        fetch('../api/v1/utenti/'+nickname)
+        .then((resp) => resp.json()) // Trasforma i dati in JSON
+        .then(function(data) { // Risposta
+          if(!data.success){
+            alert(data.message);
+            return;
+          }
+          else{
+            // Inserisci piattaforme e preferenze in tagUtenti
+            tagUtenti.push({nickname: nickname, piattaforme: data.piattaforme, preferenze: data.preferenze});
+          }
+        })
+        .catch( error => console.error(error) );
       });
     }
   })
@@ -1888,6 +1911,60 @@ function richiestaAmicizia(){
     console.error(error);
     return;
   } );
+}
+
+function arrContains(arr, arr2){
+  return arr.every(i => arr2.includes(i));
+}   
+
+function filtraUtenti(){
+  // Funzione usata da cercaUtenti per filtrare secondo gli input dell'utente gli utenti
+  let inputNick = document.getElementById("cercaUtenti").value;
+  // Lista utenti in base all'input nickname
+  let nicknames = [];
+  listaUtenti.map(function(nickname) { 
+    if(nickname.toLowerCase().startsWith(inputNick.toLowerCase())){
+      // Nickname che vanno bene secondo l'input di testo
+      nicknames.push(nickname);
+    }
+  });
+
+  // Perfeziona in base ai filtri
+  var preferenze = [];
+  var markedCheckbox = document.getElementsByName('pref');  
+  for (var checkbox of markedCheckbox) {  
+    if (checkbox.checked) 
+    preferenze.push(checkbox.value);
+  }  
+  var piattaforme = [];
+  var markedCheckbox = document.getElementsByName('piatt');  
+  for (var checkbox of markedCheckbox) {  
+    if (checkbox.checked) 
+    piattaforme.push(checkbox.value);
+  }
+
+  // Pulisci boxUtenti
+  let box = document.getElementById("boxUtenti");
+  box.innerHTML = "";
+  // Filtra nicknames secondo i tag
+  nicknames.map(function(nickname) { 
+     tagUtenti.map(function(tagUtente){
+      if(nickname == tagUtente.nickname){
+        if(arrContains(preferenze, tagUtente.preferenze) && arrContains(piattaforme, tagUtente.piattaforme)){
+          let button = document.createElement('button');
+          button.type = 'button';
+          button.setAttribute("name", "btnUtente");
+          button.setAttribute("nickname", nickname);
+          button.setAttribute("onclick", "location.href='visualizzaSchedaUtente.html?nickname=" + nickname + "'");
+          button.setAttribute("style", "background-color:#30b5fc; width:150px; height: 40px; font-size:16px");
+          button.textContent = nickname;
+          box.appendChild(button);
+          return;
+        }
+        return;
+      }
+     });
+  });
 }
 
 //funzione per creare le partite del torneo
