@@ -896,9 +896,6 @@ function listUtenti(){
       });
     }
   })
-  .then(function(){
-    filtraUtenti();
-  })
   .catch( error => console.error(error) );
 }
 
