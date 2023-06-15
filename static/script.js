@@ -2184,6 +2184,7 @@ function avviaMatchmakingTorneo(id){
 
         })
   }).then(function(){
+    if(document.getElementById("generaPartite"))   getAndamentoTorneo(); //ricarica le informazioni della pagina
     fetch('../api/v1/tornei/avanzamento/'+id, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
